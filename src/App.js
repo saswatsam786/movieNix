@@ -1,10 +1,23 @@
-import "./App.css";
+// import "./App.css";
+import Home from './components/Home/Home'
+import Login from './components/Login/Login';
+import Navbar from './components/Navbar/Navbar';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello movieNixian</h1>
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
+        <Route>
+          <div className="App">
+            <h1>Page not found</h1>
+          </div>
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 

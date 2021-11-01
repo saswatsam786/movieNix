@@ -1,14 +1,29 @@
 // import ReactDom from "react-dom";
-import React from "react";
+import React, { useEffect } from "react";
 import {Card, Button} from 'react-bootstrap';
 import "./login.css";
-import { auth, provider } from "../../firebase";
+import { useHistory } from "react-router-dom";
+import { db, auth, provider } from "../../firebase";
+import { useAuthState } from "react-firebase-hooks/auth"
 
 export default function Login() {
+  const history = useHistory()
+  
   const signin = () => {
     provider.setCustomParameters({ prompt: "select_account" });
     auth.signInWithPopup(provider).catch(alert);
+    history.push({
+      pathname: "/profile"
+    })
   };
+
+  // useEffect( () => {
+  //      (user) ?
+  //       db.collection("accounts").add({
+  //         email : user.email,
+  //         accid : ""
+  //       }) : console.log("not logged")
+  // },[user])
 
   const handleSubmit = (event) => {
     event.preventDefault();

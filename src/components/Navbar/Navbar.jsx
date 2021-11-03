@@ -1,6 +1,6 @@
 import {React, useState, useEffect} from "react";
 import {Navbar, Container, Nav, FormControl, Form, Button} from 'react-bootstrap';
-// import { auth, provider } from "../../firebase";
+import { auth, provider } from "../../firebase";
 // import {useAuthState} from "react-firebase-hooks/auth";
 import Login from "../Login/Login"
 
@@ -22,17 +22,19 @@ export default function NavigationBar(){
                     >
                         <Nav.Link href="/browse">Browse</Nav.Link>
                         <Nav.Link href="#">Random</Nav.Link>
-                        <Nav.Link href="/login">Login</Nav.Link>
                     </Nav>
-                    <Form className="d-flex">
+                    <Form className="d-flex me-auto">
                         <FormControl
-                        type="search"
-                        placeholder="Search"
-                        className="me-2"
-                        aria-label="Search"
+                            type="search"
+                            placeholder="Search"
+                            className="me-2"
+                            aria-label="Search"
                         />
                         <Button variant="outline-success">Search</Button>
                     </Form>
+                    <Nav>
+                        <Nav.Link href="/login">Login</Nav.Link>
+                    </Nav>
                     </Navbar.Collapse>
                 </Container>
                 </Navbar>

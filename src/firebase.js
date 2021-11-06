@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
 import "firebase/auth";
 
 const firebaseConfig = {
@@ -12,11 +12,11 @@ const firebaseConfig = {
 };
 
 // const app = initializeApp(firebaseConfig);
+// eslint-disable-next-line
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 var provider = new firebase.auth.GoogleAuthProvider();
-var auth = firebase.auth();
-const db = firebaseApp.firestore();
-const storage = firebaseApp.storage();
-const logout = auth.signOut();
+// const db = firebaseApp.firestore();
+// const storage = firebase.storage();
 
-export { db, storage, auth, logout, provider };
+var auth = firebase.auth();
+export { auth, provider };

@@ -1,18 +1,29 @@
-import React from "react";
+// eslint-disable-next-line
+import React, { useEffect, useState } from "react";
 import {Button} from 'react-bootstrap';
-import {auth, provider} from '../../firebase';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useHistory } from "react-router";
+import { auth } from "../../firebase";
 
-export default function Login(){
+export default function Home(props){
+    const history = useHistory()
+    const [user] = useAuthState(auth)
+    
     const func = () =>{
         window.location = "/login";
     }
-    const func2 = () =>{
-        console.log(auth);
-    }
+
+    // useEffect(() => {
+    //     console.log(user);
+    // })
+
     return(
         <div>
-            <Button variant="outline-primary" onClick={func}>Click here to Login</Button>
-            <Button variant="outline-primary" onClick={func2}>Auth State</Button>
+            {user === null ? 
+                <Button variant="outline-primary" onClick={func}>Login</Button> : 
+                <Button variant="outline-primary" onClick={() => {history.push("/profile")}}>Profile</Button>
+            }
         </div>
     );
 }
+// {match:{params:{id}}}

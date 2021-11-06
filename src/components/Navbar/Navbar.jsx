@@ -1,14 +1,30 @@
-import {React, useState, useEffect} from "react";
+import {React} from "react";
 import {Navbar, Container, Nav, FormControl, Form, Button} from 'react-bootstrap';
-import { auth, provider } from "../../firebase";
-// import {useAuthState} from "react-firebase-hooks/auth";
-import Login from "../Login/Login"
+import { auth } from "../../firebase";
+import {useAuthState} from "react-firebase-hooks/auth";
+// import Login from "../Login/Login"
 
 export default function NavigationBar(){
-    // const [user] = useAuthState(auth);
-    
-    function navbar1() {
-        return (
+    const [user] = useAuthState(auth);
+    const logout = () => {
+        auth.signOut();
+        window.location = "/"
+    }
+
+    const authButton = () => {
+        if (user) {
+            return (
+                <Nav.Link href="/">Logout</Nav.Link>
+            )   
+        } 
+        else {
+            return (
+                <Nav.Link href="/login">Login</Nav.Link>
+            )
+        }
+    }
+
+    return (
             <div>
                 <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
                 <Container fluid>
@@ -33,21 +49,11 @@ export default function NavigationBar(){
                         <Button variant="outline-success">Search</Button>
                     </Form>
                     <Nav>
-                        <Nav.Link href="/login">Login</Nav.Link>
+                        {authButton()}
                     </Nav>
                     </Navbar.Collapse>
                 </Container>
                 </Navbar>
             </div>
-        );
-    }
-
-    // function navbar2(){
-    //     return (
-    //         <div>Hi there!</div>
-    //     );
-    // }
-
-    // return user ? navbar1() : navbar2();
-    return navbar1();
+    );
 }

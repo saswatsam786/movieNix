@@ -1,9 +1,9 @@
-import Home from './components/Home/Home'
-import Login from './components/Login/Login';
-import Profile from './components/Profile/Profile';
-import Navbar from './components/Navbar/Navbar';
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
+import Profile from "./pages/Profile/Profile";
+import Navbar from "./component/Navbar/Navbar";
 // eslint-disable-next-line
-import {BrowserRouter, Switch, Route, useParams} from 'react-router-dom';
+import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 
 export default function App() {
   return (

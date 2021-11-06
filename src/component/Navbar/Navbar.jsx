@@ -8,13 +8,16 @@ export default function NavigationBar(){
     const [user] = useAuthState(auth);
     const logout = () => {
         auth.signOut();
-        window.location = "/"
+        window.location = "/";
     }
 
     const authButton = () => {
         if (user) {
             return (
-                <Nav.Link href="/">Logout</Nav.Link>
+                <Nav>
+                    <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                    <Nav.Link href="/" onClick={logout}>Logout</Nav.Link>
+                </Nav>
             )   
         } 
         else {
@@ -43,8 +46,14 @@ export default function NavigationBar(){
                         <FormControl
                             type="search"
                             placeholder="Search"
-                            className="me-2"
+                            className="srch me-2"
                             aria-label="Search"
+                            style={
+                                {
+                                    // @media
+                                    // width: '30vw'
+                                }
+                            }
                         />
                         <Button variant="outline-success">Search</Button>
                     </Form>

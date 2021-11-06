@@ -1,0 +1,7 @@
+.holder{
+    width: 500px !important;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px !important;
+    overflow: hidden;
+    margin: auto 20%;
+}

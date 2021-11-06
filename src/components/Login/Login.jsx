@@ -5,11 +5,15 @@ import "./login.css";
 import { auth, provider } from "../../firebase";
 
 export default function Login() {
-  const signin = () => {
+
+  const signin = async (e) => {
+    e.preventDefault()
     provider.setCustomParameters({ prompt: "select_account" });
-    auth.signInWithPopup(provider).catch(alert);
+    await auth.signInWithPopup(provider).catch(alert);
+    window.location = '/'
   };
 
+  // eslint-disable-next-line
   const handleSubmit = (event) => {
     event.preventDefault();
   };
@@ -24,7 +28,11 @@ export default function Login() {
                 <Card.Text>
                 Login or create your account through Google
                 </Card.Text>
-                <Button variant="outline-primary" onClick={signin}>Login</Button>
+
+                {/* <Link to="profile"> */}
+                  <Button variant="outline-primary" onClick={signin}>Login</Button>
+                {/* </Link> */}
+
             </Card.Body>
             <Card.Footer className="text-muted">Powered By Google</Card.Footer>
         </Card>

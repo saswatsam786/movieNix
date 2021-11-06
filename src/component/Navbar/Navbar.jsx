@@ -15,7 +15,7 @@ export default function NavigationBar(){
         if (user) {
             return (
                 <Nav>
-                    <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                    <Nav.Link href="/profile">Dashboard</Nav.Link>
                     <Nav.Link href="/" onClick={logout}>Logout</Nav.Link>
                 </Nav>
             )   

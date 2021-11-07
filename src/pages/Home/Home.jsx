@@ -1,5 +1,6 @@
 // eslint-disable-next-line
 import React from "react";
+import { Button } from "react-bootstrap";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useHistory } from "react-router";
 import Rows from "../../component/Rows";
@@ -19,9 +20,29 @@ export default function Home(props) {
   //     console.log(user);
   // })
 
+  // useEffect(() => {
+  //     console.log(user);
+  // })
+
   return (
     <Container1>
       <Navbar />
+      <div>
+        {user === null ? (
+          <Button variant="outline-primary" onClick={func}>
+            Login
+          </Button>
+        ) : (
+          <Button
+            variant="outline-primary"
+            onClick={() => {
+              history.push("/profile");
+            }}
+          >
+            Profile
+          </Button>
+        )}
+      </div>
       <Rows />
     </Container1>
   );

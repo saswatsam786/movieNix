@@ -21,7 +21,14 @@ export default function NavigationBar() {
 
   const authButton = () => {
     if (user) {
-      return <Nav.Link href="/">Logout</Nav.Link>;
+      return (
+        <Nav>
+          <Nav.Link href="/profile">Dashboard</Nav.Link>
+          <Nav.Link href="/" onClick={logout}>
+            Logout
+          </Nav.Link>
+        </Nav>
+      );
     } else {
       return <Nav.Link href="/login">Login</Nav.Link>;
     }

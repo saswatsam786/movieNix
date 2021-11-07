@@ -8,7 +8,6 @@ import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 export default function App() {
   return (
     <BrowserRouter>
-      <Navbar />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />

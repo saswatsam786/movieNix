@@ -1,3 +1,7 @@
-form{
-    padding-right: 100px;
+form {
+  padding-right: 100px;
+}
+
+.bg-custom {
+  height: 10vh;
 }

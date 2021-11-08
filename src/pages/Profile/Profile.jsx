@@ -26,7 +26,7 @@ export default function Profile() {
         console.log("Error getting documents: ", error)
       })
        
-      axios.post("`http://localhost:8000/profile/${accid}/${privatekey}`")
+      axios.get(`http://localhost:8000/profile/${accid}/${privatekey}`)
           .then((res) => {
           setAccbal(res.data.accbal)
       })

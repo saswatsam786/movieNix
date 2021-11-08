@@ -76,7 +76,7 @@ async function main() {
     });
   });
 
-  app.post("/profile/:accid/:privatekey", async (req, res) => {
+  app.get("/profile/:accid/:privatekey", async (req, res) => {
     try {
       const client = Client.forTestnet();
       client.setOperator(req.params.accid, req.params.privatekey);

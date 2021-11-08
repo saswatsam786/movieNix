@@ -1,5 +1,5 @@
 const express = require('express')
-
+const cors = require('cors')
 const {
   Client,
   PrivateKey,
@@ -10,8 +10,11 @@ const {
 } = require('@hashgraph/sdk')
 
 require("dotenv").config()
-
 const app = express();
+app.use(cors({
+  origin: "http://localhost:3000/",
+  credentials: true
+}))
 
 app.get("/", (req, res) => {
   res.send("Server is running");
@@ -73,8 +76,24 @@ async function main() {
     });
   });
 
+  app.post("/profile/:accid/:privatekey", async (req, res) => {
+    try {
+      const client = Client.forTestnet();
+      client.setOperator(req.params.accid, req.params.privatekey);
+      const query = new AccountBalanceQuery().setAccountId(req.params.accid);
+      const accountBalance = await query.execute(client);
+      console.log(accountBalance.hbars)
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.status(200).json({
+        accbal: `${accountBalance.hbars}`
+      })
+    } catch(err) {
+        console.log(err)
+    }
+  })
 }
 main();
+
 
 app.listen(8000, () => {
   console.log("SERVER RUNNING ON PORT 8000...");

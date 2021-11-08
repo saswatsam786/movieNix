@@ -15,7 +15,6 @@ const Row = ({ genre, moviePath }) => {
     }
     fetchData();
   }, [moviePath]);
-  console.table(movies);
   return (
     <Wrapper>
       <Heading>{genre}</Heading>

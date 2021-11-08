@@ -27,7 +27,7 @@ export default function Home(props) {
   return (
     <Container1>
       <Navbar />
-      <div>
+      {/* <div>
         {user === null ? (
           <Button variant="outline-primary" onClick={func}>
             Login
@@ -42,7 +42,7 @@ export default function Home(props) {
             Profile
           </Button>
         )}
-      </div>
+      </div> */}
       <Rows />
     </Container1>
   );

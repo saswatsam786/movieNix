@@ -1,5 +1,5 @@
-const express = require('express')
-const cors = require('cors')
+const express = require("express");
+const cors = require("cors");
 const {
   Client,
   PrivateKey,
@@ -7,14 +7,16 @@ const {
   AccountBalanceQuery,
   Hbar,
   TransferTransaction,
-} = require('@hashgraph/sdk')
+} = require("@hashgraph/sdk");
 
-require("dotenv").config()
+require("dotenv").config();
 const app = express();
-app.use(cors({
-  origin: "http://localhost:3000/",
-  credentials: true
-}))
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("Server is running");
@@ -33,7 +35,7 @@ async function main() {
   }
 
   // Create our connection to the Hedera networkrs
-  
+
   // The Hedera JS SDK makes this really easy!
   const client = Client.forTestnet();
   client.setOperator(myAccountId, myPrivateKey);
@@ -72,28 +74,56 @@ async function main() {
       status: "success",
       id: `${newAccountId}`,
       privatekey: `${newAccountPrivateKey}`,
-      publickey: `${newAccountPublicKey}`
+      publickey: `${newAccountPublicKey}`,
     });
   });
 
-  app.get("/profile/:accid/:privatekey", async (req, res) => {
+  app.post("/profile/:accid/:privatekey", async (req, res) => {
     try {
+      const id = req.params.accid;
+      const key = req.params.privatekey;
+      console.log(id);
+      const transaction = new TransferTransaction()
+        .addHbarTransfer(id, new Hbar(-0.0003))
+        .addHbarTransfer("0.0.2978176", new Hbar(0.0003));
+
       const client = Client.forTestnet();
-      client.setOperator(req.params.accid, req.params.privatekey);
-      const query = new AccountBalanceQuery().setAccountId(req.params.accid);
-      const accountBalance = await query.execute(client);
-      console.log(accountBalance.hbars)
-      res.setHeader("Access-Control-Allow-Origin", "*");
+      client.setOperator(id, key);
+      const query = new AccountBalanceQuery().setAccountId(id);
+      let accountBalance = await query.execute(client);
+      //Print the balance of hbars
+      console.log(
+        "The hbar account balance for this account is " + accountBalance.hbars
+      );
+
+      //Submit the transaction to a Hedera network
+      const txResponse = await transaction.execute(client);
+
+      //Request the receipt of the transaction
+      const receipt = await txResponse.getReceipt(client);
+
+      //Get the transaction consensus status
+      const transactionStatus = receipt.status;
+
+      console.log(
+        "The transaction consensus status is " + transactionStatus.toString()
+      );
+
+      accountBalance = await query.execute(client);
+      console.log(
+        "The hbar account balance for this account is " + accountBalance.hbars
+      );
+      const balance = accountBalance.hbars();
       res.status(200).json({
-        accbal: `${accountBalance.hbars}`
-      })
-    } catch(err) {
-        console.log(err)
+        status: "success",
+        balance: balance,
+      });
+    } catch (error) {
+      console.log(error);
     }
-  })
+  });
 }
 main();
-
 
 app.listen(8000, () => {
   console.log("SERVER RUNNING ON PORT 8000...");

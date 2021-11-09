@@ -56,7 +56,7 @@ export default function NavigationBar() {
                 className="me-1"
                 aria-label="Search"
               />
-              <Button variant="outline-success">Search</Button>
+              <Button variant="outline-light">Search</Button>
             </Form>
             <Nav>{authButton()}</Nav>
           </Navbar.Collapse>

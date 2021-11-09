@@ -56,22 +56,22 @@ export default function Login() {
     <div
       className="bg"
       style={{
-        backgroundColor: "rgb(220, 220, 220)",
+        // backgroundColor: "rgb(220, 220, 220)",
         height: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <div className="holder">
-        <Card className="text-center">
+      <div className="holder radnom">
+        <Card className="text-center random">
           <Card.Header>MovieNix Login</Card.Header>
           <Card.Body>
             <Card.Title>Login/Sign Up</Card.Title>
             <Card.Text>Login or create your account through Google</Card.Text>
 
             {/* <Link to="profile"> */}
-            <Button variant="outline-primary" onClick={signin}>
+            <Button variant="outline-light" onClick={signin}>
               Login
             </Button>
             {/* </Link> */}

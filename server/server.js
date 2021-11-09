@@ -1,5 +1,5 @@
-const express = require('express')
-const cors = require('cors')
+const express = require("express");
+const cors = require("cors");
 const {
   Client,
   PrivateKey,
@@ -7,14 +7,18 @@ const {
   AccountBalanceQuery,
   Hbar,
   TransferTransaction,
-} = require('@hashgraph/sdk')
+} = require("@hashgraph/sdk");
 
-require("dotenv").config()
-const app = express()
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true
-}))
+require("dotenv").config();
+const app = express();
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Server is running");
@@ -36,7 +40,7 @@ async function main() {
   }
 
   // Create our connection to the Hedera networkrs
-  
+
   // The Hedera JS SDK makes this really easy!
   const client = Client.forTestnet();
   client.setOperator(myAccountId, myPrivateKey);
@@ -75,31 +79,39 @@ async function main() {
       status: "success",
       id: `${newAccountId}`,
       privatekey: `${newAccountPrivateKey}`,
-      publickey: `${newAccountPublicKey}`
+      publickey: `${newAccountPublicKey}`,
     });
     next()
   });
 
-  app.get('/profile/:accid/:privatekey', async (req, res) => {
+  app.post("/balance", async (req, res) => {
     try {
+      const id = req.body.id;
+      const key = req.body.key;
+      console.log(id);
+
       const client = Client.forTestnet();
-      client.setOperator(req.params.accid, req.params.privatekey);
-      const query = new AccountBalanceQuery().setAccountId(req.params.accid);
-      const accountBalance = await query.execute(client);
+      client.setOperator(id, key);
+      const query = new AccountBalanceQuery().setAccountId(id);
+      let accountBalance = await query.execute(client);
+      //Print the balance of hbars
+
       console.log(
         "The hbar account balance for this account is " + accountBalance.hbars
       );
-      // res.setHeader("Access-Control-Allow-Origin", "*");
+      // const balance = accountBalance.hbars();
       res.status(200).json({
-        accbal: accountBalance
-      })
-    } catch(err) {
-        console.log(err)
+        status: "success",
+        data: {
+          balance: accountBalance.hbars,
+        },
+      });
+    } catch (error) {
+      console.log(error);
     }
-  })
+  });
 }
 main();
-
 
 app.listen(8000, () => {
   console.log("SERVER RUNNING ON PORT 8000...");

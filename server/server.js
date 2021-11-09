@@ -18,6 +18,8 @@ app.use(
   })
 );
 
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
@@ -78,45 +80,27 @@ async function main() {
     });
   });
 
-  app.post("/profile/:accid/:privatekey", async (req, res) => {
+  app.post("/balance", async (req, res) => {
     try {
-      const id = req.params.accid;
-      const key = req.params.privatekey;
+      const id = req.body.id;
+      const key = req.body.key;
       console.log(id);
-      const transaction = new TransferTransaction()
-        .addHbarTransfer(id, new Hbar(-0.0003))
-        .addHbarTransfer("0.0.2978176", new Hbar(0.0003));
 
       const client = Client.forTestnet();
       client.setOperator(id, key);
       const query = new AccountBalanceQuery().setAccountId(id);
       let accountBalance = await query.execute(client);
       //Print the balance of hbars
+
       console.log(
         "The hbar account balance for this account is " + accountBalance.hbars
       );
-
-      //Submit the transaction to a Hedera network
-      const txResponse = await transaction.execute(client);
-
-      //Request the receipt of the transaction
-      const receipt = await txResponse.getReceipt(client);
-
-      //Get the transaction consensus status
-      const transactionStatus = receipt.status;
-
-      console.log(
-        "The transaction consensus status is " + transactionStatus.toString()
-      );
-
-      accountBalance = await query.execute(client);
-      console.log(
-        "The hbar account balance for this account is " + accountBalance.hbars
-      );
-      const balance = accountBalance.hbars();
+      // const balance = accountBalance.hbars();
       res.status(200).json({
         status: "success",
-        balance: balance,
+        data: {
+          balance: accountBalance.hbars,
+        },
       });
     } catch (error) {
       console.log(error);

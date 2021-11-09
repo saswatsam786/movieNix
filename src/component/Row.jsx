@@ -20,19 +20,17 @@ const Row = ({ genre, moviePath }) => {
       <Heading>{genre}</Heading>
       <Row_Movies>
         {movies.map((movie) => (
-          <>
-            <Movie>
-              <Image
-                key={movie.id}
-                src={"https://image.tmdb.org/t/p/original" + movie.poster_path}
-                alt={movie.id}
-              ></Image>
-              <Info>
-                <Title>{movie.title || movie.name}</Title>
-                <Desc>hello</Desc>
-              </Info>
-            </Movie>
-          </>
+          <Movie key={movie.id}>
+            <Image
+              key={movie.id}
+              src={"https://image.tmdb.org/t/p/original" + movie.poster_path}
+              alt={movie.id}
+            ></Image>
+            <Info>
+              <Title>{movie.title || movie.name}</Title>
+              <Desc>hello</Desc>
+            </Info>
+          </Movie>
         ))}
       </Row_Movies>
     </Wrapper>

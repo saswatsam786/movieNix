@@ -4,11 +4,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
 // import { Redirect } from 'react-router'
 import Home from "../Home/Home";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function Profile() {
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const [accid, setAccid] = useState("");
   const [accbal, setAccbal] = useState("");
   const [privatekey, setPrivatekey] = useState("");
@@ -29,10 +29,13 @@ export default function Profile() {
           console.log("Error getting documents: ", error);
         });
 
-    axios
-      .post(`http://localhost:8000/profile/${accid}/${privatekey}`)
-      .then((data) => console.log(data.data.balance));
-  });
+    let data = await axios.post(`http://localhost:8000/balance`, {
+      id: accid,
+      key: privatekey,
+    });
+    console.log(data.data.data.balance._valueInTinybar);
+    setAccbal(data.data.data.balance._valueInTinybar / 100000000);
+  }, [accid, privatekey, user]);
 
   // Axios({
   //     method: "POST",
@@ -91,5 +94,5 @@ export default function Profile() {
   //   window.location = "/";
   // }
 
-  return user ? loadProfile() : <h1>Not Logged In</h1>;
+  return <>{loading ? <h1>loading...</h1> : user ? loadProfile() : <Home />}</>;
 }

@@ -5,6 +5,7 @@ import { auth, db } from "../../firebase";
 // import { Redirect } from 'react-router'
 import Home from "../Home/Home";
 import axios, { Axios } from "axios";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function Profile() {
   const [user] = useAuthState(auth);
@@ -42,7 +43,7 @@ export default function Profile() {
   function loadProfile() {
     const logout = () => {
       auth.signOut();
-      window.location = "/";
+      <Link to="/" />
     };
 
     return (
@@ -71,10 +72,14 @@ export default function Profile() {
             <ListGroupItem>Account Balance : {accbal}</ListGroupItem>
           </ListGroup>
           <Card.Body>
-            <Card.Link href="/">Home</Card.Link>
-            <Card.Link href="/" onClick={logout}>
+            {/* <Card.Link href="/">Home</Card.Link> */}
+            <Link to="/">Home</Link>
+            <Link
+              to="/"
+              onClick={logout}>Logout</Link>
+            {/* <Card.Link href="/" onClick={logout}>
               Logout
-            </Card.Link>
+            </Card.Link> */}
             {/* <Button onClick={logout}>Logout</Button> */}
           </Card.Body>
         </Card>
@@ -82,9 +87,9 @@ export default function Profile() {
     );
   }
 
-  function redirect12() {
-    window.location = "/login";
-  }
+  // function redirect12() {
+  //   window.location = "/";
+  // }
 
-  return user ? loadProfile() : redirect12();
+  return user ? loadProfile() : <h1>Not Logged In</h1>;
 }

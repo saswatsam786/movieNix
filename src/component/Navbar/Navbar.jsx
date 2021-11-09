@@ -9,14 +9,16 @@ import {
 } from "react-bootstrap";
 import { auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import "./navbar.css";
+// import { Link } from "react-router-dom";
 // import Login from "../Login/Login"
 
 export default function NavigationBar() {
   const [user] = useAuthState(auth);
   const logout = () => {
     auth.signOut();
-    window.location = "/";
+    <Link to="/" />
   };
 
   const authButton = () => {
@@ -24,9 +26,7 @@ export default function NavigationBar() {
       return (
         <Nav>
           <Nav.Link href="/profile">Dashboard</Nav.Link>
-          <Nav.Link href="/" onClick={logout}>
-            Logout
-          </Nav.Link>
+          <Nav.Link href="/" onClick={logout}>Logout</Nav.Link>
         </Nav>
       );
     } else {
@@ -36,7 +36,7 @@ export default function NavigationBar() {
 
   return (
     <div>
-      <Navbar className="navbar" bg="custom" variant="dark" expand="lg">
+      <Navbar className="navbar" bg="dark" variant="dark" expand="lg" fixed="top">
         <Container fluid>
           <Navbar.Brand href="/">MovieNix</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />

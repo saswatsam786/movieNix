@@ -46,8 +46,7 @@ export default function Profile() {
 
   function loadProfile() {
     const logout = () => {
-      auth.signOut();
-      <Link to="/" />
+      auth.signOut()
     };
 
     return (

@@ -26,7 +26,7 @@ export default function Home(props) {
   // })
 
   return (
-    <Container1>
+    <div>
       {/* <Navbar /> */}
       {/* <div>
         {user === null ? (
@@ -45,7 +45,7 @@ export default function Home(props) {
         )}
       </div> */}
       <Rows />
-    </Container1>
+    </div>
   );
 }
 

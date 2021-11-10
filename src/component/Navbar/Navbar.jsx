@@ -6,6 +6,7 @@ import {
   FormControl,
   Form,
   Button,
+  Dropdown,
 } from "react-bootstrap";
 import { auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -25,8 +26,60 @@ export default function NavigationBar() {
     if (user) {
       return (
         <Nav>
-          <Nav.Link href="/profile">Dashboard</Nav.Link>
-          <Nav.Link href="/" onClick={logout}>Logout</Nav.Link>
+          {/* <Nav.Link href="/profile">Dashboard</Nav.Link>
+          <Nav.Link href="/" onClick={logout}>Logout</Nav.Link> */}
+          {/* <img 
+            alt="profileImage"
+            src={user.photoURL}
+            className="avatar" 
+          />
+          <NavDropdown
+            id="nav-dropdown-dark-example"
+            drop="start"
+            src={user.photoURL}
+            menuVariant="dark"
+          >
+            <NavDropdown.Item>Dashboard</NavDropdown.Item>
+            <NavDropdown.Item>Logout</NavDropdown.Item>
+          </NavDropdown> */}
+          <Dropdown drop="down" align="end">
+            <Dropdown.Toggle variant="dark" id="dropdown-basic">
+              <img
+                alt="user profile" 
+                src={user.photoURL} 
+                className="avatar"
+              />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu 
+              className="text-center" 
+              variant="dark"
+              style={
+                {
+                  width: "300px"
+                }
+              }
+            >
+              <Dropdown.ItemText>
+                  <img 
+                    alt="profile pic" 
+                    src={user.photoURL} 
+                    style={
+                      {
+                        width: "150px",
+                        borderRadius: "50%",
+                        padding: "10px"
+                      }
+                    }
+                  />    
+              </Dropdown.ItemText>
+              <Dropdown.Divider />
+              <Dropdown.ItemText style={{fontSize:"1.5rem"}}>{user.displayName}</Dropdown.ItemText>
+              <Dropdown.Divider />
+              <Dropdown.Item href="/profile">Dashboard</Dropdown.Item>
+              <Dropdown.Item href="/" onClick={logout}>Logout</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Nav>
       );
     } else {
@@ -56,7 +109,7 @@ export default function NavigationBar() {
                 className="me-1"
                 aria-label="Search"
               />
-              <Button variant="outline-success">Search</Button>
+              <Button variant="outline-light">Search</Button>
             </Form>
             <Nav>{authButton()}</Nav>
           </Navbar.Collapse>

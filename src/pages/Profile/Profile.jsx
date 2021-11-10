@@ -5,13 +5,16 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import { auth, db } from "../../firebase"
 // import { Redirect } from 'react-router'
 import Home from "../Home/Home";
-import axios from "axios";
+import axios, { Axios } from "axios";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import './profile.css';
 
 export default function Profile() {
   const [user, loading] = useAuthState(auth);
   const [accid, setAccid] = useState("");
   const [accbal, setAccbal] = useState("");
   const [privatekey, setPrivatekey] = useState("");
+  const history = useHistory()
 
   useEffect(async () => {
     user &&
@@ -59,7 +62,15 @@ export default function Profile() {
           padding: "50px",
         }}
       >
-        <Card style={{ maxWidth: "300px" }}>
+        <Card 
+          style={
+            { 
+              maxWidth: "300px",
+              background: "rgb(54, 57, 64)",
+              color: "white"
+            }
+          }
+        >
           <Card.Img variant="top" src={auth.currentUser.photoURL} />
           <Card.Body>
             <Card.Title>{auth.currentUser.displayName}</Card.Title>
@@ -69,17 +80,28 @@ export default function Profile() {
               facere.
             </Card.Text>
           </Card.Body>
-          <ListGroup className="list-group-flush">
-            <ListGroupItem>{user.email}</ListGroupItem>
-            <ListGroupItem>some information</ListGroupItem>
-            <ListGroupItem>Account Id : {accid}</ListGroupItem>
-            <ListGroupItem>Account Balance : {accbal}</ListGroupItem>
+          <ListGroup 
+            className="list-group-flush"
+          >
+            <ListGroupItem className="random">{user.email}</ListGroupItem>
+            <ListGroupItem className="random">some information</ListGroupItem>
+            <ListGroupItem className="random">Account Id : {accid}</ListGroupItem>
+            <ListGroupItem className="random">Account Balance : {accbal}</ListGroupItem>
           </ListGroup>
           <Card.Body>
-            <Card.Link href="/">Home</Card.Link>
-            <Card.Link href="/" onClick={logout}>
+            {/* <Card.Link href="/">Home</Card.Link> */}
+            <Link to="/">Home</Link>
+            <Link
+              to="/"
+              style={
+                {
+                  paddingLeft:"20px"
+                }
+              }
+              onClick={logout}>Logout</Link>
+            {/* <Card.Link href="/" onClick={logout}>
               Logout
-            </Card.Link>
+            </Card.Link> */}
             {/* <Button onClick={logout}>Logout</Button> */}
           </Card.Body>
         </Card>
@@ -87,9 +109,9 @@ export default function Profile() {
     );
   }
 
-  function redirect12() {
-    window.location = "/login";
-  }
+  // function redirect12() {
+  //   window.location = "/";
+  // }
 
   return <>{loading ? <h1>loading...</h1> : user ? loadProfile() : <Home />}</>;
 }

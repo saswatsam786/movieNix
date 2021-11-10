@@ -3,17 +3,18 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import Rows from "../../component/Rows";
 import { auth } from "../../firebase";
 import styled from "styled-components";
-import Navbar from "../../component/Navbar/Navbar";
+// import Navbar from "../../component/Navbar/Navbar";
 
 export default function Home(props) {
   const history = useHistory();
-  const [user] = useAuthState(auth);
+  // const [user] = useAuthState(auth);
 
   const func = () => {
-    window.location = "/login";
+    <Link to="/" />
   };
 
   // useEffect(() => {
@@ -25,8 +26,8 @@ export default function Home(props) {
   // })
 
   return (
-    <Container1>
-      <Navbar />
+    <div>
+      {/* <Navbar /> */}
       {/* <div>
         {user === null ? (
           <Button variant="outline-primary" onClick={func}>
@@ -44,11 +45,11 @@ export default function Home(props) {
         )}
       </div> */}
       <Rows />
-    </Container1>
+    </div>
   );
 }
 
 const Container1 = styled.div`
-  background-image: url("https://i.pinimg.com/564x/85/84/e1/8584e16047ae3663d9fcafd971716d72.jpg");
+  background-color: rgb(40, 44, 52);
 `;
 // {match:{params:{id}}}

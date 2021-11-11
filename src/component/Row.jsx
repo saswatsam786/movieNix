@@ -15,6 +15,16 @@ const Row = ({ genre, moviePath }) => {
     }
     fetchData();
   }, [moviePath]);
+
+  const truncate = (str, max = 10) => {
+    const array = str.split(" ");
+    const ellipsis = array.length > max ? "..." : "";
+
+    return array.slice(0, max).join(" ") + ellipsis;
+  };
+
+  console.table(movies);
+
   return (
     <Wrapper>
       <Heading>{genre}</Heading>
@@ -28,7 +38,7 @@ const Row = ({ genre, moviePath }) => {
             ></Image>
             <Info>
               <Title>{movie.title || movie.name}</Title>
-              <Desc>hello</Desc>
+              <Desc>{truncate(movie.overview, 12)}</Desc>
             </Info>
           </Movie>
         ))}
@@ -79,6 +89,18 @@ const Image = styled.img`
   }
 `;
 
+const Info = styled.div`
+  position: absolute;
+  z-index: 5;
+  opacity: 1;
+  color: white;
+  margin-bottom: 0px;
+  left: 0;
+  margin-left: 15px;
+  opacity: 0;
+  transition: all 0.7s;
+`;
+
 const Movie = styled.div`
   width: 100%;
   height: 270px;
@@ -115,19 +137,20 @@ const Movie = styled.div`
     transform: scale(1.2);
     z-index: 3;
   }
+
+  &:hover ${Info} {
+    transition: opacity 1s ease;
+    opacity: 1;
+  }
 `;
 
-const Info = styled.div`
-  position: absolute;
-  z-index: 5;
-  opacity: 1;
-  color: white;
-  margin-bottom: 20px;
-  left: 0;
-  margin-left: 15px;
+const Title = styled.h4`
+  font-size: medium;
+  font-weight: 500;
 `;
-const Title = styled.h4``;
-const Desc = styled.p``;
+const Desc = styled.p`
+  font-size: small;
+`;
 
 export default Row;
 

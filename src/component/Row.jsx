@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 
 // dotenv.config({ path: "./../../.env" });
 
@@ -15,12 +15,17 @@ const Row = ({ genre, moviePath }) => {
     }
     fetchData();
   }, [moviePath]);
+  
   return (
     <Wrapper>
       <Heading>{genre}</Heading>
+      {/* eslint-disable-next-line */}
       <Row_Movies>
         {movies.map((movie) => (
-          <Movie key={movie.id}>
+          <Movie key={movie.id} onClick={() => {
+              console.log(movie)
+              // window.location = `/${movie.id}`
+            }}>
             <Image
               key={movie.id}
               src={"https://image.tmdb.org/t/p/original" + movie.poster_path}
@@ -28,7 +33,7 @@ const Row = ({ genre, moviePath }) => {
             ></Image>
             <Info>
               <Title>{movie.title || movie.name}</Title>
-              <Desc>hello</Desc>
+              <Desc>Hello</Desc>
             </Info>
           </Movie>
         ))}

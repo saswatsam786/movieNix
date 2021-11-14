@@ -4,9 +4,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
 // import { Redirect } from 'react-router'
 import Home from "../Home/Home";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import './profile.css';
+import "./profile.css";
 
 export default function Profile() {
   const [user, loading] = useAuthState(auth);
@@ -46,7 +46,7 @@ export default function Profile() {
 
   function loadProfile() {
     const logout = () => {
-      auth.signOut()
+      auth.signOut();
     };
 
     return (
@@ -58,14 +58,12 @@ export default function Profile() {
           padding: "50px",
         }}
       >
-        <Card 
-          style={
-            { 
-              maxWidth: "300px",
-              background: "rgb(54, 57, 64)",
-              color: "white"
-            }
-          }
+        <Card
+          style={{
+            maxWidth: "300px",
+            background: "rgb(54, 57, 64)",
+            color: "white",
+          }}
         >
           <Card.Img variant="top" src={auth.currentUser.photoURL} />
           <Card.Body>
@@ -76,25 +74,28 @@ export default function Profile() {
               facere.
             </Card.Text>
           </Card.Body>
-          <ListGroup 
-            className="list-group-flush"
-          >
+          <ListGroup className="list-group-flush">
             <ListGroupItem className="random">{user.email}</ListGroupItem>
             <ListGroupItem className="random">some information</ListGroupItem>
-            <ListGroupItem className="random">Account Id : {accid}</ListGroupItem>
-            <ListGroupItem className="random">Account Balance : {accbal}</ListGroupItem>
+            <ListGroupItem className="random">
+              Account Id : {accid}
+            </ListGroupItem>
+            <ListGroupItem className="random">
+              Account Balance : {accbal}
+            </ListGroupItem>
           </ListGroup>
           <Card.Body>
             {/* <Card.Link href="/">Home</Card.Link> */}
             <Link to="/">Home</Link>
             <Link
               to="/"
-              style={
-                {
-                  paddingLeft:"20px"
-                }
-              }
-              onClick={logout}>Logout</Link>
+              style={{
+                paddingLeft: "20px",
+              }}
+              onClick={logout}
+            >
+              Logout
+            </Link>
             {/* <Card.Link href="/" onClick={logout}>
               Logout
             </Card.Link> */}

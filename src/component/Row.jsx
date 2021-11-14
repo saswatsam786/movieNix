@@ -70,6 +70,7 @@ const Row_Movies = styled.div`
   scroll-behavior: smooth;
   position: relative;
   padding: 20px 0;
+  padding-left: 20px;
 
   &::-webkit-scrollbar {
     visibility: hidden;
@@ -96,7 +97,7 @@ const Info = styled.div`
   color: white;
   margin-bottom: 0px;
   left: 0;
-  margin-left: 15px;
+  margin-left: 10px;
   opacity: 0;
   transition: all 0.7s;
 `;
@@ -150,6 +151,8 @@ const Title = styled.h4`
 `;
 const Desc = styled.p`
   font-size: small;
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
 `;
 
 export default Row;

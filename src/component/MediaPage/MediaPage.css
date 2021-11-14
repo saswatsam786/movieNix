@@ -7,7 +7,7 @@
     background-repeat: no-repeat;
     background-size: 120%;
     background-position-y: top;
-    height: 93.25vh;
+    height: 100vh;
     position: relative;
 }
 
@@ -48,7 +48,7 @@
     font-size: 1.25rem;
 }
 
-@media screen and (max-width: 1080px) {
+@media screen and (max-width: 1176px) {
     .container-media-page {
         background-size: cover;
         background-position-x: center;

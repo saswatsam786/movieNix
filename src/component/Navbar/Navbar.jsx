@@ -42,7 +42,7 @@ export default function NavigationBar() {
             <NavDropdown.Item>Logout</NavDropdown.Item>
           </NavDropdown> */}
           <Dropdown drop="down" align="end">
-            <Dropdown.Toggle variant="dark" id="dropdown-basic">
+            <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
               <img alt="user profile" src={user.photoURL} className="avatar" />
             </Dropdown.Toggle>
 
@@ -112,12 +112,12 @@ export default function NavigationBar() {
     <div>
       <Navbar
         className="navbar"
-        bg="dark"
+        bg="custom"
         variant="dark"
         expand="lg"
         fixed="top"
       >
-        <Container fluid>
+        <Container fluid className="text-center">
           <Navbar.Brand><NavLink
             to="/"
             style={(isActive) => ({
@@ -138,7 +138,7 @@ export default function NavigationBar() {
                 <NavLink
                   to="/browse"
                   style={(isActive) => ({
-                    color: isActive ? "cyan" : "grey",
+                    color: isActive ? "cyan" : "white",
                     textDecoration: "none",
                   })}
                 >

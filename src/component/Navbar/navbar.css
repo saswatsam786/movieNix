@@ -10,3 +10,9 @@
   border-radius: 50%;
   cursor: pointer;
 }
+.bg-dark{
+  color: white;
+}
+.btn-close{
+  color: white;
+}

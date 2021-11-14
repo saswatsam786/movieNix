@@ -1,4 +1,4 @@
-const key = process.env.MOVIE_API_KEY;
+// const key = process.env.MOVIE_API_KEY;
 
 // const moviePath = {
 //   trending: `https://api.themoviedb.org/3/trending/all/week?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b&sort_by=popularity.desc`,

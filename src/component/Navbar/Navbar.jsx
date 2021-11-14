@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap"
 import { auth } from "../../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { Link, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import "./navbar.css"
 // import { Link } from "react-router-dom";
 // import Login from "../Login/Login"

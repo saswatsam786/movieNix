@@ -1,10 +1,11 @@
+// eslint-disable-next-line
 import { Button, Card, ListGroup, ListGroupItem } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
-// import { Redirect } from 'react-router'
 import Home from "../Home/Home";
-import axios from "axios";
+// eslint-disable-next-line
+import axios, { Axios } from "axios";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import "./profile.css";
 
@@ -14,7 +15,7 @@ export default function Profile() {
   const [accbal, setAccbal] = useState("");
   const [privatekey, setPrivatekey] = useState("");
 
-  useEffect(async () => {
+  useEffect(() => {
     user &&
       db
         .collection("accounts")
@@ -30,12 +31,15 @@ export default function Profile() {
           console.log("Error getting documents: ", error);
         });
 
-    let data = await axios.post(`http://localhost:8000/balance`, {
-      id: accid,
-      key: privatekey,
-    });
-    console.log(data.data.data.balance._valueInTinybar);
-    setAccbal(data.data.data.balance._valueInTinybar / 100000000);
+    async function fetchData() {
+      let data = await axios.post(`http://localhost:8000/balance`, {
+        id: accid,
+        key: privatekey,
+      });
+      console.log(data.data.data.balance._valueInTinybar);
+      setAccbal(data.data.data.balance._valueInTinybar / 100000000);
+    }
+    fetchData();
   }, [accid, privatekey, user]);
 
   // Axios({

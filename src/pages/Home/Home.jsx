@@ -1,21 +1,21 @@
 // eslint-disable-next-line
 import React from "react";
-import { Button } from "react-bootstrap";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useHistory } from "react-router";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+// import { Button } from "react-bootstrap";
+// import { useAuthState } from "react-firebase-hooks/auth";
+// import { useHistory } from "react-router";
+// import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import Rows from "../../component/Rows";
-import { auth } from "../../firebase";
-import styled from "styled-components";
+// import { auth } from "../../firebase";
+// import styled from "styled-components";
 // import Navbar from "../../component/Navbar/Navbar";
 
 export default function Home(props) {
-  const history = useHistory();
+  // const history = useHistory();
   // const [user] = useAuthState(auth);
 
-  const func = () => {
-    <Link to="/" />
-  };
+  // const func = () => {
+  //   <Link to="/" />
+  // };
 
   // useEffect(() => {
   //     console.log(user);
@@ -49,7 +49,7 @@ export default function Home(props) {
   );
 }
 
-const Container1 = styled.div`
-  background-color: rgb(40, 44, 52);
-`;
+// const Container1 = styled.div`
+//   background-color: rgb(40, 44, 52);
+// `;
 // {match:{params:{id}}}

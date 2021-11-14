@@ -112,7 +112,7 @@ export default function NavigationBar() {
 
   return (
     <div>
-      <Navbar bg="custom" variant="dark" fixed="top" expand={false}>
+      {/* <Navbar bg="custom" variant="dark" fixed="top" expand={false}>
         <Container fluid>
           <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
@@ -147,8 +147,66 @@ export default function NavigationBar() {
                 <Button variant="outline-light">Search</Button>
               </Form>
             </Offcanvas.Body>
-          </Navbar.Offcanvas>
+          </Navbar.Offcanvas> */}
           {/* <Nav>{authButton}</Nav> */}
+      <Navbar
+        className="navbar"
+        bg="dark"
+        variant="dark"
+        expand="lg"
+        fixed="top"
+      >
+        <Container fluid>
+          <Navbar.Brand><NavLink
+            to="/"
+            style={(isActive) => ({
+              color: isActive ? "White" : "White",
+              textDecoration: "none",
+            })}
+          >
+            MovieNix
+          </NavLink></Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav
+              className="me-auto my-2 my-lg-0"
+              style={{ maxHeight: "200px" }}
+              navbarScroll
+            >
+              <Nav.Link>
+                <NavLink
+                  to="/browse"
+                  style={(isActive) => ({
+                    color: isActive ? "cyan" : "grey",
+                    textDecoration: "none",
+                  })}
+                >
+                  Browse
+                </NavLink>
+              </Nav.Link>
+              <Nav.Link>
+                <NavLink
+                  to="/random"
+                  style={(isActive) => ({
+                    color: isActive ? "cyan" : "grey",
+                    textDecoration: "none",
+                  })}
+                >
+                  Random
+                </NavLink>
+              </Nav.Link>
+            </Nav>
+            <Form className="d-flex me-auto">
+              <FormControl
+                type="search"
+                placeholder="Search"
+                className="me-1"
+                aria-label="Search"
+              />
+              <Button variant="outline-light">Search</Button>
+            </Form>
+            <Nav>{authButton()}</Nav>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
     </div>

@@ -26,7 +26,7 @@ export default function Home(props) {
   // })
 
   return (
-    <div style={{paddingTop: "70px"}}>
+    <div>
       {/* <Navbar /> */}
       {/* <div>
         {user === null ? (

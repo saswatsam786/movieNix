@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap"
 import { auth } from "../../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { Link, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import "./navbar.css"
 // import { Link } from "react-router-dom";
 // import Login from "../Login/Login"
@@ -19,7 +19,6 @@ export default function NavigationBar() {
   const [user] = useAuthState(auth)
   const logout = () => {
     auth.signOut()
-    window.location = "/"
   }
 
   const authButton = () => {
@@ -137,7 +136,7 @@ export default function NavigationBar() {
             >
               <Nav.Link>
                 <NavLink
-                  to="/browse"
+                  to="/search"
                   style={(isActive) => ({
                     color: isActive ? "cyan" : "grey",
                     textDecoration: "none",

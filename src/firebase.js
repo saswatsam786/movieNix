@@ -12,10 +12,11 @@ const firebaseConfig = {
 };
 
 // const app = initializeApp(firebaseConfig);
+// eslint-disable-next-line
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 var provider = new firebase.auth.GoogleAuthProvider();
 const db = firebaseApp.firestore();
-const storage = firebase.storage();
+// const storage = firebase.storage();
 
 var auth = firebase.auth();
-export { db, storage, auth, provider };
+export { db, auth, provider };

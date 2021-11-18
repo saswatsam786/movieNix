@@ -1,214 +1,247 @@
-import { React } from "react"
-import {
-  Navbar,
-  Container,
-  Nav,
-  FormControl,
-  Form,
-  Button,
-  Dropdown,
-  Offcanvas,
-  NavDropdown
-} from "react-bootstrap"
-import { auth } from "../../firebase"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { NavLink } from "react-router-dom"
-import "./navbar.css"
-// import { Link } from "react-router-dom";
-// import Login from "../Login/Login"
+import * as React from 'react';
+import { styled, alpha, createTheme } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import InputBase from '@mui/material/InputBase';
+import Badge from '@mui/material/Badge';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MailIcon from '@mui/icons-material/Mail';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MoreIcon from '@mui/icons-material/MoreVert';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Slide from '@mui/material/Slide';
+import { ThemeProvider } from '@emotion/react';
 
-export default function NavigationBar() {
-  const [user] = useAuthState(auth)
-  const logout = () => {
-    auth.signOut()
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+}));
+
+
+export default function PrimarySearchAppBar(props) {
+  
+  function HideOnScroll(props) {
+    const { children, window } = props;
+    const trigger = useScrollTrigger({
+      target: window ? window() : undefined,
+    });
+  
+    return (
+      <Slide appear={false} direction="down" in={!trigger}>
+        {children}
+      </Slide>
+    );
   }
+  
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+  
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+  
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+  
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
 
-  const authButton = () => {
-    if(user) {
-      return(
-        <Nav>
-          {/* <Nav.Link href="/profile">Dashboard</Nav.Link>
-          <Nav.Link href="/" onClick={logout}>Logout</Nav.Link> */}
-          {/* <img 
-            alt="profileImage"
-            src={user.photoURL}
-            className="avatar" 
-          />
-          <NavDropdown
-            id="nav-dropdown-dark-example"
-            drop="start"
-            src={user.photoURL}
-            menuVariant="dark"
-          >
-            <NavDropdown.Item>Dashboard</NavDropdown.Item>
-            <NavDropdown.Item>Logout</NavDropdown.Item>
-          </NavDropdown> */}
-          <Dropdown drop="down" align="end">
-            <Dropdown.Toggle variant="dark" id="dropdown-basic">
-              <img alt="user profile" src={user.photoURL} className="avatar" />
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu
-              className="text-center"
-              variant="dark"
-              style={{
-                width: "300px",
-              }}
-            >
-              <Dropdown.ItemText>
-                <img
-                  alt="profile pic"
-                  src={user.photoURL}
-                  style={{
-                    width: "150px",
-                    borderRadius: "50%",
-                    padding: "10px",
-                  }}
-                />
-              </Dropdown.ItemText>
-              <Dropdown.Divider />
-              <Dropdown.ItemText style={{ fontSize: "1.5rem" }}>
-                {user.displayName}
-              </Dropdown.ItemText>
-              <Dropdown.Divider />
-              <Dropdown.Item><NavLink
-                  to="/profile"
-                  style={(isActive) => ({
-                    color: isActive ? "cyan" : "grey",
-                    textDecoration: "none",
-                  })}
-                >
-                  Dashborad
-                </NavLink></Dropdown.Item>
-              <Dropdown.Item onClick={logout}><NavLink
-                  to="/"
-                  style={(isActive) => ({
-                    color: isActive ? "grey" : "grey",
-                    textDecoration: "none",
-                  })}
-                >
-                  Logout
-                </NavLink></Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Nav>
-      )
-    } else {
-      return (
-        <Nav.Link>
-          <NavLink
-            to="/login"
-            style={(isActive) => ({
-              color: isActive ? "cyan" : "grey",
-              textDecoration: "none",
-            })}
-          >
-            Login
-          </NavLink>
-        </Nav.Link>
-      )
-    }
-  }
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+    anchorEl={anchorEl}
+    anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+      >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
+  
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderMobileMenu = (
+    <Menu
+    anchorEl={mobileMoreAnchorEl}
+    anchorOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+      >
+      <MenuItem>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="error">
+            <MailIcon />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge badgeContent={17} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
 
   return (
-    <div>
-      {/* <Navbar bg="custom" variant="dark" fixed="top" expand={false}>
-        <Container fluid>
-          <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
-          <Navbar.Toggle aria-controls="offcanvasNavbar" />
-          <Navbar.Offcanvas
-            id="offcanvasNavbar"
-            aria-labelledby="offcanvasNavbarLabel"
-            placement="end"
-          >
-            <Offcanvas.Header className="bg-dark" closeButton> 
-              <Offcanvas.Title id="offcanvasNavbarLabel">Offcanvas</Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body className="bg-dark">
-              <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="#action1">Home</Nav.Link>
-                <Nav.Link href="#action2">Link</Nav.Link>
-                <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
-                  <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action5">
-                    Something else here
-                  </NavDropdown.Item>
-                </NavDropdown>
-              </Nav>
-              <Form className="d-flex">
-                <FormControl
-                  type="search"
-                  placeholder="Search"
-                  className="me-2"
-                  aria-label="Search"
-                />
-                <Button variant="outline-light">Search</Button>
-              </Form>
-            </Offcanvas.Body>
-          </Navbar.Offcanvas> */}
-          {/* <Nav>{authButton}</Nav> */}
-      <Navbar
-        className="navbar"
-        bg="dark"
-        variant="dark"
-        expand="lg"
-        fixed="top"
-      >
-        <Container fluid>
-          <Navbar.Brand><NavLink
-            to="/"
-            style={(isActive) => ({
-              color: isActive ? "White" : "White",
-              textDecoration: "none",
-            })}
-          >
-            MovieNix
-          </NavLink></Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
-            <Nav
-              className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: "200px" }}
-              navbarScroll
+    <Box sx={{ flexGrow: 1}}>
+      <ThemeProvider theme={darkTheme}>
+      <HideOnScroll {...props}>
+      <AppBar position="fixed">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ mr: 2 }}
             >
-              <Nav.Link>
-                <NavLink
-                  to="/browse"
-                  style={(isActive) => ({
-                    color: isActive ? "cyan" : "grey",
-                    textDecoration: "none",
-                  })}
-                >
-                  Browse
-                </NavLink>
-              </Nav.Link>
-              <Nav.Link>
-                <NavLink
-                  to="/random"
-                  style={(isActive) => ({
-                    color: isActive ? "cyan" : "grey",
-                    textDecoration: "none",
-                  })}
-                >
-                  Random
-                </NavLink>
-              </Nav.Link>
-            </Nav>
-            <Form className="d-flex me-auto">
-              <FormControl
-                type="search"
-                placeholder="Search"
-                className="me-1"
-                aria-label="Search"
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
+            MovieNix
+          </Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search Movies"
+              inputProps={{ 'aria-label': 'search' }}
               />
-              <Button variant="outline-light">Search</Button>
-            </Form>
-            <Nav>{authButton()}</Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </div>
-  )
+          </Search>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+              >
+              <AccountCircle />
+            </IconButton>
+          </Box>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+              >
+              <MoreIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      </HideOnScroll>
+      {renderMobileMenu}
+      {renderMenu}
+      </ThemeProvider>
+    </Box>
+  );
 }

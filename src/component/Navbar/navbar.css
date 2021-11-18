@@ -1,17 +1,9 @@
-.bg-custom {
-  height: 10vh;
-}
-.srch {
-  width: 500px !important;
-}
-.avatar{
-  width: 30px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-.bg-dark{
+.navbar-transperant{
+  background-color: rgba(0,0,0,0) !important;
   color: white;
 }
-.btn-close{
-  color: white;
+
+.navbar-link{
+  text-decoration: none !important;
+  color: white !important;
 }

@@ -23,7 +23,7 @@ export default function Login() {
           .then((querySnapshot) => {
             querySnapshot.forEach(async (doc) => {
               if (doc.data().email === user.email) {
-                alert("You already have an account ID.")
+                // alert("You already have an account ID.")
                 acc = true
               }
             })

@@ -23,6 +23,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
+app.get("/profile", (res) => {
+  res.send("profile")
+})
 
 async function main() {
   //Grab your Hedera testnet account ID and private key from your .env file
@@ -55,7 +58,7 @@ async function main() {
 
   //v2.0.7
 
-  app.get("/createAccount", async (req, res) => {
+  app.get("/createAccount", async (req, res, next) => {
     //Create new keys
     const newAccountPrivateKey = await PrivateKey.generate();
     console.log(newAccountPrivateKey);
@@ -78,6 +81,7 @@ async function main() {
       privatekey: `${newAccountPrivateKey}`,
       publickey: `${newAccountPublicKey}`,
     });
+    next()
   });
 
   app.post("/balance", async (req, res) => {

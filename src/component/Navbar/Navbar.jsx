@@ -28,22 +28,6 @@ export default function NavigationBar() {
     if (user) {
       return (
         <Nav>
-          {/* <Nav.Link href="/profile">Dashboard</Nav.Link>
-          <Nav.Link href="/" onClick={logout}>Logout</Nav.Link> */}
-          {/* <img 
-            alt="profileImage"
-            src={user.photoURL}
-            className="avatar" 
-          />
-          <NavDropdown
-            id="nav-dropdown-dark-example"
-            drop="start"
-            src={user.photoURL}
-            menuVariant="dark"
-          >
-            <NavDropdown.Item>Dashboard</NavDropdown.Item>
-            <NavDropdown.Item>Logout</NavDropdown.Item>
-          </NavDropdown> */}
           <Dropdown drop="down" align="end">
             <Dropdown.Toggle variant="dark" id="dropdown-basic">
               <img alt="user profile" src={user.photoURL} className="avatar" />

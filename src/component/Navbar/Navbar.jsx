@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap"
 import { auth } from "../../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import "./navbar.css"
 import search from "../../pages/Search/Searchfunc"
 import axios from "axios"
@@ -110,7 +110,7 @@ export default function NavigationBar() {
   useEffect(() => {
     fetchSearch()
   }, [searchText])
-  
+
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <div
       ref={ref}
@@ -119,10 +119,9 @@ export default function NavigationBar() {
         onClick(e)
       }}
     >
-      <Form
-        className="d-flex me-auto"
-      >
+      <Form className="d-flex me-auto">
         <FormControl
+          autoFocus
           type="search"
           placeholder="Search..."
           size="sm"
@@ -132,7 +131,6 @@ export default function NavigationBar() {
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value)
-            e.key === "Enter" && (window.location = '/search')
           }}
         />
       </Form>
@@ -150,7 +148,7 @@ export default function NavigationBar() {
           className={className}
           aria-labelledby={labeledBy}
         >
-          {search(movies[0])}
+          {searchText && search(movies[0])}
         </div>
       )
     }
@@ -207,7 +205,7 @@ export default function NavigationBar() {
                 </NavLink>
               </Nav.Link>
             </Nav>
-            <Dropdown autoClose={false}>
+            <Dropdown>
               <Dropdown.Toggle
                 as={CustomToggle}
                 id="dropdown-custom-components"
@@ -215,9 +213,27 @@ export default function NavigationBar() {
                 Search
               </Dropdown.Toggle>
 
-              <Dropdown.Menu as={CustomMenu}></Dropdown.Menu>
+              {searchText && movies ? (
+                <Dropdown.Menu>
+                  <Dropdown.Item eventkey="1">
+                    {searchText && search(movies[0])}
+                  </Dropdown.Item>
+                  <Dropdown.Item eventkey="2">
+                    {searchText && search(movies[1])}
+                  </Dropdown.Item>
+                  {/* <Dropdown.Item eventkey="2">{searchText && search(movies[2])}</Dropdown.Item> */}
+                  <Dropdown.Divider />
+                  <Dropdown.Item eventkey="2">
+                    {searchText && <Link to="/search">View more...</Link>}
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              ) : (
+                <Dropdown.Menu>
+                  <Dropdown.Item>NO related content</Dropdown.Item>
+                </Dropdown.Menu>
+              )}
             </Dropdown>
-            {/* <Button variant="outline-light">Search</Button> */}
+
             <Nav>{authButton()}</Nav>
           </Navbar.Collapse>
         </Container>

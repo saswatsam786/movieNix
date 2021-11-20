@@ -1,4 +1,4 @@
-import { React } from "react"
+import { React } from "react";
 import {
   Navbar,
   Container,
@@ -7,19 +7,19 @@ import {
   Form,
   Button,
   Dropdown,
-} from "react-bootstrap"
-import { auth } from "../../firebase"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { NavLink } from "react-router-dom"
-import "./navbar.css"
+} from "react-bootstrap";
+import { auth } from "../../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { NavLink } from "react-router-dom";
+import "./navbar.css";
 // import { Link } from "react-router-dom";
 // import Login from "../Login/Login"
 
 export default function NavigationBar() {
-  const [user] = useAuthState(auth)
+  const [user] = useAuthState(auth);
   const logout = () => {
-    auth.signOut()
-  }
+    auth.signOut();
+  };
 
   const authButton = () => {
     if (user) {
@@ -43,7 +43,11 @@ export default function NavigationBar() {
           </NavDropdown> */}
           <Dropdown drop="down" align="end">
             <Dropdown.Toggle variant="dark" id="dropdown-basic">
-              <img alt="user profile" src={user.photoURL} className="avatar" />
+              <img
+                alt={user.displayName}
+                src={user.photoURL}
+                className="avatar"
+              />
             </Dropdown.Toggle>
 
             <Dropdown.Menu
@@ -69,7 +73,8 @@ export default function NavigationBar() {
                 {user.displayName}
               </Dropdown.ItemText>
               <Dropdown.Divider />
-              <Dropdown.Item><NavLink
+              <Dropdown.Item>
+                <NavLink
                   to="/profile"
                   style={(isActive) => ({
                     color: isActive ? "cyan" : "grey",
@@ -77,8 +82,10 @@ export default function NavigationBar() {
                   })}
                 >
                   Dashborad
-                </NavLink></Dropdown.Item>
-              <Dropdown.Item onClick={logout}><NavLink
+                </NavLink>
+              </Dropdown.Item>
+              <Dropdown.Item onClick={logout}>
+                <NavLink
                   to="/"
                   style={(isActive) => ({
                     color: isActive ? "grey" : "grey",
@@ -86,11 +93,12 @@ export default function NavigationBar() {
                   })}
                 >
                   Logout
-                </NavLink></Dropdown.Item>
+                </NavLink>
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </Nav>
-      )
+      );
     } else {
       return (
         <Nav.Link>
@@ -104,9 +112,9 @@ export default function NavigationBar() {
             Login
           </NavLink>
         </Nav.Link>
-      )
+      );
     }
-  }
+  };
 
   return (
     <div>
@@ -118,15 +126,17 @@ export default function NavigationBar() {
         fixed="top"
       >
         <Container fluid>
-          <Navbar.Brand><NavLink
-            to="/"
-            style={(isActive) => ({
-              color: isActive ? "White" : "White",
-              textDecoration: "none",
-            })}
-          >
-            MovieNix
-          </NavLink></Navbar.Brand>
+          <Navbar.Brand>
+            <NavLink
+              to="/"
+              style={(isActive) => ({
+                color: isActive ? "White" : "White",
+                textDecoration: "none",
+              })}
+            >
+              MovieNix
+            </NavLink>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -171,5 +181,5 @@ export default function NavigationBar() {
         </Container>
       </Navbar>
     </div>
-  )
+  );
 }

@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from "react";
-// import { Switch } from "react-router";
 import axios from "axios";
 import Carousel from 'react-bootstrap/Carousel'
-// import genres from "../moviePath";
 
 export default function HomeCarousel(){
     const [movies, setMovies] = useState([]);
@@ -13,7 +11,7 @@ export default function HomeCarousel(){
             setMovies(request.data.results.slice(0,5));
         }
         getMovies();
-    });
+    },[]);
 
     return(
         <Carousel fade>
@@ -22,12 +20,13 @@ export default function HomeCarousel(){
                     <Carousel.Item Intervel={500}>
                     <img
                         className="d-block w-100"
-                        src={"https://image.tmdb.org/t/p/original" + movie.poster_path}
+                        src={"https://image.tmdb.org/t/p/original" + movie.backdrop_path}
+                        height = "570px"
                         alt={movie.original_title}
                         
                     />
                     <Carousel.Caption>
-                        <h3>{movie.original_title}</h3>
+                        <h1>{movie.original_title}</h1>
                         <p>{movie.overview}</p>
                     </Carousel.Caption>
                     </Carousel.Item>

@@ -1,11 +1,7 @@
 .holder{
+    width: 500px !important;
     background-color: rgb(255, 255, 255);
     border-radius: 10px !important;
-    overflow: hidden;
+    /* overflow: hidden; */
     margin: auto 20%;
-}
-.card{
-    padding: 50px;
-    align-items: center;
-    justify-content: center;
 }

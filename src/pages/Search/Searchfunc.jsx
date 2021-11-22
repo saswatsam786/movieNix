@@ -8,26 +8,24 @@ export default function Search(movie) {
       { movie &&
         movie.media_type !== "tv" && (
           <>
-            <Card
+            <div
             onClick={async () => {
               console.log(movie)
               window.location = `/movie/${movie.id}`
             }}
-            onKeyDown={(e) => {
-             e.key === "Enter" && (window.location = "/search")
-            }}
-            >
-              <Card.Img
-                variant="top"
-                src={
+            style={{display:"flex"}}
+          >
+            <div>
+              <img src={
                   "https://image.tmdb.org/t/p/original" + movie.poster_path
                 }
-                style={{width:"auto",height:"15rem",}}            
-              />
-              <Card.Body>
-                <Card.Text classname="text-muted">{movie.title || movie.name}</Card.Text>
-              </Card.Body>
-                    </Card>
+                style={{width:"3rem",height:"3rem",}} />
+            </div>
+            <div>
+              <p >{movie.title || movie.name}</p>
+              </div>
+          </div>
+          
           </>
         )
       }

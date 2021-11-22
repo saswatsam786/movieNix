@@ -24,7 +24,7 @@ import { ThemeProvider } from "@emotion/react";
 // import MoreIcon from '@mui/icons-material/MoreVert';
 // import MenuIcon from '@mui/icons-material/Menu';
 // import { AccountCircle } from '@mui/icons-material';
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import { auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import search from "../../pages/Search/Searchfunc"
@@ -78,6 +78,7 @@ export default function NavigationBar(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [isTransparent, setTransparent] = useState("false");
+  const history = useHistory()
 
   // const ToggleClass = () =>{
   //   setTransparent(!isTransparent);
@@ -266,27 +267,52 @@ export default function NavigationBar(props) {
                 style={{ color: "white" }}
               />
             </Search> */}
-            <Dropdown>
+           <Dropdown>
               <Dropdown.Toggle
                 as={CustomToggle}
                 id="dropdown-custom-components"
               >
+                Search
               </Dropdown.Toggle>
 
               {searchText && movies ? (
-                <Dropdown.Menu>
-                  <Dropdown.Item eventkey="1"
-                    onKeyDown={(e)=> (window.location = "/mo")}
+                <Dropdown.Menu align="end">
+                  <Dropdown.Item
+                    eventkey="1"
+                    onKeyDown={(e) => {
+                      e.key === "Enter" &&
+                        (window.location = `/movie/${movies[0].id}`)
+                    }}
                   >
                     {searchText && search(movies[0])}
                   </Dropdown.Item>
-                  <Dropdown.Item eventkey="2">
+                  <Dropdown.Item
+                    eventkey="2"
+                    onKeyDown={(e) => {
+                      e.key === "Enter" &&
+                        (window.location = `/movie/${movies[1].id}`)
+                    }}
+                  >
                     {searchText && search(movies[1])}
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    eventkey="3"
+                    onKeyDown={(e) => {
+                      e.key === "Enter" &&
+                        (window.location = `/movie/${movies[2].id}`)
+                    }}
+                  >
+                    {searchText && search(movies[2])}
                   </Dropdown.Item>
                   {/* <Dropdown.Item eventkey="2">{searchText && search(movies[2])}</Dropdown.Item> */}
                   <Dropdown.Divider />
-                  <Dropdown.Item eventkey="2">
-                    {searchText && <Link to="/search">View more...</Link>}
+                  <Dropdown.Item
+                    eventkey="4"
+                    onKeyDown={(e) => {
+                      e.key === "Enter" && (history.push({pathname: '/search', state: {search : searchText}}))
+                    }}
+                  >
+                    {searchText && <Link to={{pathname:'/search', state: {search: searchText}}}>View more...</Link>}
                   </Dropdown.Item>
                 </Dropdown.Menu>
               ) : (

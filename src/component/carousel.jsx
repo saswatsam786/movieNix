@@ -37,7 +37,8 @@ export default function HomeCarousel() {
               }}
             >
               <h1>{movie.original_title}</h1>
-              <p>{movie.overview}</p>
+              <br/>
+              {/* <p>{movie.overview}</p> */}
             </Carousel.Caption>
           </Carousel.Item>
         );

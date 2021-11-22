@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 import { Button, Card, ListGroup, ListGroupItem } from "react-bootstrap";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useHistory } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
 import Home from "../Home/Home";
@@ -14,6 +14,7 @@ export default function Profile() {
   const [accid, setAccid] = useState("");
   const [accbal, setAccbal] = useState("");
   const [privatekey, setPrivatekey] = useState("");
+  const history = useHistory()
 
   useEffect(() => {
     user &&
@@ -49,6 +50,7 @@ export default function Profile() {
   // }).then(res => console.log(res.data))
 
   function loadProfile() {
+    // authuser()
     const logout = () => {
       auth.signOut();
     };

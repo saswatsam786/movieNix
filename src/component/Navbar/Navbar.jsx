@@ -1,5 +1,5 @@
-import { React, useState, useEffect } from "react";
 import { styled, alpha, createTheme } from "@mui/material/styles";
+import React, { useEffect, useState } from "react"
 import {
   AppBar,
   Box,
@@ -13,6 +13,12 @@ import {
   IconButton,
   // useScrollTrigger,
 } from "@mui/material";
+import {
+  Form,
+  FormControl,
+  Dropdown,
+  NavDropdown,
+} from "react-bootstrap"
 import SearchIcon from "@mui/icons-material/Search";
 import { ThemeProvider } from "@emotion/react";
 // import MoreIcon from '@mui/icons-material/MoreVert';
@@ -21,6 +27,8 @@ import { ThemeProvider } from "@emotion/react";
 import { Link, NavLink } from "react-router-dom";
 import { auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import search from "../../pages/Search/Searchfunc"
+import axios from "axios"
 import "./navbar.css";
 
 const Search = styled("div")(({ theme }) => ({
@@ -65,6 +73,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavigationBar(props) {
   const [user] = useAuthState(auth);
+  const [searchText, setSearchText] = useState("")
+  const [movies, setMovies] = useState([])
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [isTransparent, setTransparent] = useState("false");
@@ -171,6 +181,61 @@ export default function NavigationBar(props) {
     </Menu>
   );
 
+  const fetchSearch = async () => {
+    const req = await axios.get(
+      `https://api.themoviedb.org/3/search/movie?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b&language=en-US&query=${searchText}&page=1&sort_by=popularity.desc`
+    )
+    setMovies(req.data.results)
+    console.log(movies)
+  }
+
+  useEffect(() => {
+    fetchSearch()
+  }, [searchText])
+
+  const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+    <div
+      ref={ref}
+      onClick={(e) => {
+        e.preventDefault()
+        onClick(e)
+      }}
+    >
+      <Form className="d-flex me-auto">
+        <FormControl
+          autoFocus
+          type="search"
+          placeholder="Search..."
+          size="sm"
+          style={{ backgroundColor: "#282c34", color: "white" }}
+          className="me-1"
+          aria-label="Search"
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.target.value)
+          }}
+        />
+      </Form>
+      {children}
+      &#x25bc;
+    </div>
+  ))
+
+  const CustomMenu = React.forwardRef(
+    ({ children, style, className, "aria-labelledby": labeledBy }, ref) => {
+      return (
+        <div
+          ref={ref}
+          style={style}
+          className={className}
+          aria-labelledby={labeledBy}
+        >
+          {searchText && search(movies[0])}
+        </div>
+      )
+    }
+  )
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <ThemeProvider theme={darkTheme}>
@@ -191,7 +256,7 @@ export default function NavigationBar(props) {
                 MovieNix
               </NavLink>
             </Typography>
-            <Search>
+            {/* <Search>
               <SearchIconWrapper>
                 <SearchIcon style={{ color: "white" }} />
               </SearchIconWrapper>
@@ -200,7 +265,36 @@ export default function NavigationBar(props) {
                 inputProps={{ "aria-label": "search" }}
                 style={{ color: "white" }}
               />
-            </Search>
+            </Search> */}
+            <Dropdown>
+              <Dropdown.Toggle
+                as={CustomToggle}
+                id="dropdown-custom-components"
+              >
+              </Dropdown.Toggle>
+
+              {searchText && movies ? (
+                <Dropdown.Menu>
+                  <Dropdown.Item eventkey="1"
+                    onKeyDown={(e)=> (window.location = "/mo")}
+                  >
+                    {searchText && search(movies[0])}
+                  </Dropdown.Item>
+                  <Dropdown.Item eventkey="2">
+                    {searchText && search(movies[1])}
+                  </Dropdown.Item>
+                  {/* <Dropdown.Item eventkey="2">{searchText && search(movies[2])}</Dropdown.Item> */}
+                  <Dropdown.Divider />
+                  <Dropdown.Item eventkey="2">
+                    {searchText && <Link to="/search">View more...</Link>}
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              ) : (
+                <Dropdown.Menu>
+                  <Dropdown.Item>NO related content</Dropdown.Item>
+                </Dropdown.Menu>
+              )}
+            </Dropdown>
             {/* <Box sx={{ flexGrow: 1 }} /> */}
             {user ? (
               <>

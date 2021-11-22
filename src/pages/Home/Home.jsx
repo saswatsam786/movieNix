@@ -27,7 +27,7 @@ export default function Home(props) {
   // })
 
   return (
-    <div>
+    <div >
       {/* <Navbar /> */}
       {/* <div>
         {user === null ? (

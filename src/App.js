@@ -5,6 +5,7 @@ import Navbar from "./component/Navbar/Navbar";
 // eslint-disable-next-line
 import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 import MediaPage from "./component/MediaPage/MediaPage";
+// import HomeCarousel from "./component/carousel";
 
 export default function App() {
   return (

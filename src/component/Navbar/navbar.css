@@ -4,8 +4,12 @@
 .srch {
   width: 500px !important;
 }
-.avatar{
+.avatar {
   width: 30px;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.bg-dark {
+  background: transparent !important;
 }

@@ -120,7 +120,7 @@ export default function NavigationBar() {
     <div>
       <Navbar
         className="navbar"
-        bg="dark"
+        bg="transparent"
         variant="dark"
         expand="lg"
         fixed="top"

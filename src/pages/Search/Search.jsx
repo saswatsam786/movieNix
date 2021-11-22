@@ -1,10 +1,12 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import { Form, FormControl, Button } from "react-bootstrap"
 import axios from "axios"
 import styled from "styled-components"
+import { useLocation } from "react-router-dom"
 
 function Search() {
-  const [searchText, setSearchText] = useState("")
+  const location = useLocation()
+  const [searchText, setSearchText] = useState(location.state.search)
   const [movies, setMovies] = useState([])
 
   const fetchSearch = async () => {
@@ -22,18 +24,22 @@ function Search() {
     return array.slice(0, max).join(" ") + ellipsis
   }
 
+  useEffect(() => {
+    fetchSearch()
+  }, [searchText])
+
   return (
     <div>
       <Form
         className="d-flex me-auto"
         style={{ margin: "20px 5px" }}
-        onSubmit={()=>fetchSearch}
       >
         <FormControl
           type="search"
           placeholder="Search"
           className="me-1"
           aria-label="Search"
+          value= {searchText}
           onChange={
             ((e) => {
               setSearchText(e.target.value)

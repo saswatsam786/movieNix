@@ -1,24 +1,27 @@
-import {React, useState, cloneElement} from 'react';
-import { styled, alpha, createTheme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import Button from '@mui/material/Button';
+import {React, useState, useEffect, useRef } from 'react';
+import { styled, alpha, createTheme, withStyles } from '@mui/material/styles';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Typography,
+  InputBase,
+  Button,
+  Avatar,
+  Menu,
+  MenuItem,
+  IconButton,
+  useScrollTrigger,
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-// import MoreIcon from '@mui/icons-material/MoreVert';
-import IconButton from '@mui/material/IconButton';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { ThemeProvider } from '@emotion/react';
-import './navbar.css';
+// import MoreIcon from '@mui/icons-material/MoreVert';
+// import MenuIcon from '@mui/icons-material/Menu';
+// import { AccountCircle } from '@mui/icons-material';
 import { Link, NavLink } from 'react-router-dom';
 import { auth } from "../../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { Avatar } from '@mui/material';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-// import MenuIcon from '@mui/icons-material/Menu';
+import './navbar.css';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -64,7 +67,28 @@ export default function NavigationBar(props) {
   const [user] = useAuthState(auth)
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [isTransparent, setTransparent] = useState("false");
+
+  // const ToggleClass = () =>{
+  //   setTransparent(!isTransparent);
+  // };
   
+  useEffect(() => {
+    const handleScroll = () => {
+        const show = window.scrollY > 100
+        if (show) {
+            setTransparent(!isTransparent)
+          }
+        else{
+          setTransparent('false')
+        }
+    }
+    document.addEventListener('scroll', handleScroll)
+    return () => {
+        document.removeEventListener('scroll', handleScroll)
+    }
+}, [])
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -85,8 +109,7 @@ export default function NavigationBar(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
   
-  const menuId = 'primary-search-account-menu';
-
+  
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -97,46 +120,52 @@ export default function NavigationBar(props) {
     auth.signOut()
   }
   
-  function ElevateOnScroll(props) {
-    const { children, window } = props;
-    const trigger = useScrollTrigger({
-      disableHysteresis: true,
-      threshold: 0,
-      target: window ? window() : undefined,
-    });
+  // function ElevateOnScroll(props) {
+  //   const { children, window } = props;
+  //   const trigger = useScrollTrigger({
+  //     disableHysteresis: true,
+  //     threshold: 0,
+  //     target: window ? window() : undefined,
+  //   });
   
-    return cloneElement(children, {
-      elevation: trigger ? 4 : 0,
-    });
-  }
+  //   return cloneElement(children, {
+  //     elevation: trigger ? 4 : 0,
+  //     style: {
+  //       backgroundColor: trigger ? "rgba(11, 9, 16, 1)" : "rgba(20, 20, 20, 0)",
+  //     }
+  //   });
+  // }
   
+  const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
+        aria-labelledby="demo-positioned-button"
+        anchorEl={anchorEl}
+        anchorOrigin={{
           vertical: 'top',
           horizontal: 'right',
         }}
         id={menuId}
-        // keepMounted
+        keepMounted
         transformOrigin={{
           vertical: 'top',
           horizontal: 'right',
         }}
         open={isMenuOpen}
         onClose={handleMenuClose}
-      >
-      <MenuItem><Link to='/profile' className='navbar-link'>Profile</Link></MenuItem>
-      <MenuItem><Link to='/profile' className='navbar-link'>Library</Link></MenuItem>
-      <MenuItem onClick={logout}><Link to='/' className='navbar-link'>Logout</Link></MenuItem>
+    >
+      <MenuItem onClick={handleMenuClose}><Link to='/profile' className='navbar-link'>Profile</Link></MenuItem>
+      <MenuItem onClick={handleMenuClose}><Link to='/profile' className='navbar-link'>Library</Link></MenuItem>
+      <MenuItem onClick={handleMenuClose}><Link to='/' className='navbar-link' onClick={logout}>Logout</Link></MenuItem>
+      {/* <MenuItem>Profile</MenuItem> */}
     </Menu>
   );
 
   return (
     <Box sx={{ flexGrow: 1}}>
       <ThemeProvider theme={darkTheme}>
-      <ElevateOnScroll>
-      <AppBar position="fixed" className='navbar-transperant'>
+      {/* <ElevateOnScroll> */}
+      <AppBar position="fixed" color={isTransparent ? "transparent" : "default"} className={isTransparent ? "navbar-transparent" : "navbar-solid"}>
         <Toolbar>
         <Typography
             variant="h4"
@@ -153,16 +182,18 @@ export default function NavigationBar(props) {
           </Typography>
           <Search>
             <SearchIconWrapper>
-              <SearchIcon />
+              <SearchIcon style={{color: "white"}} />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              style={{color: "white"}}
             />
           </Search>
           {/* <Box sx={{ flexGrow: 1 }} /> */}
           {
             user ? (
+              <>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <IconButton
                   size="large"
@@ -177,13 +208,15 @@ export default function NavigationBar(props) {
                     alt={user.displayName} 
                     src={user.photoURL} 
                     sx={{ width: 30, height: 30 }}
-                  >
+                    >
                   </Avatar>
+                  {/* <AccountCircle /> */}
                 </IconButton>
               </Box>
+              </>
             ) : (
               <Button color="inherit"><NavLink to='/login' className="navbar-link">Login</NavLink></Button>
-            )
+              )
           }
           {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -199,7 +232,7 @@ export default function NavigationBar(props) {
           </Box> */}
         </Toolbar>
       </AppBar>
-      </ElevateOnScroll>
+      {/* </ElevateOnScroll> */}
       {renderMenu}
       </ThemeProvider>
     </Box>

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router";
-import "./MediaPage.css";
-import { Button } from "react-bootstrap";
-import VideoModal from "./VideoModal";
-import { auth } from "../../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { db } from "../../firebase";
-// import { ContractByteCodeQuery } from "@hashgraph/sdk";
+import { useParams } from 'react-router';
+import './MediaPage.css'
+import {Button, Modal} from 'react-bootstrap';
+import VideoModal from './VideoModal';
+import { auth, db } from '../../firebase'
+import firebase from 'firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 export default function MediaPage() {
   // eslint-disable-next-line
@@ -18,6 +17,11 @@ export default function MediaPage() {
   const [showGenres, getGenres] = useState([]);
   const [accid, setAccid] = useState("");
   const [privatekey, setPrivatekey] = useState("");
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     //eslint-disable-next-line
@@ -52,56 +56,112 @@ export default function MediaPage() {
       getGenres(movieDetails.data.genres);
     }
     rendreDetails();
-  }, [media, id]);
+  }, [media, id,user]);
 
-  const bgURL = `https://image.tmdb.org/t/p/original/${details.backdrop_path}`;
-  const runTime = (n) => {
-    var num = n;
-    var hours = num / 60;
-    var rhours = Math.floor(hours);
-    var minutes = (hours - rhours) * 60;
-    var rminutes = Math.round(minutes);
-    return rhours + " hr " + rminutes + " min";
-  };
+    function addToLibrary() {
+        user &&
+            db
+            .collection("accounts")
+            .where("email", "==", user.email)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(async doc => {
+                    const purchaseTimeStamp = new Date()
+                    // console.log(purchaseTimeStamp);
+                    // purchaseTimeStamp.setDate(purchaseTimeStamp.getDate() + 30)
+                    // console.log(purchaseTimeStamp);
 
-  const buyFunc = async (price) => {
-    console.log(accid);
-    let data = await axios.post(`http://localhost:8000/transferMoney`, {
-      id: accid,
-      key: privatekey,
-    });
-    console.log(data.data.status);
-  };
+                    const expTimeStamp = new Date()
+                    expTimeStamp.setDate(purchaseTimeStamp.getDate() + 30)
 
-  return (
-    <div
-      style={{ backgroundImage: `url(${bgURL})` }}
-      className="container-media-page"
-    >
-      <div className="container-details">
-        <div id="container-header">
-          <span>
-            <h1>{media === "movie" ? details.original_title : details.name}</h1>
-            <span style={{ color: "silver" }}>
-              {/* <p style={{margin: '0 5px'}}>{(details.release_date)}</p>{'|'} */}
+                    let a = {
+                        id: details.id,
+                        purchaseDate: purchaseTimeStamp.toDateString(),
+                        expiryDate: expTimeStamp.toDateString(),
+                        time: purchaseTimeStamp.toLocaleTimeString()
+                    }
+                    const variable = db.collection("accounts").doc(doc.id)
+                    await variable.update({lib: firebase.firestore.FieldValue.arrayUnion(a)}).then(err => {console.log(err)})
+                })
+            })
+    }
 
-              {media === "tv" ? (
-                <>
-                  <p style={{ margin: "0 5px" }}>{details.first_air_date}</p>
-                  {"|"}
-                  <p style={{ margin: "0 5px" }}>
-                    Season {details.number_of_seasons} {"."}{" "}
-                    {details.number_of_episodes} Episodes
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p style={{ margin: "0 5px" }}>{details.release_date}</p>
-                  {"|"}
-                  <p style={{ margin: "0 5px" }}>{runTime(details.runtime)}</p>
-                </>
-              )}
-              {"|"}
+    const buyFunc = async (price) => {
+      console.log(accid);
+      let data = await axios.post(`http://localhost:8000/transferMoney`, {
+        id: accid,
+        key: privatekey,
+      });
+      console.log(data.data.status);
+    };
+
+
+    const bgURL = `https://image.tmdb.org/t/p/original/${details.backdrop_path}`;
+    const runTime = (n) => {
+      var num = n;
+      var hours = num / 60;
+      var rhours = Math.floor(hours);
+      var minutes = (hours - rhours) * 60;
+      var rminutes = Math.round(minutes);
+      return rhours + " hr " + rminutes + " min";
+    };
+
+    return (
+        <div
+         style={{backgroundImage: `url(${bgURL})`}}
+         className="container-media-page">
+
+            <div className="container-details">
+                <div id="container-header">
+
+                    <span>
+                        <h1>{media === "movie" ? details.original_title : details.name}</h1>
+                        <span style={{color: 'silver'}}>
+                            {/* <p style={{margin: '0 5px'}}>{(details.release_date)}</p>{'|'} */}
+                            
+                            {media === "tv" ? 
+                            <>
+                                <p style={{margin: '0 5px'}}>{(details.first_air_date)}</p>{'|'}
+                                <p style={{margin: '0 5px'}}>
+                                    Season {details.number_of_seasons} {'.'} {details.number_of_episodes} Episodes
+                                </p>
+                            </> : 
+                            <>
+                                <p style={{margin: '0 5px'}}>{(details.release_date)}</p>{'|'}
+                                <p style={{margin: '0 5px'}}>{runTime(details.runtime)}</p>
+                            </>    }
+                            {'|'}
+
+                    {/* <span>
+                        <VideoModal videoKey={trailerKey} />
+                        <Button
+                            onClick={handleShow}
+                            style={{marginLeft: '10px'}} 
+                            variant="outline-light">
+                            <i className="fas fa-plus"></i>  Buy Now
+                        </Button>
+                        <Modal show={show} onHide={handleClose} centered>
+                            <Modal.Body>
+                                <p><strong>Do you want to add this movie to your library?</strong></p>
+                                <ul style={{listStyle: 'none', position: 'relative', margin: '0 5px', padding: '0'}}>
+                                    <li>Current balance: <span style={{position: 'absolute', right: '0'}}>10 hbar</span><hr style={{margin: '5px 0'}} /></li>
+                                    <li>Cost: <span style={{position: 'absolute', right: '0'}}>1 hbar</span><hr style={{margin: '5px 0'}} /></li>
+                                    <li>Balance after purchase: <span style={{position: 'absolute', right: '0'}}>9 hbar</span><hr style={{margin: '5px 0'}} /></li>
+                                </ul>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="outline-dark" onClick={handleClose}>
+                                    Cancel
+                                </Button>
+                                <Button variant="dark" onClick={addToLibrary}>
+                                    Add
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+                    </span> */}
+                    
+                {/* </div> */}
+
 
               <p style={{ margin: "0 5px" }}>
                 {showGenres.map((g) => {

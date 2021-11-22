@@ -35,6 +35,7 @@ export default function Login() {
                     accid: props.data.id,
                     privatekey: props.data.privatekey,
                     publickey: props.data.publickey,
+                    lib: []
                   })
                   .catch((err) => {
                     console.log(err);

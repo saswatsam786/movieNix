@@ -7,7 +7,7 @@ import VideoModal from "./VideoModal";
 import { auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { db } from "../../firebase";
-import { ContractByteCodeQuery } from "@hashgraph/sdk";
+// import { ContractByteCodeQuery } from "@hashgraph/sdk";
 
 export default function MediaPage() {
   // eslint-disable-next-line
@@ -20,6 +20,7 @@ export default function MediaPage() {
   const [privatekey, setPrivatekey] = useState("");
 
   useEffect(() => {
+    //eslint-disable-next-line
     {
       user &&
         db

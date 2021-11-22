@@ -1,15 +1,14 @@
-.bg-custom {
-  height: 10vh;
-}
-.srch {
-  width: 500px !important;
-}
-.avatar {
-  width: 30px;
-  border-radius: 50%;
-  cursor: pointer;
+.navbar-link {
+  text-decoration: none !important;
+  color: white !important;
 }
 
-.bg-dark {
-  background: transparent !important;
+.navbar-transparent {
+  background-color: rgba(0, 0, 0, 0) !important;
+  /* background-image: linear-gradient(rgba(1,1,1,0.8), rgba(0,0,0,0)) !important; */
+  box-shadow: none !important;
+}
+
+.navbar-solid {
+  background-color: rgba(11, 9, 16, 1) !important;
 }

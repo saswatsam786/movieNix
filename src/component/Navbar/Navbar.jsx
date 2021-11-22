@@ -1,5 +1,5 @@
-import {React, useState, useEffect, useRef } from 'react';
-import { styled, alpha, createTheme, withStyles } from '@mui/material/styles';
+import {React, useState, useEffect} from 'react';
+import { styled, alpha, createTheme } from '@mui/material/styles';
 import {
   AppBar,
   Box,
@@ -11,7 +11,7 @@ import {
   Menu,
   MenuItem,
   IconButton,
-  useScrollTrigger,
+  // useScrollTrigger,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { ThemeProvider } from '@emotion/react';

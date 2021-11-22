@@ -5,6 +5,7 @@ import React from "react";
 // import { useHistory } from "react-router";
 // import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import Rows from "../../component/Rows";
+import HomeCarousel from "../../component/carousel";
 // import { auth } from "../../firebase";
 // import styled from "styled-components";
 // import Navbar from "../../component/Navbar/Navbar";
@@ -26,7 +27,7 @@ export default function Home(props) {
   // })
 
   return (
-    <div style={{paddingTop: '70px'}}>
+    <div >
       {/* <Navbar /> */}
       {/* <div>
         {user === null ? (
@@ -44,6 +45,7 @@ export default function Home(props) {
           </Button>
         )}
       </div> */}
+      <HomeCarousel/>
       <Rows />
     </div>
   );

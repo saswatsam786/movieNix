@@ -5,6 +5,7 @@ import Navbar from "./component/Navbar/Navbar";
 // eslint-disable-next-line
 import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 import MediaPage from "./component/MediaPage/MediaPage";
+import LibraryPage from "./component/LibraryPage/LibraryPage";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/:media/:id" component={MediaPage} />
+        <Route exact path="/library" component={LibraryPage} />
         {/* <Route path="/:id" children={<Child />} /> */}
         <Route>
           <div className="App">

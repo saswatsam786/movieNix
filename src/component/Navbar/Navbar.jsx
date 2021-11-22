@@ -69,6 +69,7 @@ export default function NavigationBar() {
                 {user.displayName}
               </Dropdown.ItemText>
               <Dropdown.Divider />
+
               <Dropdown.Item><NavLink
                   to="/profile"
                   style={(isActive) => ({
@@ -77,7 +78,18 @@ export default function NavigationBar() {
                   })}
                 >
                   Dashborad
-                </NavLink></Dropdown.Item>
+                </NavLink>
+              </Dropdown.Item>
+
+              <Dropdown.Item>
+                  <NavLink to="/library" style={(isActive) => ({
+                    color: isActive ? "grey" : "grey",
+                    textDecoration: "none",
+                  })}>
+                    Library
+                  </NavLink>
+              </Dropdown.Item>
+
               <Dropdown.Item onClick={logout}><NavLink
                   to="/"
                   style={(isActive) => ({
@@ -86,7 +98,9 @@ export default function NavigationBar() {
                   })}
                 >
                   Logout
-                </NavLink></Dropdown.Item>
+                </NavLink>
+              </Dropdown.Item>
+
             </Dropdown.Menu>
           </Dropdown>
         </Nav>

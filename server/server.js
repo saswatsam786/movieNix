@@ -23,6 +23,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
+app.get("/profile", (res) => {
+  res.send("profile")
+})
 
 async function main() {
   //Grab your Hedera testnet account ID and private key from your .env file
@@ -55,7 +58,7 @@ async function main() {
 
   //v2.0.7
 
-  app.get("/createAccount", async (req, res) => {
+  app.get("/createAccount", async (req, res, next) => {
     //Create new keys
     const newAccountPrivateKey = await PrivateKey.generate();
     console.log(newAccountPrivateKey);
@@ -64,7 +67,7 @@ async function main() {
     //Create a new account with 1,000 tinybar starting balance
     const newAccountTransactionResponse = await new AccountCreateTransaction()
       .setKey(newAccountPublicKey)
-      .setInitialBalance(new Hbar(1))
+      .setInitialBalance(new Hbar(10))
       .execute(client);
 
     // Get the new account ID
@@ -78,6 +81,7 @@ async function main() {
       privatekey: `${newAccountPrivateKey}`,
       publickey: `${newAccountPublicKey}`,
     });
+    next()
   });
 
   app.post("/balance", async (req, res) => {
@@ -102,6 +106,46 @@ async function main() {
           balance: accountBalance.hbars,
         },
       });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  app.post("/transferMoney", async (req, res) => {
+    try {
+      const id = req.body.id;
+      const key = req.body.key;
+      console.log(id);
+      const transaction = new TransferTransaction()
+        .addHbarTransfer(id, new Hbar(-0.2))
+        .addHbarTransfer("0.0.2978176", new Hbar(0.2));
+
+      const client = Client.forTestnet();
+      client.setOperator(id, key);
+      const query = new AccountBalanceQuery().setAccountId(id);
+      let accountBalance = await query.execute(client);
+      //Print the balance of hbars
+      console.log(
+        "The hbar account balance for this account is " + accountBalance.hbars
+      );
+
+      //Submit the transaction to a Hedera network
+      const txResponse = await transaction.execute(client);
+
+      //Request the receipt of the transaction
+      const receipt = await txResponse.getReceipt(client);
+
+      //Get the transaction consensus status
+      const transactionStatus = receipt.status;
+
+      console.log(
+        "The transaction consensus status is " + transactionStatus.toString()
+      );
+
+      accountBalance = await query.execute(client);
+      console.log(
+        "The hbar account balance for this account is " + accountBalance.hbars
+      );
     } catch (error) {
       console.log(error);
     }

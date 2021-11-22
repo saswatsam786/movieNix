@@ -6,7 +6,7 @@ import { auth, db } from "../../firebase";
 import Home from "../Home/Home";
 // eslint-disable-next-line
 import axios, { Axios } from "axios";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory } from "react-router-dom";
 import "./profile.css";
 
 export default function Profile() {
@@ -14,6 +14,7 @@ export default function Profile() {
   const [accid, setAccid] = useState("");
   const [accbal, setAccbal] = useState("");
   const [privatekey, setPrivatekey] = useState("");
+  const history = useHistory()
 
   useEffect(() => {
     user &&
@@ -49,6 +50,7 @@ export default function Profile() {
   // }).then(res => console.log(res.data))
 
   function loadProfile() {
+    // authuser()
     const logout = () => {
       auth.signOut();
     };

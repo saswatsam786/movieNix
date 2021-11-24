@@ -1,3 +1,4 @@
+//eslint-disable-next-line
 import { styled, alpha, createTheme } from "@mui/material/styles";
 import React, { useEffect, useState } from "react"
 import {
@@ -5,7 +6,7 @@ import {
   Box,
   Toolbar,
   Typography,
-  // InputBase,
+  InputBase,
   Button,
   Avatar,
   Menu,
@@ -14,14 +15,16 @@ import {
   Divider,
   ListItemIcon,
   Card,
+  CardMedia,
+  CardContent,
   Drawer,
   List,
   ListItem,
   ListItemText,
 } from '@mui/material';
 import {
-  Form,
-  FormControl,
+  // Form,
+  // FormControl,
   Dropdown,
   // NavDropdown,
 } from "react-bootstrap"
@@ -30,7 +33,7 @@ import {
   AccountCircle,
   VideoLibraryRounded
 } from '@mui/icons-material'
-// import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from '@mui/icons-material/Search';
 import { ThemeProvider } from '@emotion/react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, NavLink, useHistory } from 'react-router-dom';
@@ -40,47 +43,47 @@ import search from "../../pages/Search/Searchfunc"
 import axios from "axios"
 import './navbar.css';
 
-// const Search = styled('div')(({ theme }) => ({
-//   position: 'relative',
-//   borderRadius: theme.shape.borderRadius,
-//   backgroundColor: alpha(theme.palette.common.white, 0.15),
-//   '&:hover': {
-//     backgroundColor: alpha(theme.palette.common.white, 0.25),
-//   },
-//   marginRight: theme.spacing(2),
-//   // marginLeft: 0,
-//   [theme.breakpoints.up('sm')]: {
-//     visibility: 'show',
-//     marginLeft: theme.spacing(2),
-//     width: '300px',
-//   },
-//   [theme.breakpoints.down('sm')]: {
-//     visibility: 'hidden',
-//   }
-// }));
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  // marginLeft: 0,
+  [theme.breakpoints.up('sm')]: {
+    visibility: 'show',
+    marginLeft: theme.spacing(2),
+    width: '300px',
+  },
+  // [theme.breakpoints.down('sm')]: {
+  //   visibility: 'hidden',
+  // }
+}));
 
-// const SearchIconWrapper = styled('div')(({ theme }) => ({
-//   padding: theme.spacing(0, 2),
-//   height: '100%',
-//   position: 'absolute',
-//   pointerEvents: 'none',
-//   display: 'flex',
-//   alignItems: 'center',
-//   justifyContent: 'center',
-// }));
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
 
-// const StyledInputBase = styled(InputBase)(({ theme }) => ({
-//   color: 'inherit',
-//   '& .MuiInputBase-input': {
-//     padding: theme.spacing(1, 1, 1, 2),
-//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-//     transition: theme.transitions.create('width'),
-//     width: '100%',
-//     [theme.breakpoints.up('md')]: {
-//       width: '50%',
-//     },
-//   },
-// }));
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 2),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '50%',
+    },
+  },
+}));
 
 export default function NavigationBar(props) {
   const [user] = useAuthState(auth);
@@ -115,12 +118,21 @@ export default function NavigationBar(props) {
   }, []);
 
   const isMenuOpen = Boolean(anchorEl);
+  const isOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
   
   const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
     setAnchorEl(null);
   };
 
@@ -246,13 +258,28 @@ export default function NavigationBar(props) {
   
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <div
-    ref={ref}
-    onClick={(e) => {
-      e.preventDefault()
-        onClick(e)
+      ref={ref}
+      onClick={(e) => {
+        e.preventDefault()
+          onClick(e)
       }}
-      >
-      <Form className="d-flex me-auto">
+    >
+        <Search>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase
+            autoFocus
+            placeholder="Search…"
+            inputProps={{ "aria-label": "search" }}
+            value={searchText}
+            onClick={handleClick}
+            onChange={(e) => {
+              setSearchText(e.target.value)
+            }}
+          />
+        </Search>
+      {/* <Form className="d-flex me-auto">
         <FormControl
           autoFocus
           type="search"
@@ -272,8 +299,38 @@ export default function NavigationBar(props) {
             setSearchText(e.target.value)
           }}
         />
-      </Form>
+      </Form> */}
       {children}
+    {/* <Menu
+      style={{maxWidth: "500px", overflow: "hidden"}}
+      id="basic-menu"
+      anchorEl={anchorEl}
+      open={isOpen}
+      onClose={handleClose}
+      MenuListProps={{
+        'aria-labelledby': 'basic-button',
+      }}
+      PaperProps={{
+        style: {
+          maxHeight: '400px',
+          // width: '20ch',
+        },
+      }}
+    >
+      <MenuItem onClick={handleClose} style={{width:"300px"}}>
+        <Card style={{maxWidth:"100px"}}>
+        <CardMedia
+          component="img"
+          height="100"
+          src="https://m.media-amazon.com/images/M/MV5BN2FjNmEyNWMtYzM0ZS00NjIyLTg5YzYtYThlMGVjNzE1OGViXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1000_.jpg"
+        />
+        </Card>
+        <CardContent style={{maxWidth:"170px"}}>
+          <Typography variant="h6" noWrap>Dune asgdiagsiduhaisudhiuahsdihaosiuhdoaish</Typography>
+          {/* <Typography variant="subtitle" noWrap>Description of the movie asdasdasdasdasd asdasd</Typography> 
+        </CardContent>
+      </MenuItem>
+    </Menu> */}
     </div>
   ))
   
@@ -310,7 +367,6 @@ export default function NavigationBar(props) {
               </Avatar>
             </ListItemIcon>
             <ListItemText primary= {displayName}/>
-            {/* <ListItemText primary="Piyush Mishra" /> */}
           </ListItem>
       </List>
       <Divider />
@@ -362,22 +418,11 @@ export default function NavigationBar(props) {
                 MovieNix
               </NavLink>
             </Typography>
-            {/* <Search>
-              <SearchIconWrapper>
-                <SearchIcon style={{ color: "white" }} />
-                </SearchIconWrapper>
-              <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-              style={{ color: "white" }}
-              />
-            </Search> */}
            <Dropdown>
               <Dropdown.Toggle
                 as={CustomToggle}
                 id="dropdown-custom-components"
               >
-                {/* Search */}
               </Dropdown.Toggle>
 
               {searchText && movies ? (

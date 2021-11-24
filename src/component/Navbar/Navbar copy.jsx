@@ -88,8 +88,10 @@ export default function NavigationBar(props) {
   const [movies, setMovies] = useState([])
   const [anchorEl, setAnchorEl] = useState(null);
   const [isTransparent, setTransparent] = useState("false");
+  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [state, setState] = React.useState(false);
   const history = useHistory()
+
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -98,6 +100,8 @@ export default function NavigationBar(props) {
     setState(open);
   };
 
+  
+  
   useEffect(() => {
     const handleScroll = () => {
       const show = window.scrollY > 100;
@@ -115,14 +119,24 @@ export default function NavigationBar(props) {
   }, []);
 
   const isMenuOpen = Boolean(anchorEl);
+  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
   
+  // const handleMobileMenuClose = () => {
+    //   setMobileMoreAnchorEl(null);
+  // };
+  
   const handleMenuClose = () => {
     setAnchorEl(null);
+    // handleMobileMenuClose();
   };
+
+  // const handleMobileMenuOpen = (event) => {
+  //   setMobileMoreAnchorEl(event.currentTarget);
+  // };
 
   const darkTheme = createTheme({
     palette: {
@@ -133,16 +147,6 @@ export default function NavigationBar(props) {
   const logout = () => {
     auth.signOut();
   };
-
-  var displayName, photo;
-
-  if(user){
-    displayName = user.displayName;
-    photo = user.photoURL;
-  }else{
-    displayName = null;
-    photo = null;
-  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -199,12 +203,12 @@ export default function NavigationBar(props) {
         }}
       >
         <Avatar
-            alt= {displayName}
-            src= {photo}
+            alt={user.displayName} 
+            src={user.photoURL} 
             sx={{ width:45, height:45 }}
           >
         </Avatar>
-        <Typography variant="h6" component="div">{displayName}</Typography><br />
+        <Typography variant="h6" component="div">{user.displayName}</Typography><br />
       </Card>
       <Divider />
       <MenuItem onClick={handleMenuClose}>
@@ -303,13 +307,13 @@ export default function NavigationBar(props) {
           <ListItem>
             <ListItemIcon>
               <Avatar
-                  alt={displayName} 
-                  src={photo} 
+                  alt={user.displayName} 
+                  src={user.photoURL} 
                   sx={{ width:45, height:45 }}
                 >
               </Avatar>
             </ListItemIcon>
-            <ListItemText primary= {displayName}/>
+            <ListItemText primary= {user.displayName}/>
             {/* <ListItemText primary="Piyush Mishra" /> */}
           </ListItem>
       </List>
@@ -440,8 +444,8 @@ export default function NavigationBar(props) {
                     color="inherit"
                   >
                     <Avatar
-                      alt={displayName}
-                      src={photo}
+                      alt={user.displayName}
+                      src={user.photoURL}
                       sx={{ width: 30, height: 30 }}
                     ></Avatar>
                     {/* <AccountCircle /> */}

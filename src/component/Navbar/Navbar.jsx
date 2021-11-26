@@ -15,18 +15,13 @@ import {
   Divider,
   ListItemIcon,
   Card,
-  CardMedia,
-  CardContent,
   Drawer,
   List,
   ListItem,
   ListItemText,
 } from '@mui/material';
 import {
-  // Form,
-  // FormControl,
   Dropdown,
-  // NavDropdown,
 } from "react-bootstrap"
 import {
   Logout,
@@ -93,6 +88,15 @@ export default function NavigationBar(props) {
   const [isTransparent, setTransparent] = useState("false");
   const [state, setState] = React.useState(false);
   const history = useHistory()
+  const [dropdownEl, setDropdownEl] = React.useState(null);
+  const dropOpen = Boolean(dropdownEl);
+
+  const handleClick = (event) => {
+    setDropdownEl(event.currentTarget);
+  };
+  const handleDropdownClose = () => {
+    setDropdownEl(null);
+  };
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -118,21 +122,12 @@ export default function NavigationBar(props) {
   }, []);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
   
   const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
     setAnchorEl(null);
   };
 
@@ -226,12 +221,13 @@ export default function NavigationBar(props) {
         <Link to='/profile' className='navbar-link'>Profile</Link>
       </MenuItem>
 
+      <Link to='/library' className='navbar-link'>
       <MenuItem onClick={handleMenuClose}>
         <ListItemIcon>
             <VideoLibraryRounded fontSize="small" />
         </ListItemIcon>
-        <Link to='/library' className='navbar-link'>Library</Link>
-      </MenuItem>
+        Library
+      </MenuItem></Link>
 
       <MenuItem onClick={handleMenuClose}>
         <ListItemIcon>
@@ -273,64 +269,43 @@ export default function NavigationBar(props) {
             placeholder="Search…"
             inputProps={{ "aria-label": "search" }}
             value={searchText}
-            onClick={handleClick}
+            // onClick={handleClick}
             onChange={(e) => {
               setSearchText(e.target.value)
             }}
           />
         </Search>
-      {/* <Form className="d-flex me-auto">
-        <FormControl
-          autoFocus
-          type="search"
-          placeholder="Search..."
-          size="sm"
-          style={{ 
-            backgroundColor: "rgba(255,255,255, 0)",
-            '&:active': {
-              backgroundColor: "rgba(255,255,255, 0.8)",
-            }, 
-            color: "white", 
+        {/* <Menu
+          style={{maxWidth: "500px", overflow: "hidden"}}
+          id="basic-menu"
+          anchorEl={dropdownEl}
+          open={dropOpen}
+          onClose={handleDropdownClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
           }}
-          className="me-1"
-          aria-label="Search"
-          value={searchText}
-          onChange={(e) => {
-            setSearchText(e.target.value)
+          PaperProps={{
+            style: {
+              maxHeight: '400px',
+              // width: '20ch',
+            },
           }}
-        />
-      </Form> */}
+        >
+          <MenuItem onClick={handleDropdownClose} style={{width:"300px"}}>
+            <Card style={{maxWidth:"100px"}}>
+            <CardMedia
+              component="img"
+              height="100"
+              src="https://m.media-amazon.com/images/M/MV5BN2FjNmEyNWMtYzM0ZS00NjIyLTg5YzYtYThlMGVjNzE1OGViXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1000_.jpg"
+            />
+            </Card>
+            <CardContent style={{maxWidth:"170px"}}>
+              <Typography variant="h6" noWrap>Dune asgdiagsiduhaisudhiuahsdihaosiuhdoaish</Typography>
+              <Typography variant="subtitle" noWrap>Description of the movie asdasdasdasdasd asdasd</Typography>
+            </CardContent>
+          </MenuItem>
+        </Menu> */}
       {children}
-    {/* <Menu
-      style={{maxWidth: "500px", overflow: "hidden"}}
-      id="basic-menu"
-      anchorEl={anchorEl}
-      open={isOpen}
-      onClose={handleClose}
-      MenuListProps={{
-        'aria-labelledby': 'basic-button',
-      }}
-      PaperProps={{
-        style: {
-          maxHeight: '400px',
-          // width: '20ch',
-        },
-      }}
-    >
-      <MenuItem onClick={handleClose} style={{width:"300px"}}>
-        <Card style={{maxWidth:"100px"}}>
-        <CardMedia
-          component="img"
-          height="100"
-          src="https://m.media-amazon.com/images/M/MV5BN2FjNmEyNWMtYzM0ZS00NjIyLTg5YzYtYThlMGVjNzE1OGViXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1000_.jpg"
-        />
-        </Card>
-        <CardContent style={{maxWidth:"170px"}}>
-          <Typography variant="h6" noWrap>Dune asgdiagsiduhaisudhiuahsdihaosiuhdoaish</Typography>
-          {/* <Typography variant="subtitle" noWrap>Description of the movie asdasdasdasdasd asdasd</Typography> 
-        </CardContent>
-      </MenuItem>
-    </Menu> */}
     </div>
   ))
   
@@ -427,16 +402,53 @@ export default function NavigationBar(props) {
 
               {searchText && movies ? (
                 <Dropdown.Menu align="end">
-                  <Dropdown.Item
+                  <MenuItem 
+                    onClick={() => {
+                      handleDropdownClose(); 
+                      window.location = `/movie/${movies[0].id}`
+                    }} 
+                    style={{width:"300px"}}
                     eventkey="1"
-                    onKeyDown={(e) => {
-                      e.key === "Enter" &&
-                        (window.location = `/movie/${movies[0].id}`)
-                    }}
+                    // onKeyDown={(e) => {
+                    //   e.key === "Enter" &&
+                    //     (window.location = `/movie/${movies[0].id}`)
+                    // }}
                   >
                     {searchText && search(movies[0])}
-                  </Dropdown.Item>
-                  <Dropdown.Item
+                  </MenuItem>
+                  <MenuItem 
+                    style={{width:"300px"}}
+                    eventkey="2"
+                    onClick={() => {
+                      handleDropdownClose(); 
+                      window.location = `/movie/${movies[1].id}`
+                    }} 
+                  >
+                    {searchText && search(movies[1])}
+                  </MenuItem>
+                  <MenuItem 
+                    style={{width:"300px"}}
+                    eventkey="3"
+                    onClick={() => {
+                      handleDropdownClose(); 
+                      window.location = `/movie/${movies[2].id}`
+                    }} 
+                  >
+                    {searchText && search(movies[2])}
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem 
+                    onClick={handleDropdownClose} 
+                    style={{width:"300px"}}
+                    eventkey="4"
+                    onKeyDown={(e) => {
+                      e.key === "Enter" && (history.push({pathname: '/search', state: {search : searchText}}))
+                    }}
+                  >
+                    {searchText && <Link to={{pathname:'/search', state: {search: searchText}}}>View More...</Link>}
+                  </MenuItem>
+
+                  {/* <Dropdown.Item
                     eventkey="2"
                     onKeyDown={(e) => {
                       e.key === "Enter" &&
@@ -453,9 +465,9 @@ export default function NavigationBar(props) {
                     }}
                   >
                     {searchText && search(movies[2])}
-                  </Dropdown.Item>
+                  </Dropdown.Item> */}
                   {/* <Dropdown.Item eventkey="2">{searchText && search(movies[2])}</Dropdown.Item> */}
-                  <Dropdown.Divider />
+                  {/* <Dropdown.Divider />
                   <Dropdown.Item
                     eventkey="4"
                     onKeyDown={(e) => {
@@ -463,11 +475,17 @@ export default function NavigationBar(props) {
                     }}
                   >
                     {searchText && <Link to={{pathname:'/search', state: {search: searchText}}}>View more...</Link>}
-                  </Dropdown.Item>
+                  </Dropdown.Item> */}
+                {/* </Dropdown.Menu> */}
                 </Dropdown.Menu>
               ) : (
                 <Dropdown.Menu>
-                  <Dropdown.Item>No related content</Dropdown.Item>
+                  <MenuItem 
+                    onClick={handleDropdownClose} 
+                    style={{width:"300px"}}
+                  >
+                    No related content
+                  </MenuItem>
                 </Dropdown.Menu>
               )}
             </Dropdown>

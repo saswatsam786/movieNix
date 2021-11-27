@@ -36,7 +36,7 @@ export default function Search(movie) {
                 src={"https://image.tmdb.org/t/p/original" + movie.poster_path}
               />
             </Card>
-            <CardContent style={{maxWidth:"170px"}}>
+            <CardContent style={{maxWidth:"200px"}}>
               <Typography variant="h6" noWrap>{movie.title || movie.name}</Typography>
             </CardContent>
           </>

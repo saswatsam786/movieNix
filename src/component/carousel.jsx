@@ -4,8 +4,7 @@ import Carousel from "react-bootstrap/Carousel";
 
 export default function HomeCarousel() {
   const [movies, setMovies] = useState([]);
-  const upcoming =
-    "https://api.themoviedb.org/3/movie/upcoming?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b&language=en-US&page=1";
+  const upcoming = `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}&language=en-US&page=1`;
 
   useEffect(() => {
     async function getMovies() {

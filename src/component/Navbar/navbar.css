@@ -12,3 +12,10 @@
 .navbar-solid {
   background-color: rgba(11, 9, 16, 1) !important;
 }
+
+@media (min-width: 600px){
+  .mobile-search-icon{
+    /* justify-content: flex-end; */
+    visibility: hidden !important;
+  }
+}

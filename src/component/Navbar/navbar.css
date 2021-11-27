@@ -19,3 +19,17 @@
     visibility: hidden !important;
   }
 }
+
+@media (max-width: 600px){
+  .search-bar{
+    visibility: none !important;
+  }
+}
+
+.dropdown-custom{
+  color: white !important;
+  background-color: rgb(47, 47, 47) !important;
+}
+.dropdown-custom::hover{
+  background-color: rgb(63, 63, 63) !important;
+}

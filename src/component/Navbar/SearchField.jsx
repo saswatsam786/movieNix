@@ -70,12 +70,14 @@ export default function SearchField(props){
     };
     const handleClose = () => {
         setAnchorEl(null);
+        setSearchText("");
     };
     const handleMobileClick = (event) => {
         setMobileEl(event.currentTarget);
     };
     const handleMobileClose = () => {
         setMobileEl(null);
+        setSearchText("");
     };
     
     const fetchSearch = async () => {

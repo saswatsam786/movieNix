@@ -6,19 +6,30 @@ export default function HomeCarousel() {
   const [movies, setMovies] = useState([]);
   const upcoming =
     "https://api.themoviedb.org/3/movie/upcoming?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b&language=en-US&page=1";
+
   useEffect(() => {
     async function getMovies() {
       const request = await axios.get(upcoming);
       setMovies(request.data.results.slice(0, 5));
     }
     getMovies();
-  }, []);
+  }, [upcoming]);
 
   return (
-    <Carousel fade style={{ width: "97vw", margin: "0 auto" }}>
+    <Carousel
+      fade
+      style={{ width: "97vw", margin: "0 auto", marginTop: "5px" }}
+    >
       {movies.map((movie) => {
         return (
-          <Carousel.Item Intervel={500}>
+          <Carousel.Item
+            interval={2500}
+            key={movie.id}
+            onClick={() => {
+              window.location = `/movie/${movie.id}`;
+            }}
+            style={{ cursor: "pointer" }}
+          >
             <img
               className="d-block w-100"
               src={"https://image.tmdb.org/t/p/original" + movie.backdrop_path}
@@ -37,7 +48,7 @@ export default function HomeCarousel() {
               }}
             >
               <h1>{movie.original_title}</h1>
-              <br/>
+              <br />
               {/* <p>{movie.overview}</p> */}
             </Carousel.Caption>
           </Carousel.Item>

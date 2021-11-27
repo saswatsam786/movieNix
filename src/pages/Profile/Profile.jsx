@@ -1,12 +1,12 @@
 // eslint-disable-next-line
 import { Button, Card, ListGroup, ListGroupItem } from "react-bootstrap";
-import React, { useState, useEffect,useHistory } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
 import Home from "../Home/Home";
 // eslint-disable-next-line
 import axios, { Axios } from "axios";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory } from "react-router-dom";
 import "./profile.css";
 
 export default function Profile() {

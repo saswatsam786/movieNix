@@ -7,6 +7,7 @@ const {
   AccountBalanceQuery,
   Hbar,
   TransferTransaction,
+  AccountDeleteTransaction
 } = require("@hashgraph/sdk");
 
 require("dotenv").config();
@@ -150,6 +151,37 @@ async function main() {
       console.log(error);
     }
   });
+
+  app.post("/delacc", async (req, res) => {
+    try {
+      const id = req.body.id
+      const key = req.body.key
+      let privatekey = PrivateKey.fromString(key)
+      console.log(id)
+      const client = Client.forTestnet()
+      client.setOperator(id, privatekey)
+      const transaction = await new AccountDeleteTransaction()
+        .setAccountId(id)
+        .setTransferAccountId(myAccountId)
+        .freezeWith(client)
+      //Sign the transaction with the account key
+      const signTx = await transaction.sign(privatekey)
+      //Sign with the client operator private key and submit to a Hedera network
+      const txResponse = await signTx.execute(client)
+      //Request the receipt of the transaction
+      const receipt = await txResponse.getReceipt(client)
+      //Get the transaction consensus status
+      const transactionStatus = receipt.status
+      console.log("The transaction consensus status is " + transactionStatus)
+
+      res.status(200).json({
+        success: 'deleted re baba'
+      })
+    
+    } catch (error) {
+      console.log(error)
+    }
+  })
 }
 main();
 

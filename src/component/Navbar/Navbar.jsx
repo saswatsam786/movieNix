@@ -19,11 +19,7 @@ import {
   ListItem,
   ListItemText,
 } from '@mui/material';
-import {
-  Logout,
-  AccountCircle,
-  VideoLibraryRounded
-} from '@mui/icons-material'
+import { Logout, AccountCircle, VideoLibraryRounded } from '@mui/icons-material'
 import { ThemeProvider } from '@emotion/react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, NavLink } from 'react-router-dom';
@@ -178,21 +174,6 @@ export default function NavigationBar(props) {
 
     </Menu>
   );
-
-  // const CustomMenu = React.forwardRef(
-  //   ({ children, style, className, "aria-labelledby": labeledBy }, ref) => {
-  //     return (
-    //       <div
-  //         ref={ref}
-  //         style={style}
-  //         className={className}
-  //         aria-labelledby={labeledBy}
-  //       >
-  //         {searchText && search(movies[0])}
-  //       </div>
-  //     )
-  //   }
-  // )
     
   const list = () => (
     <Box

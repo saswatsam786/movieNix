@@ -2,12 +2,11 @@ import React, {useState, useEffect} from 'react'
 import { styled, alpha } from "@mui/material/styles"
 import {
     InputBase,
-    Menu,
     MenuItem,
     IconButton,
-    Divider
+    Divider,
+    Popover
 } from '@mui/material'
-import { Dropdown } from "react-bootstrap"
 import SearchIcon from '@mui/icons-material/Search'
 import search from "../../pages/Search/Searchfunc"
 import { Link, useHistory } from 'react-router-dom'
@@ -92,36 +91,9 @@ export default function SearchField(props){
         // eslint-disable-next-line
     }, [searchText])
       
-    const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-        <div
-          ref={ref}
-          onClick={(e) => {
-            e.preventDefault()
-              onClick(e)
-          }}
-        >
-            <Search sx={{display: { xs: 'none', sm: 'flex' }}}>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                autoFocus
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-                value={searchText}
-                // onClick={handleClick}
-                onChange={(e) => {
-                  setSearchText(e.target.value)
-                }}
-              />
-            </Search>
-          {children}
-        </div>
-    ))
-
     const dropdownId = "basic-menu"
     const renderMobileDropdown = (
-            <Menu
+            <Popover
                 id="basic-menu"
                 anchorEl={mobileEl}
                 open={mobileOpen}
@@ -132,11 +104,15 @@ export default function SearchField(props){
                 disableAutoFocus={true}
                 disableEnforceFocus={true}
             >
-                <Search autoFocus>
+                <Search 
+                  autoFocus
+                  sx={{margin: '10px'}}
+                >
                   <SearchIconWrapper>
                     <SearchIcon />
                   </SearchIconWrapper>
                   <StyledInputBase
+                    sx={{ p: 1}}
                     autoFocus
                     placeholder="Search…"
                     inputProps={{ "aria-label": "search" }}
@@ -149,17 +125,19 @@ export default function SearchField(props){
                 {searchText && movies ? (
                   <>
                     <MenuItem 
+                      sx={{ p: 1 }}
                       onClick={() => {
                         handleMobileClose(); 
                         window.location = `/movie/${movies[0].id}`
                       }} 
-                      style={{width:"330px"}}
+                      style={{width:"300px"}}
                       eventkey="1"
                     >
                       {searchText && search(movies[0])}
                     </MenuItem>
                     <MenuItem 
-                      style={{width:"330px"}}
+                      sx={{ p: 1 }}
+                      style={{width:"300px"}}
                       eventkey="2"
                       onClick={() => {
                         handleMobileClose(); 
@@ -169,7 +147,8 @@ export default function SearchField(props){
                       {searchText && search(movies[1])}
                     </MenuItem>
                     <MenuItem 
-                      style={{width:"330px"}}
+                      sx={{ p: 1 }}
+                      style={{width:"300px"}}
                       eventkey="3"
                       onClick={() => {
                         handleMobileClose(); 
@@ -180,8 +159,9 @@ export default function SearchField(props){
                     </MenuItem>
                     <Divider />
                     <MenuItem 
+                      sx={{ p: 1 }}
                       onClick={handleMobileClose} 
-                      style={{width:"330px"}}
+                      style={{width:"300px"}}
                       eventkey="4"
                       onKeyDown={(e) => {
                         e.key === "Enter" && (history.push({pathname: '/search', state: {search : searchText}}))
@@ -192,133 +172,118 @@ export default function SearchField(props){
                     </>
                 ) : (
                     <MenuItem 
+                      sx={{ p: 1 }}
                       onClick={handleMobileClose} 
                       style={{width:"300px"}}
                     >
                       No results
                     </MenuItem>
                 )}    
-                </Menu>
+                </Popover>
     );
 
     return(
-        <>
-            <Dropdown
-              className='search-bar'
-              aria-controls={dropdownId}
-              aria-label="search"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={handleClick}
+        <div>
+            <Search 
+              sx={{display: { xs: 'none', sm: 'flex' }}}
             >
-              <Dropdown.Toggle
-                as={CustomToggle}
-                id="dropdown-custom-components"
-              >
-              </Dropdown.Toggle>
+               <SearchIconWrapper>
+                 <SearchIcon />
+               </SearchIconWrapper>
+               <StyledInputBase
+                  autoFocus
+                  placeholder="Search…"
+                  inputProps={{ "aria-label": "search" }}
+                  value={searchText}
+                  onClick={handleClick}
+                  onChange={(e) => {
+                    setSearchText(e.target.value)
+                  }}
+                />
+            </Search>
 
-              {searchText && movies ? (
-                <Menu
-                  // className="dropdown-custom"
-                  disableAutoFocus={true}
-                  disableEnforceFocus={true}
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                  'aria-labelledby': 'basic-button',
+            <Popover
+              disableAutoFocus={true}
+              disableEnforceFocus={true}
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              // MenuListProps={{
+              // 'aria-labelledby': 'basic-button',
+              // }}
+            >
+            {searchText && movies ? (
+              <>
+                <MenuItem  
+                  sx={{ p: 2 }}
+                  onClick={() => {
+                    handleClose(); 
+                    window.location = `/movie/${movies[0].id}`
+                  }} 
+                  style={{width:"300px"}}
+                  eventkey="1"
+                  // onKeyDown={(e) => {
+                  //   e.key === "Enter" &&
+                  //     (window.location = `/movie/${movies[0].id}`)
+                  // }}
+                >
+                  {searchText && search(movies[0])}
+                </MenuItem>
+                <MenuItem 
+                  sx={{ p: 2 }}
+                  style={{width:"300px"}}
+                  eventkey="2"
+                  onClick={() => {
+                    handleClose(); 
+                    window.location = `/movie/${movies[1].id}`
+                  }} 
+                >
+                  {searchText && search(movies[1])}
+                </MenuItem>
+                <MenuItem 
+                  sx={{ p: 2 }}
+                  style={{width:"300px"}}
+                  eventkey="3"
+                  onClick={() => {
+                    handleClose(); 
+                    window.location = `/movie/${movies[2].id}`
+                  }} 
+                >
+                  {searchText && search(movies[2])}
+                </MenuItem>
+                <Divider />
+                <MenuItem 
+                  sx={{ p: 2 }}
+                  onClick={handleClose} 
+                  style={{width:"300px"}}
+                  eventkey="4"
+                  onKeyDown={(e) => {
+                    e.key === "Enter" && (history.push({pathname: '/search', state: {search : searchText}}))
                   }}
                 >
-                  <MenuItem 
-                    onClick={() => {
-                      handleClose(); 
-                      window.location = `/movie/${movies[0].id}`
-                    }} 
-                    style={{width:"300px"}}
-                    eventkey="1"
-                    // onKeyDown={(e) => {
-                    //   e.key === "Enter" &&
-                    //     (window.location = `/movie/${movies[0].id}`)
-                    // }}
-                  >
-                    {searchText && search(movies[0])}
-                  </MenuItem>
-                  <MenuItem 
-                    style={{width:"300px"}}
-                    eventkey="2"
-                    onClick={() => {
-                      handleClose(); 
-                      window.location = `/movie/${movies[1].id}`
-                    }} 
-                  >
-                    {searchText && search(movies[1])}
-                  </MenuItem>
-                  <MenuItem 
-                    style={{width:"300px"}}
-                    eventkey="3"
-                    onClick={() => {
-                      handleClose(); 
-                      window.location = `/movie/${movies[2].id}`
-                    }} 
-                  >
-                    {searchText && search(movies[2])}
-                  </MenuItem>
-                  <Divider />
-                  <MenuItem 
-                    onClick={handleClose} 
-                    style={{width:"300px"}}
-                    eventkey="4"
-                    onKeyDown={(e) => {
-                      e.key === "Enter" && (history.push({pathname: '/search', state: {search : searchText}}))
-                    }}
-                  >
-                    {searchText && <Link to={{pathname:'/search', state: {search: searchText}}} className='navbar-link'>View More</Link>}
-                  </MenuItem>
-
-                  {/* <Dropdown.Item
-                    eventkey="2"
-                    onKeyDown={(e) => {
-                      e.key === "Enter" &&
-                        (window.location = `/movie/${movies[1].id}`)
-                    }}
-                  >
-                    {searchText && search(movies[1])}
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    eventkey="3"
-                    onKeyDown={(e) => {
-                      e.key === "Enter" &&
-                        (window.location = `/movie/${movies[2].id}`)
-                    }}
-                  >
-                    {searchText && search(movies[2])}
-                  </Dropdown.Item>
-                  {/* <Dropdown.Item eventkey="2">{searchText && search(movies[2])}</Dropdown.Item>
-                  <Dropdown.Divider />
-                  <Dropdown.Item
-                    eventkey="4"
-                    onKeyDown={(e) => {
-                      e.key === "Enter" && (history.push({pathname: '/search', state: {search : searchText}}))
-                    }}
-                  >
-                    {searchText && <Link to={{pathname:'/search', state: {search: searchText}}}>View more...</Link>}
-                  </Dropdown.Item> */}
-                {/* </Dropdown.Menu> */}
-              </Menu>
+                  {searchText && <Link to={{pathname:'/search', state: {search: searchText}}} className='navbar-link'>View More</Link>}
+                </MenuItem>
+              </>
               ) : (
-                <Dropdown.Menu className="dropdown-custom">
                   <MenuItem 
+                    sx={{ p: 2 }}
                     onClick={handleClose} 
                     style={{width:"300px"}}
                   >
                     No results
                   </MenuItem>
-                </Dropdown.Menu>
               )}
-            </Dropdown>
+            </Popover>
             <IconButton 
-              // className='mobile-search-icon'
               sx={{display: { xs: 'flex', sm: 'none' }}}
               size="large" 
               aria-controls={dropdownId}
@@ -330,6 +295,6 @@ export default function SearchField(props){
               <SearchIcon style={{color: "white"}} />
             </IconButton>
             {renderMobileDropdown}
-        </>
+        </div>
     );
 }

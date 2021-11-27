@@ -1,6 +1,7 @@
 import { Modal, Button } from "react-bootstrap";
-import { useState, useRef } from "react";
-import YouTube from "react-youtube";
+import { useState, useRef, useEffect } from "react";
+// import YouTube from "react-youtube";
+import ReactPlayer from "react-player"
 import { auth } from "../../firebase";
 import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -8,21 +9,27 @@ import { useAuthState } from "react-firebase-hooks/auth";
 export default function VideoModal(props) {
   const [show, setShow] = useState(false);
   const [user, loading] = useAuthState(auth);
+  const [duration, setDuration] = useState()
 
   const bodyRef = useRef(null);
 
-  function _onReady(event) {
-    event.target.pauseVideo();
-  }
+  // useEffect(() => {
+  //   const variable = playerRef.getDuration()
+  //   console.log(variable);
+  // }, [])
 
-  const opts = {
-    height: "620",
-    width: "1105",
-    playerVars: {
-      // https://developers.google.com/youtube/player_parameters
-      autoplay: 1,
-    },
-  };
+  // function _onReady(event) {
+  //   event.target.pauseVideo();
+  // }
+
+  // const opts = {
+  //   height: "620",
+  //   width: "1105",
+  //   playerVars: {
+  //     // https://developers.google.com/youtube/player_parameters
+  //     autoplay: 1,
+  //   },
+  // };
 
   return (
     <>
@@ -38,7 +45,7 @@ export default function VideoModal(props) {
 
       <Modal
         size="xl"
-        // style={{height: "95vh", width: '100vw'}}
+        // style={{height: "auto", width: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center'}}
         centered={true}
         show={show}
         onHide={() => setShow(false)}
@@ -49,7 +56,7 @@ export default function VideoModal(props) {
             <Modal.Title id="example-custom-modal-styling-title">
               Custom Modal Styling
             </Modal.Title>
-          </Modal.Header> */}
+        </Modal.Header> */}
         <Modal.Body
           ref={bodyRef}
           style={{
@@ -57,10 +64,21 @@ export default function VideoModal(props) {
             display: "flex",
             justifyContent: "center",
             height: "fit-content",
-            width: "fit-content",
+            width: "auto",
           }}
         >
-          <YouTube videoId={props.videoKey} opts={opts} onReady={_onReady} />
+          <ReactPlayer 
+            playing={true}
+            controls={true}
+            ref={p => {setDuration(p)}}
+            width="100vw"
+            height="80vh"
+            url={`https://www.youtube.com/watch?v=${props.videoKey}`} 
+          />
+          
+          <button onClick={() => console.log(duration.getCurrentTime())}>getCurrentTime</button>
+
+          {/* <YouTube videoId={props.videoKey} opts={opts} onReady={_onReady} /> */}
         </Modal.Body>
       </Modal>
     </>

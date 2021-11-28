@@ -1,6 +1,6 @@
 //eslint-disable-next-line
 import { createTheme } from "@mui/material/styles";
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Box,
@@ -18,14 +18,18 @@ import {
   List,
   ListItem,
   ListItemText,
-} from '@mui/material';
-import { Logout, AccountCircle, VideoLibraryRounded } from '@mui/icons-material'
-import { ThemeProvider } from '@emotion/react';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Link, NavLink } from 'react-router-dom';
-import { auth } from "../../firebase"
-import { useAuthState } from "react-firebase-hooks/auth"
-import './navbar.css';
+} from "@mui/material";
+import {
+  Logout,
+  AccountCircle,
+  VideoLibraryRounded,
+} from "@mui/icons-material";
+import { ThemeProvider } from "@emotion/react";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Link, NavLink } from "react-router-dom";
+import { auth } from "../../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import "./navbar.css";
 import SearchField from "./SearchField";
 
 export default function NavigationBar(props) {
@@ -35,7 +39,10 @@ export default function NavigationBar(props) {
   const [state, setState] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
     setState(open);
@@ -62,7 +69,7 @@ export default function NavigationBar(props) {
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  
+
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -79,10 +86,10 @@ export default function NavigationBar(props) {
 
   var displayName, photo;
 
-  if(user){
+  if (user) {
     displayName = user.displayName;
     photo = user.photoURL;
-  }else{
+  } else {
     displayName = null;
     photo = null;
   }
@@ -90,91 +97,97 @@ export default function NavigationBar(props) {
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
-        aria-labelledby="demo-positioned-button"
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        id={menuId}
-        keepMounted
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        PaperProps={{
-          elevation: 1,
-          sx: {
-            width: 250,
-            overflow: 'visible',
-            alignItems: 'center',
-            justifyContent: 'center',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            mt: 1.5,
-            '& .MuiAvatar-root': {
-              ml: -0.5,
-              mr: 1,
-            },
-            '&:before': {
-              content: '""',
-              display: 'block',
-              position: 'absolute',
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
-              zIndex: 0,
-            },
+      aria-labelledby="demo-positioned-button"
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      PaperProps={{
+        elevation: 1,
+        sx: {
+          width: 250,
+          overflow: "visible",
+          alignItems: "center",
+          justifyContent: "center",
+          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+          mt: 1.5,
+          "& .MuiAvatar-root": {
+            ml: -0.5,
+            mr: 1,
           },
-        }}
-        onClose={handleMenuClose}
-        open={isMenuOpen}
+          "&:before": {
+            content: '""',
+            display: "block",
+            position: "absolute",
+            top: 0,
+            right: 14,
+            width: 10,
+            height: 10,
+            bgcolor: "background.paper",
+            transform: "translateY(-50%) rotate(45deg)",
+            zIndex: 0,
+          },
+        },
+      }}
+      onClose={handleMenuClose}
+      open={isMenuOpen}
     >
       <Card
         style={{
-          maxWidth: '250px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '5px'
+          maxWidth: "250px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "5px",
         }}
       >
         <Avatar
-            alt= {displayName}
-            src= {photo}
-            sx={{ width:45, height:45 }}
-          >
-        </Avatar>
-        <Typography variant="h6" component="div">{displayName}</Typography><br />
+          alt={displayName}
+          src={photo}
+          sx={{ width: 45, height: 45 }}
+        ></Avatar>
+        <Typography variant="h6" component="div">
+          {displayName}
+        </Typography>
+        <br />
       </Card>
       <Divider />
       <MenuItem onClick={handleMenuClose}>
         <ListItemIcon>
-            <AccountCircle fontSize="small" />
+          <AccountCircle fontSize="small" />
         </ListItemIcon>
-        <Link to='/profile' className='navbar-link'>Profile</Link>
+        <Link to="/profile" className="navbar-link">
+          Profile
+        </Link>
       </MenuItem>
 
-      <Link to='/library' className='navbar-link'>
-      <MenuItem onClick={handleMenuClose}>
-        <ListItemIcon>
+      <Link to="/library" className="navbar-link">
+        <MenuItem onClick={handleMenuClose}>
+          <ListItemIcon>
             <VideoLibraryRounded fontSize="small" />
-        </ListItemIcon>
-        Library
-      </MenuItem></Link>
+          </ListItemIcon>
+          Library
+        </MenuItem>
+      </Link>
 
       <MenuItem onClick={handleMenuClose}>
         <ListItemIcon>
-            <Logout fontSize="small" />
+          <Logout fontSize="small" />
         </ListItemIcon>
-        <Link to='/' className='navbar-link' onClick={logout}>Logout</Link>
+        <Link to="/" className="navbar-link" onClick={logout}>
+          Logout
+        </Link>
       </MenuItem>
-
     </Menu>
   );
-    
+
   const list = () => (
     <Box
       sx={{ width: 250 }}
@@ -183,44 +196,43 @@ export default function NavigationBar(props) {
       // onKeyDown={toggleDrawer(false)}
     >
       <List>
-          <ListItem>
-            <ListItemIcon>
-              <Avatar
-                  alt={displayName} 
-                  src={photo} 
-                  sx={{ width:45, height:45 }}
-                >
-              </Avatar>
-            </ListItemIcon>
-            <ListItemText primary= {displayName}/>
-          </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <Avatar
+              alt={displayName}
+              src={photo}
+              sx={{ width: 45, height: 45 }}
+            ></Avatar>
+          </ListItemIcon>
+          <ListItemText primary={displayName} />
+        </ListItem>
       </List>
       <Divider />
       <List>
-          <Link to='/profile' className='navbar-link'>
-            <ListItem button>
+        <Link to="/profile" className="navbar-link">
+          <ListItem button>
             <ListItemIcon>
-                <AccountCircle />
+              <AccountCircle />
             </ListItemIcon>
-              <ListItemText primary= "Profile"/>
-            </ListItem>
-          </Link>
-          <Link to='/library' className='navbar-link'>
-            <ListItem button>
+            <ListItemText primary="Profile" />
+          </ListItem>
+        </Link>
+        <Link to="/library" className="navbar-link">
+          <ListItem button>
             <ListItemIcon>
-                <VideoLibraryRounded/>
+              <VideoLibraryRounded />
             </ListItemIcon>
-              <ListItemText primary= "Library"/>
-            </ListItem>
-          </Link>
-          <Link to='/' className='navbar-link'>
-            <ListItem button onClick={logout}>
+            <ListItemText primary="Library" />
+          </ListItem>
+        </Link>
+        <Link to="/" className="navbar-link">
+          <ListItem button onClick={logout}>
             <ListItemIcon>
-                <Logout />
+              <Logout />
             </ListItemIcon>
-              <ListItemText primary= "Logout"/>
-            </ListItem>
-          </Link>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </Link>
       </List>
     </Box>
   );
@@ -245,7 +257,7 @@ export default function NavigationBar(props) {
               </NavLink>
             </Typography>
             {/* <Box sx={{ flexGrow: 1 }} /> */}
-            <SearchField />
+            {window.location.pathname !== "/profile" && <SearchField />}
             {user ? (
               <>
                 <Box sx={{ display: { xs: "none", sm: "flex" } }}>
@@ -266,26 +278,26 @@ export default function NavigationBar(props) {
                     {/* <AccountCircle /> */}
                   </IconButton>
                 </Box>
-                <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
-                <IconButton
-                  size="large"
-                  aria-label="show more"
-                  // aria-controls={mobileMenuId}
-                  aria-haspopup="true"
-                  // onClick={handleMobileMenuOpen}
-                  onClick={toggleDrawer(true)}
-                  color="inherit"
-                >
-                <MenuIcon style={{color: 'white'}}/>
-                </IconButton>
-                <Drawer
-                  anchor="right"
-                  open={state}
-                  onClose={toggleDrawer(false)}
-                >
-                  {list()}
-              </Drawer> 
-              </Box>
+                <Box sx={{ display: { xs: "flex", sm: "none" } }}>
+                  <IconButton
+                    size="large"
+                    aria-label="show more"
+                    // aria-controls={mobileMenuId}
+                    aria-haspopup="true"
+                    // onClick={handleMobileMenuOpen}
+                    onClick={toggleDrawer(true)}
+                    color="inherit"
+                  >
+                    <MenuIcon style={{ color: "white" }} />
+                  </IconButton>
+                  <Drawer
+                    anchor="right"
+                    open={state}
+                    onClose={toggleDrawer(false)}
+                  >
+                    {list()}
+                  </Drawer>
+                </Box>
               </>
             ) : (
               <Button color="inherit">
@@ -294,9 +306,9 @@ export default function NavigationBar(props) {
                 </NavLink>
               </Button>
             )}
-        </Toolbar>
-      </AppBar>
-      {renderMenu}
+          </Toolbar>
+        </AppBar>
+        {renderMenu}
       </ThemeProvider>
     </Box>
   );

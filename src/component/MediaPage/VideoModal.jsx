@@ -5,31 +5,57 @@ import ReactPlayer from "react-player";
 import { auth } from "../../firebase";
 import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
+import axios from "axios";
 
 export default function VideoModal(props) {
   const [show, setShow] = useState(false);
   const [user, loading] = useAuthState(auth);
-  const [duration, setDuration] = useState();
+  const [duration, setDuration] = useState(0);
+  const [time, setTime] = useState(0);
+  const [accbal, setAccbal] = useState("");
+  const [display, setDisplay] = useState(false);
 
   const bodyRef = useRef(null);
+  const handleClose = () => setShow(false);
 
-  // useEffect(() => {
-  //   const variable = playerRef.getDuration()
-  //   console.log(variable);
-  // }, [])
+  useEffect(() => {
+    async function fetchData() {
+      let data = await axios.post(`http://localhost:8000/balance`, {
+        id: props.accid,
+        key: props.privatekey,
+      });
+      console.log(data.data.data.balance._valueInTinybar);
+      setAccbal(data.data.data.balance._valueInTinybar / 100000000);
+    }
+    fetchData();
+  }, [display === true]);
 
-  // function _onReady(event) {
-  //   event.target.pauseVideo();
-  // }
+  const getWatchTime = () => {
+    if (duration.getCurrentTime() > time) {
+      setTime(
+        Math.round((duration.getCurrentTime() + Number.EPSILON) * 100) / 100
+      );
+    }
+    console.log(time);
+    console.log(duration.getCurrentTime());
+  };
 
-  // const opts = {
-  //   height: "620",
-  //   width: "1105",
-  //   playerVars: {
-  //     // https://developers.google.com/youtube/player_parameters
-  //     autoplay: 1,
-  //   },
-  // };
+  const totalMoney = async () => {
+    setDisplay(true);
+    setShow(false);
+    console.log(time, props.accid, props.privatekey);
+    let data = await axios.post(`http://localhost:8000/transferMoney`, {
+      id: props.accid,
+      key: props.privatekey,
+      amount: Math.round((time * 0.01 + Number.EPSILON) * 100) / 100,
+    });
+  };
+
+  const finalPayment = () => {
+    setDisplay(false);
+    setDuration(0);
+    setTime(0);
+  };
 
   return (
     <>
@@ -42,13 +68,67 @@ export default function VideoModal(props) {
           <Button variant="light">Log In</Button>
         </Link>
       )}
-
+      {console.log(show)}
+      <Modal show={display} onHide={() => setDisplay(false)} centered>
+        <Modal.Body>
+          <p>
+            <strong>Amount deducted for watching this movie</strong>
+          </p>
+          <ul
+            style={{
+              listStyle: "none",
+              position: "relative",
+              margin: "0 5px",
+              padding: "0",
+            }}
+          >
+            <li>
+              Current balance:{" "}
+              <span style={{ position: "absolute", right: "0" }}>
+                {Math.round((accbal + Number.EPSILON) * 100) / 100} hbar
+              </span>
+              <hr style={{ margin: "5px 0" }} />
+            </li>
+            <li>
+              Seconds watched:{" "}
+              <span style={{ position: "absolute", right: "0" }}>
+                {time} secs
+              </span>
+              <hr style={{ margin: "5px 0" }} />
+            </li>
+            <li>
+              Cost:{" "}
+              <span style={{ position: "absolute", right: "0" }}>
+                {Math.round((time * 0.01 + Number.EPSILON) * 100) / 100} hbar
+              </span>
+              <hr style={{ margin: "5px 0" }} />
+            </li>
+            <li>
+              Balance after purchase:{" "}
+              <span style={{ position: "absolute", right: "0" }}>
+                {Math.round((accbal - time * 0.01 + Number.EPSILON) * 100) /
+                  100}
+                hbar
+              </span>
+              <hr style={{ margin: "5px 0" }} />
+            </li>
+          </ul>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-dark" onClick={finalPayment}>
+            OK
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Modal
         size="xl"
         // style={{height: "auto", width: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center'}}
         centered={true}
         show={show}
-        onHide={() => setShow(false)}
+        onHide={() => {
+          getWatchTime();
+          totalMoney();
+        }}
         dialogClassName="modal-90w"
         aria-labelledby="example-custom-modal-styling-title"
       >
@@ -73,16 +153,11 @@ export default function VideoModal(props) {
             ref={(p) => {
               setDuration(p);
             }}
+            onPause={() => getWatchTime()}
             width="100vw"
             height="80vh"
             url={`https://www.youtube.com/watch?v=${props.videoKey}`}
           />
-
-          <button onClick={() => console.log(duration.getCurrentTime())}>
-            getCurrentTime
-          </button>
-
-          {/* <YouTube videoId={props.videoKey} opts={opts} onReady={_onReady} /> */}
         </Modal.Body>
       </Modal>
     </>

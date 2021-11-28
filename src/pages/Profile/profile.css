@@ -5,3 +5,23 @@
 .avatar-pfp{
     border-radius: 100%;
 }
+.card-profile{
+    height: auto !important;
+}
+@media (max-width: 635px){
+    .avatar-media{
+        width: 100px !important;
+        height:  100px !important;
+        padding: 0px auto !important;
+    }
+    .heading-list{
+        font-size: 2rem !important;
+        line-height: 200% !important;
+    }
+    .listtext{
+        text-align: center
+    }
+    .card-profile{
+        height: auto !important;
+    }
+}

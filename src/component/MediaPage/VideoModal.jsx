@@ -1,7 +1,7 @@
 import { Modal, Button } from "react-bootstrap";
 import { useState, useRef, useEffect } from "react";
 // import YouTube from "react-youtube";
-import ReactPlayer from "react-player"
+import ReactPlayer from "react-player";
 import { auth } from "../../firebase";
 import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -9,7 +9,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 export default function VideoModal(props) {
   const [show, setShow] = useState(false);
   const [user, loading] = useAuthState(auth);
-  const [duration, setDuration] = useState()
+  const [duration, setDuration] = useState();
 
   const bodyRef = useRef(null);
 
@@ -67,16 +67,20 @@ export default function VideoModal(props) {
             width: "auto",
           }}
         >
-          <ReactPlayer 
+          <ReactPlayer
             playing={true}
             controls={true}
-            ref={p => {setDuration(p)}}
+            ref={(p) => {
+              setDuration(p);
+            }}
             width="100vw"
             height="80vh"
-            url={`https://www.youtube.com/watch?v=${props.videoKey}`} 
+            url={`https://www.youtube.com/watch?v=${props.videoKey}`}
           />
-          
-          <button onClick={() => console.log(duration.getCurrentTime())}>getCurrentTime</button>
+
+          <button onClick={() => console.log(duration.getCurrentTime())}>
+            getCurrentTime
+          </button>
 
           {/* <YouTube videoId={props.videoKey} opts={opts} onReady={_onReady} /> */}
         </Modal.Body>

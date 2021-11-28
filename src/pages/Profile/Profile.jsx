@@ -3,22 +3,32 @@
 import React, { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase";
-// eslint-disable-next-line
 import {
   Card,
   CardContent,
-  CardMedia,
   CardActions,
   Typography,
   Button,
   Grid,
   Avatar,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  Dialog,
+  DialogActions,
+  DialogTitle
 } from '@mui/material'
+import {
+  Logout,
+  VideoLibraryRounded,
+} from "@mui/icons-material";
+import DeleteIcon from '@mui/icons-material/Delete';
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from '@emotion/react';
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Home from "../Home/Home";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import "./profile.css";
 
 export default function Profile() {
@@ -26,6 +36,17 @@ export default function Profile() {
   const [accid, setAccid] = useState("");
   const [accbal, setAccbal] = useState("");
   const [privatekey, setPrivatekey] = useState("");
+  const [createDate, setCreateDate] = useState("");
+  const [lib, setLib] = useState(0);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   // const history = useHistory()
 
   const darkTheme = createTheme({
@@ -44,6 +65,8 @@ export default function Profile() {
           querySnapshot.forEach((doc) => {
             setAccid(doc.data().accid);
             setPrivatekey(doc.data().privatekey);
+            setLib(doc.data().lib.length);
+            setCreateDate(doc.data().accountCreationDate);
           });
         })
         .catch((error) => {
@@ -67,6 +90,14 @@ export default function Profile() {
   //     url: `http://localhost:8000/profile/${accid}/${privatekey}`
   // }).then(res => console.log(res.data))
 
+  async function delacc() {
+    let data = await axios.post(`http://localhost:8000/delacc`, {
+      id: accid,
+      key: privatekey,
+    });
+    console.log(data);
+  }
+
   function loadProfile() {
     // authuser()
     const logout = () => {
@@ -77,32 +108,36 @@ export default function Profile() {
       <div
         style={{
           display: 'flex',
+          flex: '1 0 auto',
           justifyContent: 'center',
           alignItems: 'center',
-          padding: '70px',
+          padding: '70px 50px 50px 50px',
         }}
         className="profile-card"
       >
         <ThemeProvider theme={darkTheme}>
-          <Grid container spacing={6}>
-            <Grid item xs={6} md={8}>
+          <Grid container spacing={5}>
+            <Grid item xs={12} md={6}>
               <Card 
+                className="card-profile"
                 elevation={2}
                 sx={{
-                  width: {xs: '230px', sm: '50%'},
+                  // width: {xs: '230px', sm: '50%'},
                   // maxWidth: 345,
+                  height: '70vh',
                   display: 'grid',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  padding: '50px'
+                  // padding: '50px'
                 }}>
                 <CardContent>
                   <Avatar 
                     src={user.photoURL}
+                    className="avatar-media"
                     sx={{
                       width: '200px',
                       height: '200px',
-                      margin: 'auto'
+                      margin: '10px auto'
                     }}
                     />
                 </CardContent>
@@ -114,7 +149,7 @@ export default function Profile() {
                     textAlign: 'center'
                   }} 
                 >
-                  <Typography variant="h2">
+                  <Typography variant="h2" className="heading-list">
                     {user.displayName}
                   </Typography>
                   <Typography variant="subtitle1" color="text.secondary" > 
@@ -122,37 +157,64 @@ export default function Profile() {
                   </Typography>
                   <div
                     style={{
-                      marginTop: '50px'
+                      paddingTop: '20px'
                     }}
                   >
-                    <Link to="/library" className="navbar-link"><Button size="large">Library</Button></Link>
-                    <Link to="/" className="navbar-link"><Button onClick={logout} size="large">Logout</Button></Link>                  </div>
+                    <Link to="/library" className="navbar-link"><Button size="large" startIcon={<VideoLibraryRounded fontSize="small" />}>Library</Button></Link>
+                    <Link to="/" className="navbar-link"><Button color="error" onClick={logout} startIcon={<Logout fontSize="small" />} size="large">Logout</Button></Link>                  
+                  </div>
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item>
-              <Card sx={{ 
-                // maxWidth: 345,
-                width: {xs: '230px', sm: '50%'},
-              }}>
-                <CardMedia
-                  component="img"
-                  alt="green iguana"
-                  height="140"
-                  image={user.photoURL}
-                />
+            <Grid item xs={12} md={6}>
+              <Card 
+                elevation={2}
+              >
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    Lizard
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                  </Typography>
+                <List>
+                  <ListItem>
+                    <ListItemText className="listtext" primary="Account ID" secondary={accid} />
+                  </ListItem>
+                  <Divider />
+                  <Divider />
+                  <ListItem>
+                    <ListItemText className="listtext" primary="Account Balance" secondary={accbal} />
+                  </ListItem>
+                  <Divider />
+                  <ListItem>
+                    <ListItemText className="listtext" primary="No of items bought" secondary={lib} />
+                  </ListItem>
+                  <Divider />
+                  <ListItem>
+                    <ListItemText className="listtext" primary="Account Creation Date" secondary={createDate} />
+                  </ListItem>
+                </List>
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Share</Button>
-                  <Button size="small">Learn More</Button>
+                <CardActions
+                  sx={{
+                    margin: 'auto',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    textAlign: 'center'
+                  }}
+                >
+                  <Button onClick={handleClickOpen} color="error" startIcon={<DeleteIcon />}>Delete Account</Button>
+                  <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">
+                      {"Are you sure you want to delete your account?"}
+                    </DialogTitle>
+                    <DialogActions>
+                      <Button onClick={handleClose} autoFocus>Cancel</Button>
+                      <Link to="/" className="navbar-link">
+                        <Button color="error">Delete</Button>
+                      </Link>
+                    </DialogActions>
+                  </Dialog>
                 </CardActions>
               </Card>
             </Grid>
@@ -194,6 +256,11 @@ export default function Profile() {
             >
               Logout
             </Link>
+            <button onClick={()=>delacc()} >delete</button>
+            {/* <Card.Link href="/" onClick={logout}>
+              Logout
+            </Card.Link> */}
+            {/* <Button onClick={logout}>Logout</Button>
           </Card.Body>
         </Card> */}
         </Grid>

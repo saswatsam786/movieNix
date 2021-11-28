@@ -44,10 +44,10 @@ export default function MediaPage() {
     // console.log(media);
     async function rendreDetails() {
       const youtubeDetails = await axios.get(
-        `https://api.themoviedb.org/3/${media}/${id}/videos?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b`
+        `https://api.themoviedb.org/3/${media}/${id}/videos?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}`
       );
       const movieDetails = await axios.get(
-        `https://api.themoviedb.org/3/${media}/${id}?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b`
+        `https://api.themoviedb.org/3/${media}/${id}?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}`
       );
       console.log(movieDetails.data);
       // console.log(youtubeDetails.data.results[0]);
@@ -66,43 +66,41 @@ export default function MediaPage() {
       key: privatekey,
     });
     console.log(data.data.status);
-    alert("Movie added to the library")
-    setTimeout(handleClose(), 500)
+    alert("Movie added to the library");
+    setTimeout(handleClose(), 500);
   };
 
   // ADD THE SELECTED MOVIE TO THE LIBRARY
   function addToLibrary() {
-    user ?
-      (db
-        .collection("accounts")
-        .where("email", "==", user.email)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach(async (doc) => {
-            const purchaseTimeStamp = new Date();
-            const expTimeStamp = new Date();
-            expTimeStamp.setDate(purchaseTimeStamp.getDate() + 30);
+    user
+      ? db
+          .collection("accounts")
+          .where("email", "==", user.email)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach(async (doc) => {
+              const purchaseTimeStamp = new Date();
+              const expTimeStamp = new Date();
+              expTimeStamp.setDate(purchaseTimeStamp.getDate() + 30);
 
-            let a = {
-              id: details.id,
-              purchaseDate: purchaseTimeStamp.toDateString(),
-              expiryDate: expTimeStamp.toDateString(),
-              time: purchaseTimeStamp.toLocaleTimeString(),
-            };
-            const variable = db.collection("accounts").doc(doc.id);
-            await variable
-              .update({ lib: firebase.firestore.FieldValue.arrayUnion(a) })
-              .then((err) => {
-                console.log(err);
-              })
-              .then(() => {
-                user ? buyFunc(1) : alert("Login first");
-              });
-          });
-        })) :
-        (
-          alert("Login first")
-        )
+              let a = {
+                id: details.id,
+                purchaseDate: purchaseTimeStamp.toDateString(),
+                expiryDate: expTimeStamp.toDateString(),
+                time: purchaseTimeStamp.toLocaleTimeString(),
+              };
+              const variable = db.collection("accounts").doc(doc.id);
+              await variable
+                .update({ lib: firebase.firestore.FieldValue.arrayUnion(a) })
+                .then((err) => {
+                  console.log(err);
+                })
+                .then(() => {
+                  user ? buyFunc(1) : alert("Login first");
+                });
+            });
+          })
+      : alert("Login first");
   }
 
   // PATH FOR POSTER IN THE BACKGROUND
@@ -127,7 +125,6 @@ export default function MediaPage() {
           <span>
             <h1>{details.original_title}</h1>
             <span style={{ color: "silver" }}>
-
               <>
                 <p style={{ margin: "0 5px" }}>{details.release_date}</p>
                 {"|"}
@@ -150,7 +147,7 @@ export default function MediaPage() {
           <span>
             {/* MODAL FOR TRAILER */}
             <VideoModal videoKey={trailerKey} />
-            
+
             {/* BUTTON FOR PURCHASE */}
             <Button
               onClick={handleShow}
@@ -161,7 +158,11 @@ export default function MediaPage() {
             </Button>
             <Modal show={show} onHide={handleClose} centered>
               <Modal.Body>
-                <p><strong>Do you want to add this movie to your library?</strong></p>
+                <p>
+                  <strong>
+                    Do you want to add this movie to your library?
+                  </strong>
+                </p>
                 <ul
                   style={{
                     listStyle: "none",

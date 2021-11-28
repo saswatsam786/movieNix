@@ -1,6 +1,10 @@
 import React from "react"
-import { Card } from "react-bootstrap"
-// import axios from "axios"
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography
+} from '@mui/material'
 
 export default function Search(movie) {
   return (

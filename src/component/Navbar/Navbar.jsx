@@ -1,270 +1,315 @@
-import React, { useEffect, useState } from "react"
+//eslint-disable-next-line
+import { createTheme } from "@mui/material/styles";
+import React, { useEffect, useState } from "react";
 import {
-  Navbar,
-  Container,
-  Nav,
-  FormControl,
-  Form,
+  AppBar,
+  Box,
+  Toolbar,
+  Typography,
   Button,
-  Dropdown,
-  NavDropdown,
-} from "react-bootstrap"
-import { auth } from "../../firebase"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { Link, NavLink,useHistory } from "react-router-dom"
-import "./navbar.css"
-import search from "../../pages/Search/Searchfunc"
-import axios from "axios"
+  Avatar,
+  Menu,
+  MenuItem,
+  IconButton,
+  Divider,
+  ListItemIcon,
+  Card,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+import {
+  Logout,
+  AccountCircle,
+  VideoLibraryRounded,
+} from "@mui/icons-material";
+import { ThemeProvider } from "@emotion/react";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Link, NavLink } from "react-router-dom";
+import { auth } from "../../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import "./navbar.css";
+import SearchField from "./SearchField";
 
-export default function NavigationBar() {
-  const [user] = useAuthState(auth)
-  const [searchText, setSearchText] = useState("")
-  const [movies, setMovies] = useState([])
-  const history = useHistory()
-  const logout = () => {
-    auth.signOut()
-  }
+export default function NavigationBar(props) {
+  const [user] = useAuthState(auth);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isTransparent, setTransparent] = useState("false");
+  const [state, setState] = useState(false);
 
-  const authButton = () => {
-    if (user) {
-      return (
-        <Nav>
-          <Dropdown drop="down" align="end">
-            <Dropdown.Toggle variant="dark" id="dropdown-basic">
-              <img alt="user profile" src={user.photoURL} className="avatar" />
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu
-              className="text-center"
-              variant="dark"
-              style={{
-                width: "300px",
-              }}
-            >
-              <Dropdown.ItemText>
-                <img
-                  alt="profile pic"
-                  src={user.photoURL}
-                  style={{
-                    width: "150px",
-                    borderRadius: "50%",
-                    padding: "10px",
-                  }}
-                />
-              </Dropdown.ItemText>
-              <Dropdown.Divider />
-              <Dropdown.ItemText style={{ fontSize: "1.5rem" }}>
-                {user.displayName}
-              </Dropdown.ItemText>
-              <Dropdown.Divider />
-              <Dropdown.Item>
-                <NavLink
-                  to="/profile"
-                  style={(isActive) => ({
-                    color: isActive ? "cyan" : "grey",
-                    textDecoration: "none",
-                  })}
-                >
-                  Dashborad
-                </NavLink>
-              </Dropdown.Item>
-              <Dropdown.Item onClick={logout}>
-                <NavLink
-                  to="/"
-                  style={(isActive) => ({
-                    color: isActive ? "grey" : "grey",
-                    textDecoration: "none",
-                  })}
-                >
-                  Logout
-                </NavLink>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Nav>
-      )
-    } else {
-      return (
-        <Nav.Link>
-          <NavLink
-            to="/login"
-            style={(isActive) => ({
-              color: isActive ? "cyan" : "grey",
-              textDecoration: "none",
-            })}
-          >
-            Login
-          </NavLink>
-        </Nav.Link>
-      )
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
     }
-  }
-
-  const fetchSearch = async () => {
-    const req = await axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b&language=en-US&query=${searchText}&page=1&sort_by=popularity.desc`
-    )
-    setMovies(req.data.results)
-    console.log(movies)
-  }
+    setState(open);
+  };
 
   useEffect(() => {
-    fetchSearch()
-  }, [searchText])
+    const handleScroll = () => {
+      const show = window.scrollY > 100;
+      if (show) {
+        setTransparent(!isTransparent);
+      } else {
+        setTransparent("false");
+      }
+    };
+    document.addEventListener("scroll", handleScroll);
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+    // eslint-disable-next-line
+  }, []);
 
-  const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-    <div
-      ref={ref}
-      onClick={(e) => {
-        e.preventDefault()
-        onClick(e)
+  const isMenuOpen = Boolean(anchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+  });
+
+  const logout = () => {
+    auth.signOut();
+  };
+
+  var displayName, photo;
+
+  if (user) {
+    displayName = user.displayName;
+    photo = user.photoURL;
+  } else {
+    displayName = null;
+    photo = null;
+  }
+
+  const menuId = "primary-search-account-menu";
+  const renderMenu = (
+    <Menu
+      aria-labelledby="demo-positioned-button"
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
       }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      PaperProps={{
+        elevation: 1,
+        sx: {
+          width: 250,
+          overflow: "visible",
+          alignItems: "center",
+          justifyContent: "center",
+          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+          mt: 1.5,
+          "& .MuiAvatar-root": {
+            ml: -0.5,
+            mr: 1,
+          },
+          "&:before": {
+            content: '""',
+            display: "block",
+            position: "absolute",
+            top: 0,
+            right: 14,
+            width: 10,
+            height: 10,
+            bgcolor: "background.paper",
+            transform: "translateY(-50%) rotate(45deg)",
+            zIndex: 0,
+          },
+        },
+      }}
+      onClose={handleMenuClose}
+      open={isMenuOpen}
     >
-      <Form className="d-flex me-auto">
-        <FormControl
-          autoFocus
-          type="search"
-          placeholder="Search..."
-          size="sm"
-          style={{ backgroundColor: "#282c34", color: "white" }}
-          className="me-1"
-          aria-label="Search"
-          value={searchText}
-          onChange={(e) => {
-            setSearchText(e.target.value)
-          }}
-        />
-      </Form>
-      {children}
-      &#x25bc;
-    </div>
-  ))
+      <Card
+        style={{
+          maxWidth: "250px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "5px",
+        }}
+      >
+        <Avatar
+          alt={displayName}
+          src={photo}
+          sx={{ width: 45, height: 45 }}
+        ></Avatar>
+        <Typography variant="h6" component="div">
+          {displayName}
+        </Typography>
+        <br />
+      </Card>
+      <Divider />
+      <MenuItem onClick={handleMenuClose}>
+        <ListItemIcon>
+          <AccountCircle fontSize="small" />
+        </ListItemIcon>
+        <Link to="/profile" className="navbar-link">
+          Profile
+        </Link>
+      </MenuItem>
 
-  const CustomMenu = React.forwardRef(
-    ({ children, style, className, "aria-labelledby": labeledBy }, ref) => {
-      return (
-        <div
-          ref={ref}
-          style={style}
-          className={className}
-          aria-labelledby={labeledBy}
-        >
-          {searchText && search(movies[0])}
-        </div>
-      )
-    }
-  )
+      <Link to="/library" className="navbar-link">
+        <MenuItem onClick={handleMenuClose}>
+          <ListItemIcon>
+            <VideoLibraryRounded fontSize="small" />
+          </ListItemIcon>
+          Library
+        </MenuItem>
+      </Link>
+
+      <MenuItem onClick={handleMenuClose}>
+        <ListItemIcon>
+          <Logout fontSize="small" />
+        </ListItemIcon>
+        <Link to="/" className="navbar-link" onClick={logout}>
+          Logout
+        </Link>
+      </MenuItem>
+    </Menu>
+  );
+
+  const list = () => (
+    <Box
+      sx={{ width: 250 }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      // onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        <ListItem>
+          <ListItemIcon>
+            <Avatar
+              alt={displayName}
+              src={photo}
+              sx={{ width: 45, height: 45 }}
+            ></Avatar>
+          </ListItemIcon>
+          <ListItemText primary={displayName} />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <Link to="/profile" className="navbar-link">
+          <ListItem button>
+            <ListItemIcon>
+              <AccountCircle />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+          </ListItem>
+        </Link>
+        <Link to="/library" className="navbar-link">
+          <ListItem button>
+            <ListItemIcon>
+              <VideoLibraryRounded />
+            </ListItemIcon>
+            <ListItemText primary="Library" />
+          </ListItem>
+        </Link>
+        <Link to="/" className="navbar-link">
+          <ListItem button onClick={logout}>
+            <ListItemIcon>
+              <Logout />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </Link>
+      </List>
+    </Box>
+  );
 
   return (
-    <div>
-      <Navbar
-        className="navbar"
-        bg="dark"
-        variant="dark"
-        expand="lg"
-        fixed="top"
-      >
-        <Container fluid>
-          <Navbar.Brand>
-            <NavLink
-              to="/"
-              style={(isActive) => ({
-                color: isActive ? "White" : "White",
-                textDecoration: "none",
-              })}
+    <Box sx={{ flexGrow: 1 }}>
+      <ThemeProvider theme={darkTheme}>
+        <AppBar
+          position="fixed"
+          color={isTransparent ? "transparent" : "default"}
+          className={isTransparent ? "navbar-transparent" : "navbar-solid"}
+        >
+          <Toolbar>
+            <Typography
+              variant="h4"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1 }}
             >
-              MovieNix
-            </NavLink>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
-            <Nav
-              className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: "200px" }}
-              navbarScroll
-            >
-              <Nav.Link>
-                <NavLink
-                  to="/search"
-                  style={(isActive) => ({
-                    color: isActive ? "cyan" : "grey",
-                    textDecoration: "none",
-                  })}
-                >
-                  Browse
+              <NavLink to="/" className="navbar-link">
+                MovieNix
+              </NavLink>
+            </Typography>
+            {/* <Box sx={{ flexGrow: 1 }} /> */}
+            {window.location.pathname !== "/profile" && <SearchField />}
+            {user ? (
+              <>
+                <Box sx={{ display: { xs: "none", sm: "flex" } }}>
+                  <IconButton
+                    size="large"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    onClick={handleProfileMenuOpen}
+                    color="inherit"
+                  >
+                    <Avatar
+                      alt={displayName}
+                      src={photo}
+                      sx={{ width: 30, height: 30 }}
+                    ></Avatar>
+                    {/* <AccountCircle /> */}
+                  </IconButton>
+                </Box>
+                <Box sx={{ display: { xs: "flex", sm: "none" } }}>
+                  <IconButton
+                    size="large"
+                    aria-label="show more"
+                    // aria-controls={mobileMenuId}
+                    aria-haspopup="true"
+                    // onClick={handleMobileMenuOpen}
+                    onClick={toggleDrawer(true)}
+                    color="inherit"
+                  >
+                    <MenuIcon style={{ color: "white" }} />
+                  </IconButton>
+                  <Drawer
+                    anchor="right"
+                    open={state}
+                    onClose={toggleDrawer(false)}
+                  >
+                    {list()}
+                  </Drawer>
+                </Box>
+              </>
+            ) : (
+              <Button color="inherit">
+                <NavLink to="/login" className="navbar-link">
+                  Login
                 </NavLink>
-              </Nav.Link>
-              <Nav.Link>
-                <NavLink
-                  to="/random"
-                  style={(isActive) => ({
-                    color: isActive ? "cyan" : "grey",
-                    textDecoration: "none",
-                  })}
-                >
-                  Random
-                </NavLink>
-              </Nav.Link>
-            </Nav>
-            <Dropdown>
-              <Dropdown.Toggle
-                as={CustomToggle}
-                id="dropdown-custom-components"
-              >
-                Search
-              </Dropdown.Toggle>
-
-              {searchText && movies ? (
-                <Dropdown.Menu align="end">
-                  <Dropdown.Item
-                    eventkey="1"
-                    onKeyDown={(e) => {
-                      e.key === "Enter" &&
-                        (window.location = `/movie/${movies[0].id}`)
-                    }}
-                  >
-                    {searchText && search(movies[0])}
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    eventkey="2"
-                    onKeyDown={(e) => {
-                      e.key === "Enter" &&
-                        (window.location = `/movie/${movies[1].id}`)
-                    }}
-                  >
-                    {searchText && search(movies[1])}
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    eventkey="3"
-                    onKeyDown={(e) => {
-                      e.key === "Enter" &&
-                        (window.location = `/movie/${movies[2].id}`)
-                    }}
-                  >
-                    {searchText && search(movies[2])}
-                  </Dropdown.Item>
-                  {/* <Dropdown.Item eventkey="2">{searchText && search(movies[2])}</Dropdown.Item> */}
-                  <Dropdown.Divider />
-                  <Dropdown.Item
-                    eventkey="4"
-                    onKeyDown={(e) => {
-                      e.key === "Enter" && (history.push({pathname: '/search', state: {search : searchText}}))
-                    }}
-                  >
-                    {searchText && <Link to={{pathname:'/search', state: {search: searchText}}}>View more...</Link>}
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              ) : (
-                <Dropdown.Menu>
-                  <Dropdown.Item>NO related content</Dropdown.Item>
-                </Dropdown.Menu>
-              )}
-            </Dropdown>
-
-            <Nav>{authButton()}</Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </div>
-  )
+              </Button>
+            )}
+          </Toolbar>
+        </AppBar>
+        {renderMenu}
+      </ThemeProvider>
+    </Box>
+  );
 }

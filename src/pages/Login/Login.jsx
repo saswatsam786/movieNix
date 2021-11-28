@@ -22,12 +22,14 @@ export default function Login() {
           .get()
           .then((querySnapshot) => {
             querySnapshot.forEach(async (doc) => {
+              
               if (doc.data().email === user.email) {
                 alert("You already have an account ID.");
                 acc = true;
               }
             });
             if (acc === false) {
+              const createAcc = new Date()
               axios.get("http://localhost:8000/createAccount").then((props) => {
                 db.collection("accounts")
                   .add({
@@ -35,7 +37,8 @@ export default function Login() {
                     accid: props.data.id,
                     privatekey: props.data.privatekey,
                     publickey: props.data.publickey,
-                    lib: []
+                    lib: [],
+                    accountCreationDate: createAcc.toLocaleDateString(),
                   })
                   .catch((err) => {
                     console.log(err);

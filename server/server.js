@@ -90,9 +90,9 @@ async function main() {
       const id = req.body.id;
       const key = req.body.key;
       console.log(id);
-
+      const privatekey = PrivateKey.fromString(key);
       const client = Client.forTestnet();
-      client.setOperator(id, key);
+      client.setOperator(id, privatekey);
       const query = new AccountBalanceQuery().setAccountId(id);
       let accountBalance = await query.execute(client);
       //Print the balance of hbars
@@ -176,7 +176,7 @@ async function main() {
       console.log("The transaction consensus status is " + transactionStatus);
 
       res.status(200).json({
-        success: "deleted re baba",
+        success: "deleted",
       });
     } catch (error) {
       console.log(error);

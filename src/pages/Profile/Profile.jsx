@@ -17,15 +17,12 @@ import {
   Divider,
   Dialog,
   DialogActions,
-  DialogTitle
-} from '@mui/material'
-import {
-  Logout,
-  VideoLibraryRounded,
-} from "@mui/icons-material";
-import DeleteIcon from '@mui/icons-material/Delete';
+  DialogTitle,
+} from "@mui/material";
+import { Logout, VideoLibraryRounded } from "@mui/icons-material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { createTheme } from "@mui/material/styles";
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
 import Home from "../Home/Home";
 import axios from "axios";
@@ -67,6 +64,7 @@ export default function Profile() {
             setPrivatekey(doc.data().privatekey);
             setLib(doc.data().lib.length);
             setCreateDate(doc.data().accountCreationDate);
+            console.log(accid, privatekey);
           });
         })
         .catch((error) => {
@@ -82,20 +80,34 @@ export default function Profile() {
       setAccbal(data.data.data.balance._valueInTinybar / 100000000);
     }
     fetchData();
-  }, [accid, privatekey, user]);
+  }, [user, accid, privatekey]);
 
-  // Axios({
-  //     method: "POST",
-  //     withCredentials: true,
-  //     url: `http://localhost:8000/profile/${accid}/${privatekey}`
-  // }).then(res => console.log(res.data))
+  function deleteDocDatabase() {
+    {
+      user &&
+        db
+          .collection("accounts")
+          .where("email", "==", user.email)
+          .get()
+          .then((querySnapshot) =>
+            querySnapshot.forEach(async (doc) => {
+              console.log(doc.id);
+              db.collection("accounts").doc(doc.id).delete();
+            })
+          );
+    }
+    user.delete();
+    window.location = "/";
+  }
 
-  async function delacc() {
+  async function deleteAccount() {
     let data = await axios.post(`http://localhost:8000/delacc`, {
       id: accid,
       key: privatekey,
     });
-    console.log(data);
+    console.log(data.data.success);
+
+    deleteDocDatabase();
   }
 
   function loadProfile() {
@@ -107,98 +119,135 @@ export default function Profile() {
     return (
       <div
         style={{
-          display: 'flex',
-          flex: '1 0 auto',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '70px 50px 50px 50px',
+          display: "flex",
+          flex: "1 0 auto",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "70px 50px 50px 50px",
         }}
         className="profile-card"
       >
         <ThemeProvider theme={darkTheme}>
           <Grid container spacing={5}>
             <Grid item xs={12} md={6}>
-              <Card 
+              <Card
                 className="card-profile"
                 elevation={2}
                 sx={{
                   // width: {xs: '230px', sm: '50%'},
                   // maxWidth: 345,
-                  height: '70vh',
-                  display: 'grid',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  height: "70vh",
+                  display: "grid",
+                  justifyContent: "center",
+                  alignItems: "center",
                   // padding: '50px'
-                }}>
+                }}
+              >
                 <CardContent>
-                  <Avatar 
+                  <Avatar
                     src={user.photoURL}
                     className="avatar-media"
                     sx={{
-                      width: '200px',
-                      height: '200px',
-                      margin: '10px auto'
+                      width: "200px",
+                      height: "200px",
+                      margin: "10px auto",
                     }}
-                    />
+                  />
                 </CardContent>
-                <CardContent 
+                <CardContent
                   sx={{
-                    margin: 'auto',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    textAlign: 'center'
-                  }} 
+                    margin: "auto",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    textAlign: "center",
+                  }}
                 >
                   <Typography variant="h2" className="heading-list">
                     {user.displayName}
                   </Typography>
-                  <Typography variant="subtitle1" color="text.secondary" > 
+                  <Typography variant="subtitle1" color="text.secondary">
                     {user.email}
                   </Typography>
                   <div
                     style={{
-                      paddingTop: '20px'
+                      paddingTop: "20px",
                     }}
                   >
-                    <Link to="/library" className="navbar-link"><Button size="large" startIcon={<VideoLibraryRounded fontSize="small" />}>Library</Button></Link>
-                    <Link to="/" className="navbar-link"><Button color="error" onClick={logout} startIcon={<Logout fontSize="small" />} size="large">Logout</Button></Link>                  
+                    <Link to="/library" className="navbar-link">
+                      <Button
+                        size="large"
+                        startIcon={<VideoLibraryRounded fontSize="small" />}
+                      >
+                        Library
+                      </Button>
+                    </Link>
+                    <Link to="/" className="navbar-link">
+                      <Button
+                        color="error"
+                        onClick={logout}
+                        startIcon={<Logout fontSize="small" />}
+                        size="large"
+                      >
+                        Logout
+                      </Button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Card 
-                elevation={2}
-              >
+              <Card elevation={2}>
                 <CardContent>
-                <List>
-                  <ListItem>
-                    <ListItemText className="listtext" primary="Account ID" secondary={accid} />
-                  </ListItem>
-                  <Divider />
-                  <Divider />
-                  <ListItem>
-                    <ListItemText className="listtext" primary="Account Balance" secondary={accbal} />
-                  </ListItem>
-                  <Divider />
-                  <ListItem>
-                    <ListItemText className="listtext" primary="No of items bought" secondary={lib} />
-                  </ListItem>
-                  <Divider />
-                  <ListItem>
-                    <ListItemText className="listtext" primary="Account Creation Date" secondary={createDate} />
-                  </ListItem>
-                </List>
+                  <List>
+                    <ListItem>
+                      <ListItemText
+                        className="listtext"
+                        primary="Account ID"
+                        secondary={accid}
+                      />
+                    </ListItem>
+                    <Divider />
+                    <Divider />
+                    <ListItem>
+                      <ListItemText
+                        className="listtext"
+                        primary="Account Balance"
+                        secondary={accbal}
+                      />
+                    </ListItem>
+                    <Divider />
+                    <ListItem>
+                      <ListItemText
+                        className="listtext"
+                        primary="No of items bought"
+                        secondary={lib}
+                      />
+                    </ListItem>
+                    <Divider />
+                    <ListItem>
+                      <ListItemText
+                        className="listtext"
+                        primary="Account Creation Date"
+                        secondary={createDate}
+                      />
+                    </ListItem>
+                  </List>
                 </CardContent>
                 <CardActions
                   sx={{
-                    margin: 'auto',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    textAlign: 'center'
+                    margin: "auto",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    textAlign: "center",
                   }}
                 >
-                  <Button onClick={handleClickOpen} color="error" startIcon={<DeleteIcon />}>Delete Account</Button>
+                  <Button
+                    onClick={handleClickOpen}
+                    color="error"
+                    startIcon={<DeleteIcon />}
+                  >
+                    Delete Account
+                  </Button>
                   <Dialog
                     open={open}
                     onClose={handleClose}
@@ -209,16 +258,20 @@ export default function Profile() {
                       {"Are you sure you want to delete your account?"}
                     </DialogTitle>
                     <DialogActions>
-                      <Button onClick={handleClose} autoFocus>Cancel</Button>
-                      <Link to="/" className="navbar-link">
-                        <Button color="error">Delete</Button>
-                      </Link>
+                      <Button onClick={handleClose} autoFocus>
+                        Cancel
+                      </Button>
+                      <div className="navbar-link">
+                        <Button color="error" onClick={deleteAccount}>
+                          Delete
+                        </Button>
+                      </div>
                     </DialogActions>
                   </Dialog>
                 </CardActions>
               </Card>
             </Grid>
-        {/* <Card
+            {/* <Card
           style={{
             maxWidth: "300px",
             background: "rgb(54, 57, 64)",
@@ -263,7 +316,7 @@ export default function Profile() {
             {/* <Button onClick={logout}>Logout</Button>
           </Card.Body>
         </Card> */}
-        </Grid>
+          </Grid>
         </ThemeProvider>
       </div>
     );

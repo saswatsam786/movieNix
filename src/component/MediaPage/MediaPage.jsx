@@ -17,6 +17,7 @@ export default function MediaPage() {
   const [showGenres, getGenres] = useState([]);
   const [accid, setAccid] = useState("");
   const [privatekey, setPrivatekey] = useState("");
+  const [check, setCheck] = useState(false);
 
   // FOR PRICING MODAL
   const [show, setShow] = useState(false);
@@ -33,6 +34,14 @@ export default function MediaPage() {
           .get()
           .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
+              {
+                console.log(doc.data().lib);
+                const a = doc
+                  .data()
+                  .lib.filter((data) => data.id === parseInt(id));
+                console.log(a);
+                setCheck(true);
+              }
               setAccid(doc.data().accid);
               setPrivatekey(doc.data().privatekey);
             });
@@ -151,6 +160,7 @@ export default function MediaPage() {
               videoKey={trailerKey}
               accid={accid}
               privatekey={privatekey}
+              check={check}
             />
 
             {/* BUTTON FOR PURCHASE */}

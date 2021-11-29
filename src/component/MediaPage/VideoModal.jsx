@@ -44,11 +44,13 @@ export default function VideoModal(props) {
     setDisplay(true);
     setShow(false);
     console.log(time, props.accid, props.privatekey);
-    let data = await axios.post(`http://localhost:8000/transferMoney`, {
-      id: props.accid,
-      key: props.privatekey,
-      amount: Math.round((time * 0.01 + Number.EPSILON) * 100) / 100,
-    });
+    if (!props.check) {
+      let data = await axios.post(`http://localhost:8000/transferMoney`, {
+        id: props.accid,
+        key: props.privatekey,
+        amount: Math.round((time * 0.01 + Number.EPSILON) * 100) / 100,
+      });
+    }
   };
 
   const finalPayment = () => {
@@ -69,6 +71,29 @@ export default function VideoModal(props) {
         </Link>
       )}
       {console.log(show)}
+      {/* <Modal show={display} onHide={() => setDisplay(false)} centered>
+        <Modal.Body>
+          <p>
+            <strong>
+              You haven't bought this movie. If you want continue for 0.01
+              hbar/sec. Then press OK .
+            </strong>
+          </p>
+          <ul
+            style={{
+              listStyle: "none",
+              position: "relative",
+              margin: "0 5px",
+              padding: "0",
+            }}
+          ></ul>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-dark" onClick={finalPayment}>
+            OK
+          </Button>
+        </Modal.Footer>
+      </Modal> */}
       <Modal show={display} onHide={() => setDisplay(false)} centered>
         <Modal.Body>
           <p>
@@ -99,15 +124,20 @@ export default function VideoModal(props) {
             <li>
               Cost:{" "}
               <span style={{ position: "absolute", right: "0" }}>
-                {Math.round((time * 0.01 + Number.EPSILON) * 100) / 100} hbar
+                {props.check
+                  ? 0
+                  : Math.round((time * 0.01 + Number.EPSILON) * 100) / 100}{" "}
+                hbar
               </span>
               <hr style={{ margin: "5px 0" }} />
             </li>
             <li>
               Balance after purchase:{" "}
               <span style={{ position: "absolute", right: "0" }}>
-                {Math.round((accbal - time * 0.01 + Number.EPSILON) * 100) /
-                  100}
+                {props.check
+                  ? Math.round((accbal + Number.EPSILON) * 100) / 100
+                  : Math.round((accbal - time * 0.01 + Number.EPSILON) * 100) /
+                    100}{" "}
                 hbar
               </span>
               <hr style={{ margin: "5px 0" }} />

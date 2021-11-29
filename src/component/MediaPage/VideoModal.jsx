@@ -62,9 +62,9 @@ export default function VideoModal(props) {
   return (
     <>
       {user ? (
-        <Button variant="light" onClick={() => setShow(true)}>
-          <i className="fas fa-play"></i> Trailer
-        </Button>
+        props.checkInLib && (<Button variant="light" onClick={() => setShow(true)}>
+                          <i className="fas fa-play"></i> Trailer
+                        </Button>)
       ) : (
         <Link to="/login">
           <Button variant="light">Log In</Button>

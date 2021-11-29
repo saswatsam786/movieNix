@@ -33,14 +33,14 @@ export default function MediaPage() {
           .where("email", "==", user.email)
           .get()
           .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
+            querySnapshot.forEach(async (doc) => {
               {
-                console.log(doc.data().lib);
-                const a = doc
+                // console.log(doc.data().lib);
+                const a = await doc
                   .data()
                   .lib.filter((data) => data.id === parseInt(id));
                 console.log(a);
-                setCheck(true);
+                a.length === 0 ? setCheck(false) : setCheck(true);
               }
               setAccid(doc.data().accid);
               setPrivatekey(doc.data().privatekey);
@@ -68,13 +68,15 @@ export default function MediaPage() {
   }, [media, id, user]);
 
   // BUY FUNCTION FOR EACH MOVIE
+  // eslint-disable-next-line
   const buyFunc = async (price) => {
     console.log(accid);
+    // eslint-disable-next-line
     let data = await axios.post(`http://localhost:8000/transferMoney`, {
       id: accid,
       key: privatekey,
     });
-    console.log(data.data.status);
+    // console.log(data.data.status);
     alert("Movie added to the library");
     setTimeout(handleClose(), 500);
   };
@@ -105,12 +107,13 @@ export default function MediaPage() {
                   console.log(err);
                 })
                 .then(() => {
-                  user ? buyFunc(1) : alert("Login first");
+                  window.location.reload()
                 });
             });
           })
       : alert("Login first");
     handleClose();
+    // window.location.reload()
   }
 
   // PATH FOR POSTER IN THE BACKGROUND
@@ -160,17 +163,13 @@ export default function MediaPage() {
               videoKey={trailerKey}
               accid={accid}
               privatekey={privatekey}
-              check={check}
+              checkInLib={check}
             />
 
             {/* BUTTON FOR PURCHASE */}
-            <Button
-              onClick={handleShow}
-              style={{ marginLeft: "10px" }}
-              variant="outline-light"
-            >
-              <i className="fas fa-plus"></i> Buy Now
-            </Button>
+            {(user && !check) && <Button onClick={handleShow} style={{ marginLeft: "10px" }} variant="outline-light">
+                      <i className="fas fa-plus"></i> Buy Now
+                    </Button>}
             <Modal show={show} onHide={handleClose} centered>
               <Modal.Body>
                 <p>

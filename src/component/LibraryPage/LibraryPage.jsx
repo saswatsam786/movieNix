@@ -4,12 +4,14 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import Login from "../../pages/Login/Login"
 import styled from "styled-components";
 import axios from 'axios';
+import loaderpage from '../Loader/loader';
 // import firebase from 'firebase';
 
 export default function LibraryPage() {
     const [user, loading] = useAuthState(auth);
     // eslint-disable-next-line
-    const [movies, setMovies] = useState([])
+  const [movies, setMovies] = useState([])
+  const [ loader, setLoader ] = useState(true);
 
     useEffect(() => {
         user &&
@@ -27,6 +29,7 @@ export default function LibraryPage() {
                     })
                 })
             })
+      setLoader(false)
         // eslint-disable-next-line
     }, [user])
 
@@ -65,7 +68,7 @@ export default function LibraryPage() {
         )
     }
 
-    return <>{loading ? <h1>loading...</h1> : user ? loadLib() : <Login />}</>;
+    return loading ? loaderpage() : user ? loadLib() : <Login />
 }
 
 const Wrapper = styled.div`

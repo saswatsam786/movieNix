@@ -1,109 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
-      integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu"
-      crossorigin="anonymous"
-    />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+import React from "react"
+import './loader.css'
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <style>
-      .load {
-        padding: 1em;
-        background: #282c34;
-        /* color: #5897e6; */
-        text-align: center;
-        font-family: "Sofia Pro", sans-serif;
-        width: 80%;
-        margin-left: auto;
-        margin-right: auto;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        right: 50%;
-        transform: translate(-50%, -50%);
-      }
-      .loader {
-        margin: 0 0 2em;
-        height: 100px;
-        width: 20%;
-        text-align: center;
-        padding: 1em;
-        margin: 0 auto 1em;
-        display: inline-block;
-        vertical-align: top;
-      }
-
-      svg path,
-      svg rect {
-        fill: #5897e6;
-      }
-
-      .blue {
-        fill: #5897e6;
-      }
-      .green {
-        fill: #a2ba30;
-      }
-
-      .yellow {
-        fill: #efd62f;
-      }
-
-      .orange {
-        fill: #f77846;
-      }
-
-      .pink {
-        fill: #e52886;
-      }
-    </style>
-    <title>MovieNix</title>
-  </head>
-  <body style="background-color: rgb(40, 44, 52)">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root">
-      <div class="load">
-      <div class="loader loader--style6">
+export default function loader() {
+  return (
+    <div className="load">
+      <div class="loader loader--style6" title="5">
         <svg
           version="1.1"
           id="Layer_1"
           xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
           x="0px"
           y="0px"
           width="80px"
           height="64px"
           viewBox="0 0 24 60"
-          style="enable-background: new 0 0 50 50"
-          xml:space="preserve"
+          style={{background: "#282c34"}}
+          xmlSpace="preserve"
         >
           <rect
             class="blue"
@@ -247,16 +160,5 @@
         </svg>
       </div>
     </div>
-    </div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
-</html>
+  )
+}

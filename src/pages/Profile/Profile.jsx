@@ -8,15 +8,18 @@ import Home from "../Home/Home";
 import axios, { Axios } from "axios";
 import { Link, useHistory } from "react-router-dom";
 import "./profile.css";
+import loader from "../../component/Loader/loader";
 
 export default function Profile() {
   const [user, loading] = useAuthState(auth);
   const [accid, setAccid] = useState("");
   const [accbal, setAccbal] = useState("");
   const [privatekey, setPrivatekey] = useState("");
+  const [ spinner, setSpinner ] = useState(true);
   const history = useHistory()
 
   useEffect(() => {
+    setTimeout(() => setSpinner(false), 1000)
     user &&
       db
         .collection("accounts")
@@ -124,5 +127,5 @@ export default function Profile() {
   //   window.location = "/";
   // }
 
-  return <>{loading ? <h1>loading...</h1> : user ? loadProfile() : <Home />}</>;
+  return <>{loading ? loader() : user ? loadProfile() : <Home />}</>;
 }

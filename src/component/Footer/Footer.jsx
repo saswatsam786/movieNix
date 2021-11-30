@@ -27,10 +27,11 @@ export default function Footer() {
                     <Grid container spacing={2}>
                         <Grid item xs={3} md={3} sx={{padding: '10px'}} className='footer-text second'>
                             <Link to='/' className='navbar-link'>
-                                <Typography variant='h6'>
+                                <Typography variant='button'>
                                     MovieNix
                                 </Typography>
                             </Link>
+                            <br />
                             <Typography variant='caption' color='rgba(150,140,150)'>A movie streaming platform built on the Hedera network</Typography>
                         </Grid>
                         <Grid item xs={3} md={3} sx={{padding: '10px'}} className='footer-text second'>
@@ -60,7 +61,7 @@ export default function Footer() {
                     </Grid>
                 </Container>
             </Box>
-            <Typography style={{textAlign: 'center'}}>©{year}</Typography>
+            <Typography style={{textAlign: 'center'}} variant="body2" >©{year}</Typography>
         </Box> 
     );
 };

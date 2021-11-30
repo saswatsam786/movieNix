@@ -6,8 +6,9 @@ import Navbar from "./component/Navbar/Navbar";
 import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 import MediaPage from "./component/MediaPage/MediaPage";
 import LibraryPage from "./component/LibraryPage/LibraryPage";
-import Search from "./pages/Search/Search";
+// import Search from "./pages/Search/Search";
 import Footer from "./component/Footer/Footer";
+import About from "./pages/About/About"
 
 export default function App() {
   return (
@@ -17,9 +18,10 @@ export default function App() {
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/profile" component={Profile} />
+        <Route exact path="/about" component={About} />
         <Route exact path="/:media/:id" component={MediaPage} />
         <Route exact path="/library" component={LibraryPage} />
-        <Route exact path="/search" component={Search} />
+        {/* <Route exact path="/search" component={Search} /> */}
         {/* <Route path="/:id" children={<Child />} /> */}
         <Route>
           <div className="App">

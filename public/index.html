@@ -19,7 +19,12 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
     />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+      integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu"
+      crossorigin="anonymous"
+    />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -29,11 +34,93 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <style media="screen" type="text/css">
+      .loadingindex {
+        text-align: center;
+        margin-top: 10rem;
+      }
+     #h2 {
+      color: rgb(248, 238, 238);
+      margin: 0;
+      font: .8em verdana;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+    }
+
+    /*
+    * Loading Dots
+    * Can we use pseudo elements here instead :after?
+    */
+    .loadingindex span {
+      display: inline-block;
+      vertical-align: middle;
+      width: .6em;
+      height: .6em;
+      margin: .19em;
+      background: #007DB6;
+      border-radius: .6em;
+      animation: loadingindex 1s infinite alternate;
+    }
+
+    /*
+    * Dots Colors
+    * Smarter targeting vs nth-of-type?
+    */
+    .loadingindex span:nth-of-type(2) {
+      background: #06aad3;
+      animation-delay: 0.2s;
+    }
+    .loadingindex span:nth-of-type(3) {
+      background: #05cfd3;
+      animation-delay: 0.4s;
+    }
+    .loadingindex span:nth-of-type(4) {
+      background: #07d3a0;
+      animation-delay: 0.6s;
+    }
+    .loadingindex span:nth-of-type(5) {
+      background: #03da59;
+      animation-delay: 0.8s;
+    }
+    .loadingindex span:nth-of-type(6) {
+      background: #75e633;
+      animation-delay: 1.0s;
+    }
+    .loadingindex span:nth-of-type(7) {
+      background: #c9e71f;
+      animation-delay: 1.2s;
+    }
+
+    /*
+    * Animation keyframes
+    * Use transition opacity instead of keyframes?
+    */
+    @keyframes loadingindex {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    </style>
     <title>MovieNix</title>
   </head>
-  <body style="background-color: rgb(40, 44, 52);">
+  <body style="background-color: rgb(40, 44, 52)">
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <div class="loadingindex">
+        <h2 id="h2">MovieNix</h2>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

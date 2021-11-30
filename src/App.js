@@ -1,14 +1,15 @@
-import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import Profile from "./pages/Profile/Profile";
-import Navbar from "./component/Navbar/Navbar";
+import Home from "./pages/Home/Home"
+import Login from "./pages/Login/Login"
+import Profile from "./pages/Profile/Profile"
+import Navbar from "./component/Navbar/Navbar"
 // eslint-disable-next-line
-import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
-import MediaPage from "./component/MediaPage/MediaPage";
-import LibraryPage from "./component/LibraryPage/LibraryPage";
-// import Search from "./pages/Search/Search";
-import Footer from "./component/Footer/Footer";
+import { BrowserRouter, Switch, Route, useParams } from "react-router-dom"
+import MediaPage from "./component/MediaPage/MediaPage"
+import LibraryPage from "./component/LibraryPage/LibraryPage"
+// import Search from "./pages/Search/Search"
+import Footer from "./component/Footer/Footer"
 import About from "./pages/About/About"
+import error from "./component/ErrorPage/Error"
 
 export default function App() {
   return (
@@ -24,9 +25,7 @@ export default function App() {
         {/* <Route exact path="/search" component={Search} /> */}
         {/* <Route path="/:id" children={<Child />} /> */}
         <Route>
-          <div className="App">
-            <h1>Page not found</h1>
-          </div>
+          {error()}
         </Route>
       </Switch>
       <Footer />

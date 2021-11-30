@@ -24,6 +24,9 @@ export default function MediaPage() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // eslint-disable-next-line
+  const [currentTime, setCurrentTime] = useState(new Date())
+
   useEffect(() => {
     //eslint-disable-next-line
     {
@@ -42,6 +45,19 @@ export default function MediaPage() {
                 console.log(a);
                 a.length === 0 ? setCheck(false) : setCheck(true);
               }
+
+              (doc.data().lib).map(async movie => {
+                if(movie.expiryDate <= currentTime) {
+                  console.log('Movie deleted!');
+                  // const variable = db.collection("accounts").doc(doc.id);
+                  // await variable
+                  //   .update({ lib: firebase.firestore.FieldValue.arrayRemove(movie) })
+                  //   .then((err) => {
+                  //     console.log(err);
+                  //   })
+                }
+            })
+
               setAccid(doc.data().accid);
               setPrivatekey(doc.data().privatekey);
             });
@@ -92,14 +108,19 @@ export default function MediaPage() {
             querySnapshot.forEach(async (doc) => {
               const purchaseTimeStamp = new Date();
               const expTimeStamp = new Date();
-              expTimeStamp.setDate(purchaseTimeStamp.getDate() + 30);
-
+              // expTimeStamp.setDate(purchaseTimeStamp.getDate() + 0);
+              
+              // const expTime = new Date()
+              expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 2)
+              
               let a = {
                 id: details.id,
                 purchaseDate: purchaseTimeStamp.toDateString(),
-                expiryDate: expTimeStamp.toDateString(),
-                time: purchaseTimeStamp.toLocaleTimeString(),
+                expiryDate: expTimeStamp,
+                // expiryTime: expTime.toLocaleTimeString(),
+                time: purchaseTimeStamp,
               };
+
               const variable = db.collection("accounts").doc(doc.id);
               await variable
                 .update({ lib: firebase.firestore.FieldValue.arrayUnion(a) })
@@ -163,7 +184,7 @@ export default function MediaPage() {
               videoKey={trailerKey}
               accid={accid}
               privatekey={privatekey}
-              checkInLib={check}
+              check={check}
             />
 
             {/* BUTTON FOR PURCHASE */}

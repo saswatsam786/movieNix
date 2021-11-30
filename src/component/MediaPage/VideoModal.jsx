@@ -36,6 +36,15 @@ export default function VideoModal(props) {
         Math.round((duration.getCurrentTime() + Number.EPSILON) * 100) / 100
       );
     }
+    const expTimeStamp = new Date();
+    expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 2)
+    const timestamp = new Date();
+    if(timestamp>=expTimeStamp){
+      alert("Movie deleted");
+    }else{
+      alert("not deleted");
+    }
+    console.log(expTimeStamp);
     console.log(time);
     console.log(duration.getCurrentTime());
   };
@@ -62,8 +71,11 @@ export default function VideoModal(props) {
   return (
     <>
       {user ? (
-        props.checkInLib && (<Button variant="light" onClick={() => setShow(true)}>
+        !props.check ? (<Button variant="light" onClick={() => setShow(true)}>
                           <i className="fas fa-play"></i> Trailer
+                        </Button>) : 
+                        (<Button variant="light" onClick={() => setShow(true)}>
+                          <i className="fas fa-play"></i> Watch Now
                         </Button>)
       ) : (
         <Link to="/login">

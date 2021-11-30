@@ -83,6 +83,7 @@ export default function Profile() {
   }, [user, accid, privatekey]);
 
   function deleteDocDatabase() {
+    // eslint-disable-next-line
     {
       user &&
         db
@@ -117,16 +118,16 @@ export default function Profile() {
     };
 
     return (
-      <div
-        style={{
-          display: "flex",
-          flex: "1 0 auto",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "70px 50px 50px 50px",
-        }}
-        className="profile-card"
-      >
+      <div>
+        <div 
+          style={{
+            display: "flex",
+            flex: "1",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "70px 50px",
+          }}
+        >
         <ThemeProvider theme={darkTheme}>
           <Grid container spacing={5}>
             <Grid item xs={12} md={6}>
@@ -318,6 +319,7 @@ export default function Profile() {
         </Card> */}
           </Grid>
         </ThemeProvider>
+        </div>
       </div>
     );
   }

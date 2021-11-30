@@ -5,9 +5,7 @@
 .avatar-pfp{
     border-radius: 100%;
 }
-.card-profile{
-    height: auto !important;
-}
+
 @media (max-width: 635px){
     .avatar-media{
         width: 100px !important;
@@ -24,4 +22,7 @@
     .card-profile{
         height: auto !important;
     }
+}
+body{
+    min-height: 100vh;
 }

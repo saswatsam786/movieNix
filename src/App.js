@@ -7,6 +7,7 @@ import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 import MediaPage from "./component/MediaPage/MediaPage";
 import LibraryPage from "./component/LibraryPage/LibraryPage";
 import Search from "./pages/Search/Search";
+import Footer from "./component/Footer/Footer";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
           </div>
         </Route>
       </Switch>
+      <Footer />
     </BrowserRouter>
   );
 }

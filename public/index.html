@@ -14,7 +14,7 @@
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="manifest" href="./manifest.json" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
@@ -34,217 +34,90 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <style>
-      .load {
-        padding: 1em;
-        background: #282c34;
-        /* color: #5897e6; */
+    <style media="screen" type="text/css">
+      .loadingindex {
         text-align: center;
-        font-family: "Sofia Pro", sans-serif;
-        width: 80%;
-        margin-left: auto;
-        margin-right: auto;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        right: 50%;
-        transform: translate(-50%, -50%);
+        margin-top: 10rem;
       }
-      .loader {
-        margin: 0 0 2em;
-        height: 100px;
-        width: 20%;
-        text-align: center;
-        padding: 1em;
-        margin: 0 auto 1em;
-        display: inline-block;
-        vertical-align: top;
-      }
+     #h2 {
+      color: rgb(248, 238, 238);
+      margin: 0;
+      font: .8em verdana;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+    }
 
-      svg path,
-      svg rect {
-        fill: #5897e6;
-      }
+    /*
+    * Loading Dots
+    * Can we use pseudo elements here instead :after?
+    */
+    .loadingindex span {
+      display: inline-block;
+      vertical-align: middle;
+      width: .6em;
+      height: .6em;
+      margin: .19em;
+      background: #007DB6;
+      border-radius: .6em;
+      animation: loadingindex 1s infinite alternate;
+    }
 
-      .blue {
-        fill: #5897e6;
-      }
-      .green {
-        fill: #a2ba30;
-      }
+    /*
+    * Dots Colors
+    * Smarter targeting vs nth-of-type?
+    */
+    .loadingindex span:nth-of-type(2) {
+      background: #06aad3;
+      animation-delay: 0.2s;
+    }
+    .loadingindex span:nth-of-type(3) {
+      background: #05cfd3;
+      animation-delay: 0.4s;
+    }
+    .loadingindex span:nth-of-type(4) {
+      background: #07d3a0;
+      animation-delay: 0.6s;
+    }
+    .loadingindex span:nth-of-type(5) {
+      background: #03da59;
+      animation-delay: 0.8s;
+    }
+    .loadingindex span:nth-of-type(6) {
+      background: #75e633;
+      animation-delay: 1.0s;
+    }
+    .loadingindex span:nth-of-type(7) {
+      background: #c9e71f;
+      animation-delay: 1.2s;
+    }
 
-      .yellow {
-        fill: #efd62f;
+    /*
+    * Animation keyframes
+    * Use transition opacity instead of keyframes?
+    */
+    @keyframes loadingindex {
+      0% {
+        opacity: 0;
       }
-
-      .orange {
-        fill: #f77846;
+      100% {
+        opacity: 1;
       }
-
-      .pink {
-        fill: #e52886;
-      }
+    }
     </style>
     <title>MovieNix</title>
   </head>
   <body style="background-color: rgb(40, 44, 52)">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
-      <div class="load">
-      <div class="loader loader--style6">
-        <svg
-          version="1.1"
-          id="Layer_1"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          x="0px"
-          y="0px"
-          width="80px"
-          height="64px"
-          viewBox="0 0 24 60"
-          style="enable-background: new 0 0 50 50"
-          xml:space="preserve"
-        >
-          <rect
-            class="blue"
-            x="0"
-            y="13"
-            rx="3"
-            ry="3"
-            width="6"
-            height="4"
-            fill="#333"
-          >
-            <animate
-              attributeName="height"
-              attributeType="XML"
-              values="5;21;5"
-              begin="0s"
-              dur="0.8s"
-              repeatCount="indefinite"
-            />
-            <animate
-              attributeName="y"
-              attributeType="XML"
-              values="13; 5; 13"
-              begin="0s"
-              dur="0.8s"
-              repeatCount="indefinite"
-            />
-          </rect>
-
-          <rect
-            class="green"
-            x="10"
-            y="13"
-            rx="3"
-            ry="3"
-            width="6"
-            height="5"
-            fill="#333"
-          >
-            <animate
-              attributeName="height"
-              attributeType="XML"
-              values="5;21;5"
-              begin="0.12s"
-              dur="0.8s"
-              repeatCount="indefinite"
-            />
-            <animate
-              attributeName="y"
-              attributeType="XML"
-              values="13; 5; 13"
-              begin="0.12s"
-              dur="0.8s"
-              repeatCount="indefinite"
-            />
-          </rect>
-
-          <rect
-            class="yellow"
-            x="20"
-            y="13"
-            rx="3"
-            ry="3"
-            width="6"
-            height="5"
-            fill="#333"
-          >
-            <animate
-              attributeName="height"
-              attributeType="XML"
-              values="5;21;5"
-              begin="0.24s"
-              dur="0.8s"
-              repeatCount="indefinite"
-            />
-            <animate
-              attributeName="y"
-              attributeType="XML"
-              values="13; 5; 13"
-              begin="0.24s"
-              dur="0.8s"
-              repeatCount="indefinite"
-            />
-          </rect>
-
-          <rect
-            class="orange"
-            x="30"
-            y="13"
-            rx="3"
-            ry="3"
-            width="6"
-            height="5"
-            fill="#333"
-          >
-            <animate
-              attributeName="height"
-              attributeType="XML"
-              values="5;21;5"
-              begin="0.36s"
-              dur="0.8s"
-              repeatCount="indefinite"
-            />
-            <animate
-              attributeName="y"
-              attributeType="XML"
-              values="13; 5; 13"
-              begin="0.36s"
-              dur="0.8s"
-              repeatCount="indefinite"
-            />
-          </rect>
-
-          <rect
-            class="pink"
-            x="40"
-            y="13"
-            rx="3"
-            ry="3"
-            width="6"
-            height="5"
-            fill="#333"
-          >
-            <animate
-              attributeName="height"
-              attributeType="XML"
-              values="5;21;5"
-              begin="0.48s"
-              dur="0.8s"
-              repeatCount="indefinite"
-            />
-            <animate
-              attributeName="y"
-              attributeType="XML"
-              values="13; 5; 13"
-              begin="0.48s"
-              dur="0.8s"
-              repeatCount="indefinite"
-            />
-          </rect>
-        </svg>
+      <div class="loadingindex">
+        <h2 id="h2">MovieNix</h2>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
     </div>
     </div>

@@ -8,7 +8,7 @@
     margin-left: auto;
     margin-right: auto;
     position: fixed;
-    top: 50%;
+    top: 12rem;
     left: 50%;
     right: 50%;
     transform: translate(-50%, -50%);

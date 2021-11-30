@@ -18,6 +18,7 @@ export default function MediaPage() {
   const [showGenres, getGenres] = useState([]);
   const [accid, setAccid] = useState("");
   const [privatekey, setPrivatekey] = useState("");
+  const [check, setCheck] = useState(false);
 
   // FOR PRICING MODAL
   const [show, setShow] = useState(false);
@@ -34,6 +35,14 @@ export default function MediaPage() {
           .get()
           .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
+              {
+                console.log(doc.data().lib);
+                const a = doc
+                  .data()
+                  .lib.filter((data) => data.id === parseInt(id));
+                console.log(a);
+                setCheck(true);
+              }
               setAccid(doc.data().accid);
               setPrivatekey(doc.data().privatekey);
             });
@@ -50,7 +59,7 @@ export default function MediaPage() {
       const movieDetails = await axios.get(
         `https://api.themoviedb.org/3/${media}/${id}?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}`
       );
-      console.log(movieDetails.data);
+      // console.log(movieDetails.data);
       // console.log(youtubeDetails.data.results[0]);
       setDetails({ ...movieDetails.data });
       setTrailerKey(youtubeDetails.data.results[0].key);
@@ -102,6 +111,7 @@ export default function MediaPage() {
             });
           })
       : alert("Login first");
+    handleClose();
   }
 
   // PATH FOR POSTER IN THE BACKGROUND
@@ -147,7 +157,12 @@ export default function MediaPage() {
 
           <span>
             {/* MODAL FOR TRAILER */}
-            <VideoModal videoKey={trailerKey} />
+            <VideoModal
+              videoKey={trailerKey}
+              accid={accid}
+              privatekey={privatekey}
+              check={check}
+            />
 
             {/* BUTTON FOR PURCHASE */}
             <Button

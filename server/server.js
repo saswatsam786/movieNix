@@ -7,7 +7,7 @@ const {
   AccountBalanceQuery,
   Hbar,
   TransferTransaction,
-  AccountDeleteTransaction
+  AccountDeleteTransaction,
 } = require("@hashgraph/sdk");
 
 require("dotenv").config();
@@ -25,8 +25,8 @@ app.get("/", (req, res) => {
   res.send("Server is running");
 });
 app.get("/profile", (res) => {
-  res.send("profile")
-})
+  res.send("profile");
+});
 
 async function main() {
   //Grab your Hedera testnet account ID and private key from your .env file
@@ -82,7 +82,7 @@ async function main() {
       privatekey: `${newAccountPrivateKey}`,
       publickey: `${newAccountPublicKey}`,
     });
-    next()
+    next();
   });
 
   app.post("/balance", async (req, res) => {
@@ -90,9 +90,9 @@ async function main() {
       const id = req.body.id;
       const key = req.body.key;
       console.log(id);
-
+      const privatekey = PrivateKey.fromString(key);
       const client = Client.forTestnet();
-      client.setOperator(id, key);
+      client.setOperator(id, privatekey);
       const query = new AccountBalanceQuery().setAccountId(id);
       let accountBalance = await query.execute(client);
       //Print the balance of hbars
@@ -116,10 +116,11 @@ async function main() {
     try {
       const id = req.body.id;
       const key = req.body.key;
-      console.log(id);
+      const amount = req.body.amount;
+      console.log(id, amount);
       const transaction = new TransferTransaction()
-        .addHbarTransfer(id, new Hbar(-0.2))
-        .addHbarTransfer("0.0.2978176", new Hbar(0.2));
+        .addHbarTransfer(id, new Hbar(-amount))
+        .addHbarTransfer("0.0.2978176", new Hbar(amount));
 
       const client = Client.forTestnet();
       client.setOperator(id, key);
@@ -154,34 +155,33 @@ async function main() {
 
   app.post("/delacc", async (req, res) => {
     try {
-      const id = req.body.id
-      const key = req.body.key
-      let privatekey = PrivateKey.fromString(key)
-      console.log(id)
-      const client = Client.forTestnet()
-      client.setOperator(id, privatekey)
+      const id = req.body.id;
+      const key = req.body.key;
+      let privatekey = PrivateKey.fromString(key);
+      console.log(id);
+      const client = Client.forTestnet();
+      client.setOperator(id, privatekey);
       const transaction = await new AccountDeleteTransaction()
         .setAccountId(id)
         .setTransferAccountId(myAccountId)
-        .freezeWith(client)
+        .freezeWith(client);
       //Sign the transaction with the account key
-      const signTx = await transaction.sign(privatekey)
+      const signTx = await transaction.sign(privatekey);
       //Sign with the client operator private key and submit to a Hedera network
-      const txResponse = await signTx.execute(client)
+      const txResponse = await signTx.execute(client);
       //Request the receipt of the transaction
-      const receipt = await txResponse.getReceipt(client)
+      const receipt = await txResponse.getReceipt(client);
       //Get the transaction consensus status
-      const transactionStatus = receipt.status
-      console.log("The transaction consensus status is " + transactionStatus)
+      const transactionStatus = receipt.status;
+      console.log("The transaction consensus status is " + transactionStatus);
 
       res.status(200).json({
-        success: 'deleted re baba'
-      })
-    
+        success: "deleted",
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  })
+  });
 }
 main();
 

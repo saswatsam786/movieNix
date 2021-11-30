@@ -7,6 +7,7 @@ import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 import MediaPage from "./component/MediaPage/MediaPage";
 import LibraryPage from "./component/LibraryPage/LibraryPage";
 import Search from "./pages/Search/Search";
+import error from "./component/ErrorPage/Error"
 
 export default function App() {
   return (
@@ -21,9 +22,7 @@ export default function App() {
         <Route exact path="/search" component={Search} />
         {/* <Route path="/:id" children={<Child />} /> */}
         <Route>
-          <div className="App">
-            <h1>Page not found</h1>
-          </div>
+          {error()}
         </Route>
       </Switch>
     </BrowserRouter>

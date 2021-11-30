@@ -1,0 +1,63 @@
+.load{
+    padding: 1em;
+    background: #282c34;
+    color: #5897E6;
+    text-align: center;
+    font-family: "Sofia Pro", sans-serif;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    position: fixed;
+    top: 12rem;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%);
+    
+  }
+  /* h1{
+    margin: 1em 0;
+    border-bottom: 1px solid ;
+    padding-bottom: 1em;
+    font-weight: 600;
+  }
+  p{
+    font-style: italic;
+  } */
+  .loader{
+    margin: 0 0 2em;
+    height: 100px;
+    width: 20%;
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto 1em;
+    display: inline-block;
+    vertical-align: top;
+  }
+  
+  /*
+    Set the color of the icon
+  */
+  svg path,
+  svg rect{
+    fill:  #5897E6;
+  }
+  
+  .blue {
+    fill:#5897E6;
+  }
+  .green {
+    fill: #A2BA30;
+  }
+  
+  .yellow {
+    fill: #EFD62F;  
+  }
+  
+  .orange {
+    fill: #F77846;
+  }
+  
+  .pink {
+    fill: #E52886;
+    
+  }

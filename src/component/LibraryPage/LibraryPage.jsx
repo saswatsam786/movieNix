@@ -5,12 +5,13 @@ import Login from "../../pages/Login/Login";
 import styled from "styled-components";
 import axios from "axios";
 import loaderpage from "../Loader/loader";
-// import firebase from 'firebase';
+import firebase from "firebase";
 
 export default function LibraryPage() {
   const [user, loading] = useAuthState(auth);
-  // eslint-disable-next-line
   const [movies, setMovies] = useState([]);
+  // eslint-disable-next-line
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     user &&
@@ -26,12 +27,23 @@ export default function LibraryPage() {
                 `https://api.themoviedb.org/3/movie/${movie.id.toString()}?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b`
               );
               // console.log(request.data);
+              if (movie.expiryDate <= currentTime) {
+                console.log("Movie deleted!");
+                const variable = db.collection("accounts").doc(doc.id);
+                await variable
+                  .update({
+                    lib: firebase.firestore.FieldValue.arrayRemove(movie),
+                  })
+                  .then((err) => {
+                    console.log(err);
+                  });
+              }
               setMovies((prevValue) => [...prevValue, request.data]);
             });
           });
         });
     // eslint-disable-next-line
-  }, [user]);
+  }, [user || currentTime || movies]);
 
   const truncate = (str, max = 10) => {
     const array = str.split(" ");

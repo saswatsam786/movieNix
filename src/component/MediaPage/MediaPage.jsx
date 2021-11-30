@@ -7,6 +7,7 @@ import VideoModal from "./VideoModal";
 import { auth, db } from "../../firebase";
 import firebase from "firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import loader from '../Loader/loader'
 
 export default function MediaPage() {
   // eslint-disable-next-line
@@ -125,7 +126,7 @@ export default function MediaPage() {
     return rhours + " hr " + rminutes + " min";
   };
 
-  return (
+  return ( loading ? loader() :
     <div
       style={{ backgroundImage: `url(${bgURL})` }}
       className="container-media-page"

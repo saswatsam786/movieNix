@@ -4,6 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import Login from "../../pages/Login/Login";
 import styled from "styled-components";
 import axios from "axios";
+import loaderpage from "../Loader/loader";
 // import firebase from 'firebase';
 
 export default function LibraryPage() {
@@ -74,7 +75,7 @@ export default function LibraryPage() {
     );
   }
 
-  return <>{loading ? <h1>loading...</h1> : user ? loadLib() : <Login />}</>;
+  return loading ? loaderpage() : user ? loadLib() : <Login />;
 }
 
 const Wrapper = styled.div`

@@ -27,6 +27,7 @@ import { Link } from "react-router-dom";
 import Home from "../Home/Home";
 import axios from "axios";
 import "./profile.css";
+import loader from "../../component/Loader/loader";
 
 export default function Profile() {
   const [user, loading] = useAuthState(auth);
@@ -80,9 +81,9 @@ export default function Profile() {
       setAccbal(data.data.data.balance._valueInTinybar / 100000000);
     }
     fetchData();
-  }, [user, accid, privatekey]);
+  }, [user, accid, privatekey, accbal]);
 
-  function deleteDocDatabase() {
+  async function deleteDocDatabase() {
     {
       user &&
         db
@@ -92,7 +93,7 @@ export default function Profile() {
           .then((querySnapshot) =>
             querySnapshot.forEach(async (doc) => {
               console.log(doc.id);
-              db.collection("accounts").doc(doc.id).delete();
+              await db.collection("accounts").doc(doc.id).delete();
             })
           );
     }
@@ -321,6 +322,5 @@ export default function Profile() {
       </div>
     );
   }
-
-  return <>{loading ? <h1>loading...</h1> : user ? loadProfile() : <Home />}</>;
+  return <>{loading ? loader() : user ? loadProfile() : <Home />}</>;
 }

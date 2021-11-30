@@ -1,79 +1,89 @@
-import React, { useEffect, useState } from 'react'
-import { auth, db } from '../../firebase'
-import { useAuthState } from 'react-firebase-hooks/auth';
-import Login from "../../pages/Login/Login"
+import React, { useEffect, useState } from "react";
+import { auth, db } from "../../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import Login from "../../pages/Login/Login";
 import styled from "styled-components";
-import axios from 'axios';
+import axios from "axios";
 // import firebase from 'firebase';
 
 export default function LibraryPage() {
-    const [user, loading] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
+  // eslint-disable-next-line
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    user &&
+      db
+        .collection("accounts")
+        .where("email", "==", user.email)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach(async (doc) => {
+            // console.log(doc.data().lib);
+            doc.data().lib.map(async (movie) => {
+              const request = await axios.get(
+                `https://api.themoviedb.org/3/movie/${movie.id.toString()}?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b`
+              );
+              // console.log(request.data);
+              setMovies((prevValue) => [...prevValue, request.data]);
+            });
+          });
+        });
     // eslint-disable-next-line
-    const [movies, setMovies] = useState([])
+  }, [user]);
 
-    useEffect(() => {
-        user &&
-            db
-            .collection("accounts")
-            .where("email", "==", user.email)
-            .get()
-            .then(querySnapshot => {
-                querySnapshot.forEach(async doc => {
-                    // console.log(doc.data().lib);
-                    (doc.data().lib).map(async movie => {
-                        const request = await axios.get(`https://api.themoviedb.org/3/movie/${(movie.id).toString()}?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b`)
-                        // console.log(request.data);
-                        setMovies(prevValue => [...prevValue, request.data])
-                    })
-                })
-            })
-        // eslint-disable-next-line
-    }, [user])
+  const truncate = (str, max = 10) => {
+    const array = str.split(" ");
+    const ellipsis = array.length > max ? "..." : "";
 
-    const truncate = (str, max = 10) => {
-        const array = str.split(" ");
-        const ellipsis = array.length > max ? "..." : "";
-    
-        return array.slice(0, max).join(" ") + ellipsis;
-      };
+    return array.slice(0, max).join(" ") + ellipsis;
+  };
 
-    function loadLib() {
-        return (
-            
-            <Wrapper>
-                <Heading>Library</Heading>
-                {/* eslint-disable-next-line */}
-                <Row_Movies>
-                    {movies.map((movie) => (
-                    movie.media_type !== "tv" && <Movie key={movie.id} onClick={async () => {
-                        // console.log(movie)
-                        window.location = `/movie/${movie.id}`
-                        }}>
-                        <Image
-                        key={movie.id}
-                        src={"https://image.tmdb.org/t/p/original" + movie.poster_path}
-                        alt={movie.id}
-                        ></Image>
-                        <Info>
-                        <Title>{movie.title || movie.name}</Title>
-                        <Desc>{truncate(movie.overview, 12)}</Desc>
-                        </Info>
-                    </Movie>
-                    ))}
-                </Row_Movies>
-            </Wrapper>
-        )
-    }
+  function loadLib() {
+    return (
+      <Wrapper>
+        <Heading>Library</Heading>
+        {/* eslint-disable-next-line */}
+        <Row_Movies>
+          {movies.map(
+            (movie) =>
+              movie.media_type !== "tv" && (
+                <Movie
+                  key={movie.id}
+                  onClick={async () => {
+                    // console.log(movie)
+                    window.location = `/movie/${movie.id}`;
+                  }}
+                >
+                  <Image
+                    key={movie.id}
+                    src={
+                      "https://image.tmdb.org/t/p/original" + movie.poster_path
+                    }
+                    alt={movie.id}
+                  ></Image>
+                  <Info>
+                    <Title>{movie.title || movie.name}</Title>
+                    <Desc>{truncate(movie.overview, 12)}</Desc>
+                  </Info>
+                </Movie>
+              )
+          )}
+        </Row_Movies>
+      </Wrapper>
+    );
+  }
 
-    return <>{loading ? <h1>loading...</h1> : user ? loadLib() : <Login />}</>;
+  return <>{loading ? <h1>loading...</h1> : user ? loadLib() : <Login />}</>;
 }
 
 const Wrapper = styled.div`
   width: fit-content;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin-top: 10px;
+  margin-top: 10vh;
+  width: 100vw;
+  overflow: hidden;
 `;
 const Heading = styled.h2`
   flex: 0.25;
@@ -82,16 +92,11 @@ const Heading = styled.h2`
 `;
 const Row_Movies = styled.div`
   display: flex;
-  align-items: center;
-  flex: 1;
-  width: 95%;
-  margin: 0 auto;
-  position: relative;
-  padding: 20px 40px 20px 20px;
-
-  &::-webkit-scrollbar {
-    visibility: hidden;
-  }
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100vw;
+  overflow: hidden;
+  padding-top: 23px;
 `;
 const Image = styled.img`
   object-fit: contain;
@@ -121,15 +126,14 @@ const Info = styled.div`
 `;
 
 const Movie = styled.div`
-  flex-wrap: wrap;
-  width: 100%;
+  width: 200px;
   height: 270px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   transition: all 0.5s;
-  margin: 5px;
+  margin: 8px 1px;
 
   &::before {
     content: "";
@@ -139,13 +143,12 @@ const Movie = styled.div`
     display: block;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 196px;
+    height: 99.3%;
     background: linear-gradient(to bottom, transparent, #000000);
     /* z-index: 2; */
     transition: all 0.5s;
     opacity: 0;
-    transform: scale(1);
   }
   &:hover::before {
     border-radius: 15px;

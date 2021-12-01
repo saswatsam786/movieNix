@@ -159,14 +159,14 @@ export default function NavigationBar(props) {
         <br />
       </Card>
       <Divider />
-      <MenuItem onClick={handleMenuClose}>
-        <ListItemIcon>
-          <AccountCircle fontSize="small" />
-        </ListItemIcon>
-        <Link to="/profile" className="navbar-link">
-          Profile
-        </Link>
-      </MenuItem>
+      <Link to="/profile" className="navbar-link">
+        <MenuItem onClick={handleMenuClose}>
+          <ListItemIcon>
+            <AccountCircle fontSize="small" />
+          </ListItemIcon>
+            Profile
+        </MenuItem>
+      </Link>
 
       <Link to="/library" className="navbar-link">
         <MenuItem onClick={handleMenuClose}>

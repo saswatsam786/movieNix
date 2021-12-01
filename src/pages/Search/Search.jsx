@@ -26,6 +26,7 @@ function Search() {
 
   useEffect(() => {
     fetchSearch()
+    //eslint-disable-next-line
   }, [searchText])
 
   return (

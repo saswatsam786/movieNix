@@ -4,12 +4,11 @@ import {
   InputBase,
   MenuItem,
   IconButton,
-  Divider,
   Popover,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import search from "../../pages/Search/Searchfunc";
-import { Link, useHistory } from "react-router-dom";
+// import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 
 const Search = styled("div")(({ theme }) => ({
@@ -63,7 +62,7 @@ export default function SearchField(props) {
 
   const open = Boolean(anchorEl);
   const mobileOpen = Boolean(mobileEl);
-  const history = useHistory();
+  // const history = useHistory();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -108,7 +107,7 @@ export default function SearchField(props) {
     >
       <Search autoFocus sx={{ margin: "10px" }}>
         <SearchIconWrapper>
-          <SearchIcon />
+          <SearchIcon sx={{color: 'white'}}/>
         </SearchIconWrapper>
         <StyledInputBase
           sx={{ p: 1 }}
@@ -155,29 +154,6 @@ export default function SearchField(props) {
             }}
           >
             {searchText && search(movies[2])}
-          </MenuItem>
-          <Divider />
-          <MenuItem
-            sx={{ p: 1 }}
-            onClick={handleMobileClose}
-            style={{ width: "300px" }}
-            eventkey="4"
-            onKeyDown={(e) => {
-              e.key === "Enter" &&
-                history.push({
-                  pathname: "/search",
-                  state: { search: searchText },
-                });
-            }}
-          >
-            {searchText && (
-              <Link
-                to={{ pathname: "/search", state: { search: searchText } }}
-                className="navbar-link"
-              >
-                View More
-              </Link>
-            )}
           </MenuItem>
         </>
       ) : (
@@ -268,7 +244,18 @@ export default function SearchField(props) {
             >
               {searchText && search(movies[2])}
             </MenuItem>
-            <Divider />
+            <MenuItem
+              sx={{ p: 2 }}
+              style={{ width: "300px" }}
+              eventkey="4"
+              onClick={() => {
+                handleClose();
+                window.location = `/movie/${movies[3].id}`;
+              }}
+            >
+              {searchText && search(movies[3])}
+            </MenuItem>
+            {/* <Divider />
             <MenuItem
               sx={{ p: 2 }}
               onClick={handleClose}
@@ -290,7 +277,7 @@ export default function SearchField(props) {
                   View More
                 </Link>
               )}
-            </MenuItem>
+            </MenuItem> */}
           </>
         ) : (
           <MenuItem

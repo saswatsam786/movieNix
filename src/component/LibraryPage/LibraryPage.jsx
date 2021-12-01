@@ -95,18 +95,20 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 10vh;
-  width: 100vw;
+  width: 100%;
   overflow: hidden;
 `;
 const Heading = styled.h2`
   flex: 0.25;
-  padding-left: 1.5vw;
+  padding-left: 20px;
+  display: block;
   color: #f1e8e8c6;
+  width: 50vw;
 `;
 const Row_Movies = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100vw;
   overflow: hidden;
   padding-top: 23px;

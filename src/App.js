@@ -10,6 +10,7 @@ import LibraryPage from "./component/LibraryPage/LibraryPage"
 import Footer from "./component/Footer/Footer"
 import About from "./pages/About/About"
 import error from "./component/ErrorPage/Error"
+import LoginNew from "./pages/Login/LoginNew"
 
 export default function App() {
   return (
@@ -17,7 +18,7 @@ export default function App() {
       <Navbar />
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
+        <Route exact path="/login" component={LoginNew} />
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/about" component={About} />
         <Route exact path="/:media/:id" component={MediaPage} />

@@ -37,7 +37,7 @@
   /*
     Set the color of the icon
   */
-  svg path,
+  #Layer_1 path,
   svg rect{
     fill:  #5897E6;
   }

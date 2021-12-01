@@ -108,7 +108,7 @@ const Heading = styled.h2`
 const Row_Movies = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   width: 100vw;
   overflow: hidden;
   padding-top: 23px;

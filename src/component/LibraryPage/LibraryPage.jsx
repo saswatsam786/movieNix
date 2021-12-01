@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Login from "../../pages/Login/Login";
 import styled from "styled-components";
 import axios from "axios";
 import loaderpage from "../Loader/loader";
 import firebase from "firebase";
+import LoginNew from "../../pages/Login/LoginNew";
 
 export default function LibraryPage() {
   const [user, loading] = useAuthState(auth);
@@ -87,7 +87,7 @@ export default function LibraryPage() {
     );
   }
 
-  return loading ? loaderpage() : user ? loadLib() : <Login />;
+  return loading ? loaderpage() : user ? loadLib() : <LoginNew />;
 }
 
 const Wrapper = styled.div`
@@ -95,13 +95,15 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 10vh;
-  width: 100vw;
+  width: 100%;
   overflow: hidden;
 `;
 const Heading = styled.h2`
   flex: 0.25;
-  padding-left: 1.5vw;
+  padding-left: 20px;
+  display: block;
   color: #f1e8e8c6;
+  width: 50vw;
 `;
 const Row_Movies = styled.div`
   display: flex;

@@ -67,6 +67,7 @@ export default function Profile() {
             setCreateDate(doc.data().accountCreationDate);
             console.log(accid, privatekey);
           });
+          fetchData();
         })
         .catch((error) => {
           console.log("Error getting documents: ", error);
@@ -80,27 +81,9 @@ export default function Profile() {
       console.log(data.data.data.balance._valueInTinybar);
       setAccbal(data.data.data.balance._valueInTinybar / 100000000);
     }
-    fetchData();
+    
   }, [user, accid, privatekey, accbal]);
 
-  async function deleteDocDatabase() {
-    //eslint-disable-next-line
-    {
-      user &&
-        db
-          .collection("accounts")
-          .where("email", "==", user.email)
-          .get()
-          .then((querySnapshot) =>
-            querySnapshot.forEach(async (doc) => {
-              console.log(doc.id);
-              await db.collection("accounts").doc(doc.id).delete();
-            })
-          );
-    }
-    user.delete();
-    window.location = "/";
-  }
 
   async function deleteAccount() {
     let data = await axios.post(`http://localhost:8000/delacc`, {
@@ -109,7 +92,21 @@ export default function Profile() {
     });
     console.log(data.data.success);
 
-    deleteDocDatabase();
+    user &&
+      db
+        .collection("accounts")
+        .where("email", "==", user.email)
+        .get()
+      .then((querySnapshot) => 
+        querySnapshot.forEach(async (doc) => {
+          console.log(doc.id);
+          await db.collection("accounts").doc(doc.id).delete();
+        })
+      )
+      setTimeout(() => {
+        auth.signOut();
+        window.location = "/";
+      }, 1000)
   }
 
   function loadProfile() {

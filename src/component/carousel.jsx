@@ -5,23 +5,27 @@ import { Placeholder } from "react-bootstrap";
 
 export default function HomeCarousel() {
   const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const upcoming = `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}&language=en-US&page=1`;
 
   useEffect(() => {
     async function getMovies() {
       const request = await axios.get(upcoming);
       setMovies(request.data.results.slice(0, 5));
-      setLoading(false)
+      setLoading(false);
     }
     getMovies();
   }, [upcoming]);
 
-  return (loading ?
+  return loading ? (
     <Placeholder as={Carousel} animation="glow">
-      <Placeholder xs={12} bg="dark" style={{ marginTop: "5px", height: "570px" }} />
+      <Placeholder
+        xs={12}
+        bg="dark"
+        style={{ marginTop: "5px", height: "570px" }}
+      />
     </Placeholder>
-    :
+  ) : (
     <Carousel
       fade
       style={{ width: "97vw", margin: "0 auto", marginTop: "5px" }}

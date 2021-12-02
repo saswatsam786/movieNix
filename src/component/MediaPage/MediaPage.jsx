@@ -82,6 +82,7 @@ export default function MediaPage() {
       getGenres(movieDetails.data.genres);
     }
     rendreDetails();
+    // eslint-disable-next-line
   }, [media, id, user]);
 
   // BUY FUNCTION FOR EACH MOVIE

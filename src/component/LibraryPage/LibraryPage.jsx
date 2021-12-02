@@ -5,7 +5,8 @@ import styled from "styled-components";
 import axios from "axios";
 import loaderpage from "../Loader/loader";
 import firebase from "firebase";
-import LoginNew from "../../pages/Login/LoginNew";
+import Login from "../../pages/Login/Login";
+import Footer from '../Footer/Footer'
 
 export default function LibraryPage() {
   const [user, loading] = useAuthState(auth);
@@ -54,6 +55,7 @@ export default function LibraryPage() {
 
   function loadLib() {
     return (
+      <>
       <Wrapper>
         <Heading>Library</Heading>
         {/* eslint-disable-next-line */}
@@ -84,10 +86,12 @@ export default function LibraryPage() {
           )}
         </Row_Movies>
       </Wrapper>
+      <Footer />
+      </>
     );
   }
 
-  return loading ? loaderpage() : user ? loadLib() : <LoginNew />;
+  return loading ? loaderpage() : user ? loadLib() : <Login />;
 }
 
 const Wrapper = styled.div`
@@ -95,6 +99,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 10vh;
+  min-height: 90vh;
   width: 100%;
   overflow: hidden;
 `;

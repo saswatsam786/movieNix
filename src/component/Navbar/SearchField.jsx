@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import {
-  InputBase,
-  MenuItem,
-  IconButton,
-  Popover,
-} from "@mui/material";
+import { InputBase, MenuItem, IconButton, Popover } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import search from "../../pages/Search/Searchfunc";
 // import { Link, useHistory } from "react-router-dom";
@@ -84,7 +79,7 @@ export default function SearchField(props) {
       `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}&language=en-US&query=${searchText}&page=1&sort_by=popularity.desc`
     );
     setMovies(req.data.results);
-    console.log(movies);
+    // console.log(movies);
   };
 
   useEffect(() => {
@@ -107,7 +102,7 @@ export default function SearchField(props) {
     >
       <Search autoFocus sx={{ margin: "10px" }}>
         <SearchIconWrapper>
-          <SearchIcon sx={{color: 'white'}}/>
+          <SearchIcon sx={{ color: "white" }} />
         </SearchIconWrapper>
         <StyledInputBase
           sx={{ p: 1 }}

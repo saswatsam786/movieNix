@@ -7,7 +7,7 @@ import VideoModal from "./VideoModal";
 import { auth, db } from "../../firebase";
 import firebase from "firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import loader from '../Loader/loader'
+import loader from "../Loader/loader";
 
 export default function MediaPage() {
   // eslint-disable-next-line
@@ -26,7 +26,7 @@ export default function MediaPage() {
   const handleShow = () => setShow(true);
 
   // eslint-disable-next-line
-  const [currentTime, setCurrentTime] = useState(new Date())
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     //eslint-disable-next-line
@@ -43,13 +43,13 @@ export default function MediaPage() {
                 const a = await doc
                   .data()
                   .lib.filter((data) => data.id === parseInt(id));
-                console.log(a);
+                // console.log(a);
                 a.length === 0 ? setCheck(false) : setCheck(true);
               }
 
-              (doc.data().lib).map(async movie => {
-                if(movie.expiryDate <= currentTime) {
-                  console.log('Movie deleted!');
+              doc.data().lib.map(async (movie) => {
+                if (movie.expiryDate <= currentTime) {
+                  // console.log('Movie deleted!');
                   // const variable = db.collection("accounts").doc(doc.id);
                   // await variable
                   //   .update({ lib: firebase.firestore.FieldValue.arrayRemove(movie) })
@@ -57,7 +57,7 @@ export default function MediaPage() {
                   //     console.log(err);
                   //   })
                 }
-            })
+              });
 
               setAccid(doc.data().accid);
               setPrivatekey(doc.data().privatekey);
@@ -87,12 +87,16 @@ export default function MediaPage() {
   // BUY FUNCTION FOR EACH MOVIE
   // eslint-disable-next-line
   const buyFunc = async (price) => {
-    console.log(accid);
+    // console.log(accid);
     // eslint-disable-next-line
-    let data = await axios.post(`http://localhost:8000/transferMoney`, {
-      id: accid,
-      key: privatekey,
-    });
+    let data = await axios.post(
+      `https://movienix-backend.herokuapp.com/transferMoney`,
+      {
+        id: accid,
+        key: privatekey,
+        amount: 5,
+      }
+    );
     // console.log(data.data.status);
     alert("Movie added to the library");
     setTimeout(handleClose(), 500);
@@ -110,10 +114,10 @@ export default function MediaPage() {
               const purchaseTimeStamp = new Date();
               const expTimeStamp = new Date();
               // expTimeStamp.setDate(purchaseTimeStamp.getDate() + 0);
-              
+
               // const expTime = new Date()
-              expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 2)
-              
+              expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 2);
+
               let a = {
                 id: details.id,
                 purchaseDate: purchaseTimeStamp.toDateString(),
@@ -129,7 +133,7 @@ export default function MediaPage() {
                   console.log(err);
                 })
                 .then(() => {
-                  window.location.reload()
+                  window.location.reload();
                 });
             });
           })
@@ -150,7 +154,9 @@ export default function MediaPage() {
     return rhours + " hr " + rminutes + " min";
   };
 
-  return ( loading ? loader() :
+  return loading ? (
+    loader()
+  ) : (
     <div
       style={{ backgroundImage: `url(${bgURL})` }}
       className="container-media-page"
@@ -189,9 +195,15 @@ export default function MediaPage() {
             />
 
             {/* BUTTON FOR PURCHASE */}
-            {(user && !check) && <Button onClick={handleShow} style={{ marginLeft: "10px" }} variant="outline-light">
-                      <i className="fas fa-plus"></i> Buy Now
-                    </Button>}
+            {user && !check && (
+              <Button
+                onClick={handleShow}
+                style={{ marginLeft: "10px" }}
+                variant="outline-light"
+              >
+                <i className="fas fa-plus"></i> Buy Now
+              </Button>
+            )}
             <Modal show={show} onHide={handleClose} centered>
               <Modal.Body>
                 <p>

@@ -8,13 +8,13 @@ import { Placeholder } from "react-bootstrap";
 
 const Row = ({ genre, moviePath }) => {
   const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       const request = await axios.get(moviePath);
       setMovies(request.data.results);
-      setLoading(false)
+      setLoading(false);
     }
     fetchData();
   }, [moviePath]);
@@ -32,29 +32,38 @@ const Row = ({ genre, moviePath }) => {
     <Wrapper>
       <Heading>{genre}</Heading>
       {/* eslint-disable-next-line */}
-      {loading ?
-       <Placeholder as={Row_Movies} animation="glow">
+      {loading ? (
+        <Placeholder as={Row_Movies} animation="glow">
           <Placeholder bg="dark" xs={12} style={{ height: "280px" }} />
-     </Placeholder> 
-        :
+        </Placeholder>
+      ) : (
         <Row_Movies>
-          {movies.map((movie) => (
-            movie.media_type !== "tv" && <Movie key={movie.id} onClick={async () => {
-              console.log(movie)
-              window.location = `/movie/${movie.id}`
-            }}>
-              <Image
-                key={movie.id}
-                src={"https://image.tmdb.org/t/p/original" + movie.poster_path}
-                alt={movie.id}
-              ></Image>
-              <Info>
-                <Title>{movie.title || movie.name}</Title>
-                <Desc>{truncate(movie.overview, 12)}</Desc>
-              </Info>
-            </Movie>
-          ))}
-        </Row_Movies>}
+          {movies.map(
+            (movie) =>
+              movie.media_type !== "tv" && (
+                <Movie
+                  key={movie.id}
+                  onClick={async () => {
+                    // console.log(movie)
+                    window.location = `/movie/${movie.id}`;
+                  }}
+                >
+                  <Image
+                    key={movie.id}
+                    src={
+                      "https://image.tmdb.org/t/p/original" + movie.poster_path
+                    }
+                    alt={movie.id}
+                  ></Image>
+                  <Info>
+                    <Title>{movie.title || movie.name}</Title>
+                    <Desc>{truncate(movie.overview, 12)}</Desc>
+                  </Info>
+                </Movie>
+              )
+          )}
+        </Row_Movies>
+      )}
     </Wrapper>
   );
 };
@@ -168,4 +177,3 @@ const Desc = styled.p`
 `;
 
 export default Row;
-

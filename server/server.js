@@ -22,11 +22,13 @@ app.use(
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("/", (req, res, next) => {
   res.send("Server is running");
+  next();
 });
-app.get("/profile", (res) => {
+app.get("/profile", (req, res, next) => {
   res.send("profile");
+  next();
 });
 
 async function main() {
@@ -86,7 +88,7 @@ async function main() {
     next();
   });
 
-  app.post("/balance", async (req, res) => {
+  app.post("/balance", async (req, res, next) => {
     try {
       const id = req.body.id;
       const key = req.body.key;
@@ -102,6 +104,7 @@ async function main() {
         "The hbar account balance for this account is " + accountBalance.hbars
       );
       // const balance = accountBalance.hbars();
+
       res.status(200).json({
         status: "success",
         data: {
@@ -111,9 +114,10 @@ async function main() {
     } catch (error) {
       console.log(error);
     }
+    next();
   });
 
-  app.post("/transferMoney", async (req, res) => {
+  app.post("/transferMoney", async (req, res, next) => {
     try {
       const id = req.body.id;
       const key = req.body.key;
@@ -152,9 +156,10 @@ async function main() {
     } catch (error) {
       console.log(error);
     }
+    next();
   });
 
-  app.post("/delacc", async (req, res) => {
+  app.post("/delacc", async (req, res, next) => {
     try {
       const id = req.body.id;
       const key = req.body.key;
@@ -182,6 +187,7 @@ async function main() {
     } catch (error) {
       console.log(error);
     }
+    next();
   });
 }
 main();

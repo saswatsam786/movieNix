@@ -20,12 +20,17 @@ export default function VideoModal(props) {
 
   useEffect(() => {
     async function fetchData() {
-      let data = await axios.post(`http://localhost:8000/balance`, {
-        id: props.accid,
-        key: props.privatekey,
-      });
-      console.log(data.data.data.balance._valueInTinybar);
-      setAccbal(data.data.data.balance._valueInTinybar / 100000000);
+      let data = await axios.post(
+        `https://movienix-backend.herokuapp.com/balance`,
+        {
+          id: props.accid,
+          key: props.privatekey,
+        }
+      );
+
+      setAccbal(
+        (data.data.data.balance._valueInTinybar / 100000000 - 0).toFixed(4)
+      );
     }
     fetchData();
   }, [display === true]);
@@ -36,29 +41,20 @@ export default function VideoModal(props) {
         Math.round((duration.getCurrentTime() + Number.EPSILON) * 100) / 100
       );
     }
-    const expTimeStamp = new Date();
-    expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 2)
-    const timestamp = new Date();
-    if(timestamp>=expTimeStamp){
-      alert("Movie deleted");
-    }else{
-      alert("not deleted");
-    }
-    console.log(expTimeStamp);
-    console.log(time);
-    console.log(duration.getCurrentTime());
   };
 
   const totalMoney = async () => {
     setDisplay(true);
     setShow(false);
-    console.log(time, props.accid, props.privatekey);
     if (!props.check) {
-      let data = await axios.post(`http://localhost:8000/transferMoney`, {
-        id: props.accid,
-        key: props.privatekey,
-        amount: Math.round((time * 0.01 + Number.EPSILON) * 100) / 100,
-      });
+      let data = await axios.post(
+        `https://movienix-backend.herokuapp.com/transferMoney`,
+        {
+          id: props.accid,
+          key: props.privatekey,
+          amount: Math.round((time * 0.01 + Number.EPSILON) * 100) / 100,
+        }
+      );
     }
   };
 
@@ -71,18 +67,21 @@ export default function VideoModal(props) {
   return (
     <>
       {user ? (
-        !props.check ? (<Button variant="light" onClick={() => setShow(true)}>
-                          <i className="fas fa-play"></i> Trailer
-                        </Button>) : 
-                        (<Button variant="light" onClick={() => setShow(true)}>
-                          <i className="fas fa-play"></i> Watch Now
-                        </Button>)
+        !props.check ? (
+          <Button variant="light" onClick={() => setShow(true)}>
+            <i className="fas fa-play"></i> Trailer
+          </Button>
+        ) : (
+          <Button variant="light" onClick={() => setShow(true)}>
+            <i className="fas fa-play"></i> Watch Now
+          </Button>
+        )
       ) : (
         <Link to="/login">
           <Button variant="light">Log In</Button>
         </Link>
       )}
-      {console.log(show)}
+
       {/* <Modal show={display} onHide={() => setDisplay(false)} centered>
         <Modal.Body>
           <p>
@@ -122,7 +121,7 @@ export default function VideoModal(props) {
             <li>
               Current balance:{" "}
               <span style={{ position: "absolute", right: "0" }}>
-                {Math.round((accbal + Number.EPSILON) * 100) / 100} hbar
+                {accbal} hbar
               </span>
               <hr style={{ margin: "5px 0" }} />
             </li>
@@ -147,9 +146,8 @@ export default function VideoModal(props) {
               Balance after purchase:{" "}
               <span style={{ position: "absolute", right: "0" }}>
                 {props.check
-                  ? Math.round((accbal + Number.EPSILON) * 100) / 100
-                  : Math.round((accbal - time * 0.01 + Number.EPSILON) * 100) /
-                    100}{" "}
+                  ? accbal.toFixed(4)
+                  : (accbal - time * 0.01).toFixed(4)}{" "}
                 hbar
               </span>
               <hr style={{ margin: "5px 0" }} />

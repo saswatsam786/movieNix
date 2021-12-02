@@ -146,7 +146,7 @@ export default function VideoModal(props) {
               Balance after purchase:{" "}
               <span style={{ position: "absolute", right: "0" }}>
                 {props.check
-                  ? accbal.toFixed(4)
+                  ? (accbal - 0).toFixed(4)
                   : (accbal - time * 0.01).toFixed(4)}{" "}
                 hbar
               </span>

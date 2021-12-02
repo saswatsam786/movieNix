@@ -33,3 +33,7 @@
 .dropdown-custom::hover{
   background-color: rgb(63, 63, 63) !important;
 }
+
+.white-override{
+  color: white !important;
+}

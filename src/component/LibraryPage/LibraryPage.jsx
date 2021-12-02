@@ -59,32 +59,41 @@ export default function LibraryPage() {
       <Wrapper>
         <Heading>Library</Heading>
         {/* eslint-disable-next-line */}
-        <Row_Movies>
-          {movies.map(
-            (movie) =>
-              movie.media_type !== "tv" && (
-                <Movie
-                  key={movie.id}
-                  onClick={async () => {
-                    // console.log(movie)
-                    window.location = `/movie/${movie.id}`;
-                  }}
-                >
-                  <Image
+        {movies.length === 0 ? (
+          <h1
+            style={{ color: "#ccc", display: "flex", justifyContent: "center" }}
+          >
+            No movies
+          </h1>
+        ) : (
+          <Row_Movies>
+            {movies.map(
+              (movie) =>
+                movie.media_type !== "tv" && (
+                  <Movie
                     key={movie.id}
-                    src={
-                      "https://image.tmdb.org/t/p/original" + movie.poster_path
-                    }
-                    alt={movie.id}
-                  ></Image>
-                  <Info>
-                    <Title>{movie.title || movie.name}</Title>
-                    <Desc>{truncate(movie.overview, 12)}</Desc>
-                  </Info>
-                </Movie>
-              )
-          )}
-        </Row_Movies>
+                    onClick={async () => {
+                      // console.log(movie)
+                      window.location = `/movie/${movie.id}`;
+                    }}
+                  >
+                    <Image
+                      key={movie.id}
+                      src={
+                        "https://image.tmdb.org/t/p/original" +
+                        movie.poster_path
+                      }
+                      alt={movie.id}
+                    ></Image>
+                    <Info>
+                      <Title>{movie.title || movie.name}</Title>
+                      <Desc>{truncate(movie.overview, 12)}</Desc>
+                    </Info>
+                  </Movie>
+                )
+            )}
+          </Row_Movies>
+        )}
       </Wrapper>
       <Footer />
       </>
@@ -101,6 +110,7 @@ const Wrapper = styled.div`
   margin-top: 10vh;
   min-height: 90vh;
   width: 100%;
+  height: 90vh;
   overflow: hidden;
 `;
 const Heading = styled.h2`
@@ -117,6 +127,7 @@ const Row_Movies = styled.div`
   width: 100vw;
   overflow: hidden;
   padding-top: 23px;
+  min-height: 90vh;
 `;
 const Image = styled.img`
   object-fit: contain;

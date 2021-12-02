@@ -128,13 +128,13 @@ export default function About() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <IconButton sx={{color:"white"}} href={`mailto:${member.email}`}>
+                  <IconButton sx={{color:"white"}} target="_blank" href={`mailto:${member.email}`}>
                     <EmailIcon />
                   </IconButton>
-                  <IconButton sx={{color:"white"}} href={member.github}>
+                  <IconButton sx={{color:"white"}} target="_blank" href={member.github}>
                     <GitHubIcon />
                   </IconButton>
-                  <IconButton sx={{color:"white"}} href={member.linkedin}>
+                  <IconButton sx={{color:"white"}} target="_blank" href={member.linkedin}>
                     <LinkedInIcon />
                   </IconButton>
                 </CardActions>

@@ -3,7 +3,6 @@ import { styled, alpha } from "@mui/material/styles";
 import { InputBase, MenuItem, IconButton, Popover } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import search from "../../pages/Search/Searchfunc";
-// import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 
 const Search = styled("div")(({ theme }) => ({
@@ -167,7 +166,7 @@ export default function SearchField(props) {
     <div>
       <Search sx={{ display: { xs: "none", sm: "flex" } }}>
         <SearchIconWrapper>
-          <SearchIcon />
+          <SearchIcon sx={{ color: "white" }}/>
         </SearchIconWrapper>
         <StyledInputBase
           autoFocus

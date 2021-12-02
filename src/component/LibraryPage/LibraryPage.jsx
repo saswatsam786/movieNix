@@ -25,7 +25,7 @@ export default function LibraryPage() {
             // console.log(doc.data().lib);
             doc.data().lib.map(async (movie) => {
               const request = await axios.get(
-                `https://api.themoviedb.org/3/movie/${movie.id.toString()}?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b`
+                `https://api.themoviedb.org/3/movie/${movie.id.toString()}?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}`
               );
               // console.log(request.data);
               if (movie.expiryDate <= currentTime) {
@@ -66,6 +66,7 @@ export default function LibraryPage() {
             No movies
           </h1>
         ) : (
+          //eslint-disable-next-line
           <Row_Movies>
             {movies.map(
               (movie) =>

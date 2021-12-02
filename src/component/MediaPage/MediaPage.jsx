@@ -83,7 +83,7 @@ export default function MediaPage() {
     }
     rendreDetails();
     // eslint-disable-next-line
-  }, [media, id, user]);
+  }, [media, id, user, check]);
 
   // BUY FUNCTION FOR EACH MOVIE
   // eslint-disable-next-line
@@ -134,7 +134,8 @@ export default function MediaPage() {
                   console.log(err);
                 })
                 .then(() => {
-                  window.location.reload();
+                  // window.location.reload();
+                  setCheck(true);
                 });
             });
           })

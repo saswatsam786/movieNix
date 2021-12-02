@@ -1,6 +1,5 @@
 import { Modal, Button } from "react-bootstrap";
 import { useState, useRef, useEffect } from "react";
-// import YouTube from "react-youtube";
 import ReactPlayer from "react-player";
 import { auth } from "../../firebase";
 import { Link } from "react-router-dom";
@@ -9,14 +8,14 @@ import axios from "axios";
 
 export default function VideoModal(props) {
   const [show, setShow] = useState(false);
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [accbal, setAccbal] = useState("");
   const [display, setDisplay] = useState(false);
 
   const bodyRef = useRef(null);
-  const handleClose = () => setShow(false);
+  // const handleClose = () => setShow(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -33,6 +32,7 @@ export default function VideoModal(props) {
       );
     }
     fetchData();
+    //eslint-disable-next-line
   }, [display === true]);
 
   const getWatchTime = () => {
@@ -47,6 +47,7 @@ export default function VideoModal(props) {
     setDisplay(true);
     setShow(false);
     if (!props.check) {
+      //eslint-disable-next-line
       let data = await axios.post(
         `https://movienix-backend.herokuapp.com/transferMoney`,
         {
@@ -69,7 +70,7 @@ export default function VideoModal(props) {
       {user ? (
         !props.check ? (
           <Button variant="light" onClick={() => setShow(true)}>
-            <i className="fas fa-play"></i> Trailer
+            <i className="fas fa-play"></i> Watch Now
           </Button>
         ) : (
           <Button variant="light" onClick={() => setShow(true)}>

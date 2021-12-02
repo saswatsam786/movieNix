@@ -6,9 +6,8 @@ import {
   Button,
   Typography,
   Divider,
-  Avatar
 } from "@mui/material";
-import LockIcon from '@mui/icons-material/Lock';
+// import LockIcon from '@mui/icons-material/Lock';
 import GoogleIcon from '@mui/icons-material/Google';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
@@ -95,17 +94,19 @@ export default function Login() {
       >
         <Card sx={{ minWidth: 270, maxWidth: 700,textAlign: 'center', padding: '20px 70px' }}>
           <CardContent>
-            <Avatar sx={{margin:'auto', padding:'20px', mb: 2}}>
-              <LockIcon />
-            </Avatar>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              Login / SignUp
+            <img 
+              alt="MovieNix"
+              src="./MovieNix-2.svg"
+              style={{
+                margin:'auto', 
+                padding:'20px', 
+                mb: 2
+              }} 
+            />
+            <Typography variant="h5" color="text.secondary" gutterBottom>
+              MovieNix
             </Typography>
             <Divider className="divider" sx={{ mb: 2 }} />
-            <Typography variant="h6" component="div" sx={{ mb: 1.5 }}>
-              LOGIN
-            </Typography>
-            <Divider sx={{ mb: 2 }} />
             <Typography variant="body2" >
               Login or create your account through Google
             </Typography>

@@ -13,22 +13,13 @@ export default function Search(movie) {
         movie.media_type !== "tv" && (
           <>
             {/* <div
-              onClick={async () => {
-                console.log(movie)
-                window.location = `/movie/${movie.id}`
-              }}
-              style={{display:"flex"}}
-            >
-              <div>
-                <img 
-                  alt="movie poster"
-                  src={"https://image.tmdb.org/t/p/original" + movie.poster_path}
-                  style={{width:"3rem",height:"3rem",}} />
-              </div>
-              <div>
-                <p>{movie.title || movie.name}</p>
-                </div>
-            </div> */}
+            onClick={async () => {
+              console.log(movie)
+              window.location = `/movie/${movie.id}`
+            }}
+            style={{display:"flex"}}
+          >
+          </div> */}
             <Card style={{maxWidth:"100px"}}>
               <CardMedia
                 component="img"

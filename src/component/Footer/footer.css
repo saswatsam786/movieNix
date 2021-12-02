@@ -1,0 +1,8 @@
+@media (max-width: 600px){
+    .footer-text{
+        text-align: center !important;
+    }
+    .second{
+        padding-top: 30px !important;
+    }
+}

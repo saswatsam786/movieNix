@@ -26,20 +26,23 @@ function Search() {
 
   useEffect(() => {
     fetchSearch()
+    //eslint-disable-next-line
   }, [searchText])
 
   return (
     <div>
       <Form
         className="d-flex me-auto"
-        style={{ margin: "20px 5px" }}
+        style={{
+          margin: "55px 100px",
+        }}
       >
         <FormControl
           type="search"
           placeholder="Search"
           className="me-1"
           aria-label="Search"
-          value= {searchText}
+          value={searchText}
           onChange={
             ((e) => {
               setSearchText(e.target.value)

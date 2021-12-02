@@ -7,6 +7,7 @@ import VideoModal from "./VideoModal";
 import { auth, db } from "../../firebase";
 import firebase from "firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import loader from "../Loader/loader";
 
 export default function MediaPage() {
   // eslint-disable-next-line
@@ -17,11 +18,15 @@ export default function MediaPage() {
   const [showGenres, getGenres] = useState([]);
   const [accid, setAccid] = useState("");
   const [privatekey, setPrivatekey] = useState("");
+  const [check, setCheck] = useState(false);
 
   // FOR PRICING MODAL
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  // eslint-disable-next-line
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     //eslint-disable-next-line
@@ -32,7 +37,28 @@ export default function MediaPage() {
           .where("email", "==", user.email)
           .get()
           .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
+            querySnapshot.forEach(async (doc) => {
+              {
+                // console.log(doc.data().lib);
+                const a = await doc
+                  .data()
+                  .lib.filter((data) => data.id === parseInt(id));
+                // console.log(a);
+                a.length === 0 ? setCheck(false) : setCheck(true);
+              }
+
+              doc.data().lib.map(async (movie) => {
+                if (movie.expiryDate <= currentTime) {
+                  // console.log('Movie deleted!');
+                  // const variable = db.collection("accounts").doc(doc.id);
+                  // await variable
+                  //   .update({ lib: firebase.firestore.FieldValue.arrayRemove(movie) })
+                  //   .then((err) => {
+                  //     console.log(err);
+                  //   })
+                }
+              });
+
               setAccid(doc.data().accid);
               setPrivatekey(doc.data().privatekey);
             });
@@ -59,13 +85,19 @@ export default function MediaPage() {
   }, [media, id, user]);
 
   // BUY FUNCTION FOR EACH MOVIE
+  // eslint-disable-next-line
   const buyFunc = async (price) => {
-    console.log(accid);
-    let data = await axios.post(`http://localhost:8000/transferMoney`, {
-      id: accid,
-      key: privatekey,
-    });
-    console.log(data.data.status);
+    // console.log(accid);
+    // eslint-disable-next-line
+    let data = await axios.post(
+      `https://movienix-backend.herokuapp.com/transferMoney`,
+      {
+        id: accid,
+        key: privatekey,
+        amount: 5,
+      }
+    );
+    // console.log(data.data.status);
     alert("Movie added to the library");
     setTimeout(handleClose(), 500);
   };
@@ -81,14 +113,19 @@ export default function MediaPage() {
             querySnapshot.forEach(async (doc) => {
               const purchaseTimeStamp = new Date();
               const expTimeStamp = new Date();
-              expTimeStamp.setDate(purchaseTimeStamp.getDate() + 30);
+              // expTimeStamp.setDate(purchaseTimeStamp.getDate() + 0);
+
+              // const expTime = new Date()
+              expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 2);
 
               let a = {
                 id: details.id,
                 purchaseDate: purchaseTimeStamp.toDateString(),
-                expiryDate: expTimeStamp.toDateString(),
-                time: purchaseTimeStamp.toLocaleTimeString(),
+                expiryDate: expTimeStamp,
+                // expiryTime: expTime.toLocaleTimeString(),
+                time: purchaseTimeStamp,
               };
+
               const variable = db.collection("accounts").doc(doc.id);
               await variable
                 .update({ lib: firebase.firestore.FieldValue.arrayUnion(a) })
@@ -96,12 +133,13 @@ export default function MediaPage() {
                   console.log(err);
                 })
                 .then(() => {
-                  user ? buyFunc(1) : alert("Login first");
+                  window.location.reload();
                 });
             });
           })
       : alert("Login first");
     handleClose();
+    // window.location.reload()
   }
 
   // PATH FOR POSTER IN THE BACKGROUND
@@ -116,7 +154,9 @@ export default function MediaPage() {
     return rhours + " hr " + rminutes + " min";
   };
 
-  return (
+  return loading ? (
+    loader()
+  ) : (
     <div
       style={{ backgroundImage: `url(${bgURL})` }}
       className="container-media-page"
@@ -151,16 +191,19 @@ export default function MediaPage() {
               videoKey={trailerKey}
               accid={accid}
               privatekey={privatekey}
+              check={check}
             />
 
             {/* BUTTON FOR PURCHASE */}
-            <Button
-              onClick={handleShow}
-              style={{ marginLeft: "10px" }}
-              variant="outline-light"
-            >
-              <i className="fas fa-plus"></i> Buy Now
-            </Button>
+            {user && !check && (
+              <Button
+                onClick={handleShow}
+                style={{ marginLeft: "10px" }}
+                variant="outline-light"
+              >
+                <i className="fas fa-plus"></i> Buy Now
+              </Button>
+            )}
             <Modal show={show} onHide={handleClose} centered>
               <Modal.Body>
                 <p>

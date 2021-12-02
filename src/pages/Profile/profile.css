@@ -2,3 +2,27 @@
     background: rgb(54, 57, 64) !important;
     color: white !important;
 }
+.avatar-pfp{
+    border-radius: 100%;
+}
+
+@media (max-width: 635px){
+    .avatar-media{
+        width: 100px !important;
+        height:  100px !important;
+        padding: 0px auto !important;
+    }
+    .heading-list{
+        font-size: 2rem !important;
+        line-height: 200% !important;
+    }
+    .listtext{
+        text-align: center
+    }
+    .card-profile{
+        height: auto !important;
+    }
+}
+body{
+    min-height: 100vh;
+}

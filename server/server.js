@@ -12,6 +12,7 @@ const {
 
 require("dotenv").config();
 const app = express();
+const port = process.env.PORT || 8000;
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -21,11 +22,13 @@ app.use(
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("/", (req, res, next) => {
   res.send("Server is running");
+  next();
 });
-app.get("/profile", (res) => {
+app.get("/profile", (req, res, next) => {
   res.send("profile");
+  next();
 });
 
 async function main() {
@@ -85,14 +88,14 @@ async function main() {
     next();
   });
 
-  app.post("/balance", async (req, res) => {
+  app.post("/balance", async (req, res, next) => {
     try {
       const id = req.body.id;
       const key = req.body.key;
       console.log(id);
-
+      const privatekey = PrivateKey.fromString(key);
       const client = Client.forTestnet();
-      client.setOperator(id, key);
+      client.setOperator(id, privatekey);
       const query = new AccountBalanceQuery().setAccountId(id);
       let accountBalance = await query.execute(client);
       //Print the balance of hbars
@@ -101,6 +104,7 @@ async function main() {
         "The hbar account balance for this account is " + accountBalance.hbars
       );
       // const balance = accountBalance.hbars();
+
       res.status(200).json({
         status: "success",
         data: {
@@ -110,9 +114,10 @@ async function main() {
     } catch (error) {
       console.log(error);
     }
+    next();
   });
 
-  app.post("/transferMoney", async (req, res) => {
+  app.post("/transferMoney", async (req, res, next) => {
     try {
       const id = req.body.id;
       const key = req.body.key;
@@ -151,9 +156,10 @@ async function main() {
     } catch (error) {
       console.log(error);
     }
+    next();
   });
 
-  app.post("/delacc", async (req, res) => {
+  app.post("/delacc", async (req, res, next) => {
     try {
       const id = req.body.id;
       const key = req.body.key;
@@ -176,15 +182,16 @@ async function main() {
       console.log("The transaction consensus status is " + transactionStatus);
 
       res.status(200).json({
-        success: "deleted re baba",
+        success: "deleted",
       });
     } catch (error) {
       console.log(error);
     }
+    next();
   });
 }
 main();
 
-app.listen(8000, () => {
+app.listen(port, () => {
   console.log("SERVER RUNNING ON PORT 8000...");
 });

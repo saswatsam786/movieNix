@@ -28,19 +28,23 @@ export default function Login() {
               }
             });
             if (acc === false) {
-              axios.get("http://localhost:8000/createAccount").then((props) => {
-                db.collection("accounts")
-                  .add({
-                    email: user.email,
-                    accid: props.data.id,
-                    privatekey: props.data.privatekey,
-                    publickey: props.data.publickey,
-                    lib: []
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              });
+              const createAcc = new Date();
+              axios
+                .get("https://movienix-backend.herokuapp.com/createAccount")
+                .then((props) => {
+                  db.collection("accounts")
+                    .add({
+                      email: user.email,
+                      accid: props.data.id,
+                      privatekey: props.data.privatekey,
+                      publickey: props.data.publickey,
+                      lib: [],
+                      accountCreationDate: createAcc.toLocaleDateString(),
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                });
             }
           })
           .catch((error) => {

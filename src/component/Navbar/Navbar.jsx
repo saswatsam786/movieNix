@@ -159,14 +159,14 @@ export default function NavigationBar(props) {
         <br />
       </Card>
       <Divider />
-      <MenuItem onClick={handleMenuClose}>
-        <ListItemIcon>
-          <AccountCircle fontSize="small" />
-        </ListItemIcon>
-        <Link to="/profile" className="navbar-link">
-          Profile
-        </Link>
-      </MenuItem>
+      <Link to="/profile" className="navbar-link">
+        <MenuItem onClick={handleMenuClose}>
+          <ListItemIcon>
+            <AccountCircle fontSize="small" />
+          </ListItemIcon>
+            Profile
+        </MenuItem>
+      </Link>
 
       <Link to="/library" className="navbar-link">
         <MenuItem onClick={handleMenuClose}>
@@ -257,7 +257,7 @@ export default function NavigationBar(props) {
               </NavLink>
             </Typography>
             {/* <Box sx={{ flexGrow: 1 }} /> */}
-            {window.location.pathname !== "/profile" && <SearchField />}
+            {(window.location.pathname !== "/profile" || window.location.pathname !== "/login") && <SearchField />}
             {user ? (
               <>
                 <Box sx={{ display: { xs: "none", sm: "flex" } }}>

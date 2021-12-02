@@ -2,6 +2,7 @@
   "name": "movienix",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://movienix-backend.herokuapp.com",
   "dependencies": {
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",

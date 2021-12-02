@@ -37,6 +37,7 @@ const Row = ({ genre, moviePath }) => {
           <Placeholder bg="dark" xs={12} style={{ height: "280px" }} />
         </Placeholder>
       ) : (
+        //eslint-disable-next-line
         <Row_Movies>
           {movies.map(
             (movie) =>

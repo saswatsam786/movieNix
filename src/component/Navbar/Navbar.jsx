@@ -257,7 +257,7 @@ export default function NavigationBar(props) {
               </NavLink>
             </Typography>
             {/* <Box sx={{ flexGrow: 1 }} /> */}
-            {(window.location.pathname !== "/profile" || window.location.pathname !== "/login") && <SearchField />}
+            {((window.location.pathname !== "/profile") && (window.location.pathname !== "/login")) && <SearchField />}
             {user ? (
               <>
                 <Box sx={{ display: { xs: "none", sm: "flex" } }}>

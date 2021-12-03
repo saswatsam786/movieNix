@@ -8,11 +8,13 @@ import axios from "axios";
 
 export default function VideoModal(props) {
   const [show, setShow] = useState(false);
-  const [user] = useAuthState(auth);
+  // eslint-disable-next-line
+  const [user, loading] = useAuthState(auth);
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [accbal, setAccbal] = useState("");
   const [display, setDisplay] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const bodyRef = useRef(null);
   // const handleClose = () => setShow(false);
@@ -38,7 +40,7 @@ export default function VideoModal(props) {
   const getWatchTime = () => {
     if (duration.getCurrentTime() > time) {
       setTime(
-        Math.round((duration.getCurrentTime() + Number.EPSILON) * 100) / 100
+        (duration.getCurrentTime()-0).toFixed(4)
       );
     }
   };
@@ -53,7 +55,7 @@ export default function VideoModal(props) {
         {
           id: props.accid,
           key: props.privatekey,
-          amount: Math.round((time * 0.01 + Number.EPSILON) * 100) / 100,
+          amount: (time*0.01).toFixed(8)
         }
       );
     }
@@ -69,8 +71,8 @@ export default function VideoModal(props) {
     <>
       {user ? (
         !props.check ? (
-          <Button variant="light" onClick={() => setShow(true)}>
-            <i className="fas fa-play"></i> Watch Now
+          <Button variant="light" onClick={() => setOpen(true)}>
+            <i className="fas fa-play"></i> Trailer
           </Button>
         ) : (
           <Button variant="light" onClick={() => setShow(true)}>
@@ -83,12 +85,12 @@ export default function VideoModal(props) {
         </Link>
       )}
 
-      {/* <Modal show={display} onHide={() => setDisplay(false)} centered>
+      <Modal show={open} onHide={() => setOpen(false)} centered>
         <Modal.Body>
           <p>
             <strong>
-              You haven't bought this movie. If you want continue for 0.01
-              hbar/sec. Then press OK .
+              {(accbal - 0) >= 5 ? "You haven't bought this movie. If you still want continue for 0.01 hbar/sec. Then press OK ."
+                : "Insufficient balance to continue watching..."}
             </strong>
           </p>
           <ul
@@ -101,11 +103,11 @@ export default function VideoModal(props) {
           ></ul>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-dark" onClick={finalPayment}>
+          <Button variant="dark" onClick={() => {setShow(true); setOpen(false)}} disabled={(accbal-0) >= 5 ? false : true}>
             OK
           </Button>
         </Modal.Footer>
-      </Modal> */}
+      </Modal>
       <Modal show={display} onHide={() => setDisplay(false)} centered>
         <Modal.Body>
           <p>
@@ -138,7 +140,7 @@ export default function VideoModal(props) {
               <span style={{ position: "absolute", right: "0" }}>
                 {props.check
                   ? 0
-                  : Math.round((time * 0.01 + Number.EPSILON) * 100) / 100}{" "}
+                  : (time*0.01).toFixed(4)}{" "}
                 hbar
               </span>
               <hr style={{ margin: "5px 0" }} />

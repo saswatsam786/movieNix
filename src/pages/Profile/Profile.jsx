@@ -25,6 +25,7 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
 import Home from "../Home/Home";
+import Footer from "../../component/Footer/Footer";
 import axios from "axios";
 import "./profile.css";
 import loader from "../../component/Loader/loader";
@@ -37,6 +38,7 @@ export default function Profile() {
   const [createDate, setCreateDate] = useState("");
   const [lib, setLib] = useState(0);
   const [open, setOpen] = useState(false);
+  const [disableBtn, setDisableBtn] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -89,15 +91,13 @@ export default function Profile() {
   }, [user, accid, privatekey, accbal]);
 
   async function deleteAccount() {
-    // let data = await axios.post(
-    //   `https://movienix-backend.herokuapp.com/delacc`,
-    //   {
-    //     id: accid,
-    //     key: privatekey,
-    //   }
-    // );
+    await axios.post(`https://movienix-backend.herokuapp.com/deleteAccount`, {
+      id: accid,
+      key: privatekey,
+    });
     console.log("server deleted");
     // console.log(data.data.success);
+    setDisableBtn(true);
 
     user &&
       db
@@ -111,9 +111,9 @@ export default function Profile() {
           })
         );
     setTimeout(() => {
-      user.delete();
+      auth.signOut();
       window.location = "/";
-    }, 4000);
+    }, 1000);
   }
 
   function loadProfile() {
@@ -218,7 +218,7 @@ export default function Profile() {
                         <ListItemText
                           className="listtext"
                           primary="Account Balance"
-                          secondary={accbal}
+                          secondary={`${accbal} ℏ`}
                         />
                       </ListItem>
                       <Divider />
@@ -248,6 +248,7 @@ export default function Profile() {
                     }}
                   >
                     <Button
+                      disabled={disableBtn}
                       onClick={handleClickOpen}
                       color="error"
                       startIcon={<DeleteIcon />}
@@ -268,7 +269,13 @@ export default function Profile() {
                           Cancel
                         </Button>
                         <div className="navbar-link">
-                          <Button color="error" onClick={deleteAccount}>
+                          <Button
+                            color="error"
+                            onClick={() => {
+                              setOpen(false);
+                              deleteAccount();
+                            }}
+                          >
                             Delete
                           </Button>
                         </div>
@@ -277,54 +284,10 @@ export default function Profile() {
                   </CardActions>
                 </Card>
               </Grid>
-              {/* <Card
-          style={{
-            maxWidth: "300px",
-            background: "rgb(54, 57, 64)",
-            color: "white",
-          }}
-        >
-          <Card.Img variant="top" src={auth.currentUser.photoURL} />
-          <Card.Body>
-            <Card.Title>{auth.currentUser.displayName}</Card.Title>
-            <Card.Text>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti
-              dolor aperiam ullam fuga, natus quis iusto architecto a itaque
-              facere.
-            </Card.Text>
-          </Card.Body>
-          <ListGroup className="list-group-flush">
-            <ListGroupItem className="random">{user.email}</ListGroupItem>
-            <ListGroupItem className="random">some information</ListGroupItem>
-            <ListGroupItem className="random">
-              Account Id : {accid}
-            </ListGroupItem>
-            <ListGroupItem className="random">
-              Account Balance : {accbal}
-            </ListGroupItem>
-          </ListGroup>
-          <Card.Body>
-            <Card.Link href="/">Home</Card.Link> 
-            <Link to="/">Home</Link>
-            <Link
-              to="/"
-              style={{
-                paddingLeft: "20px",
-              }}
-              onClick={logout}
-            >
-              Logout
-            </Link>
-            <button onClick={()=>delacc()} >delete</button>
-            {/* <Card.Link href="/" onClick={logout}>
-              Logout
-            </Card.Link> */}
-              {/* <Button onClick={logout}>Logout</Button>
-          </Card.Body>
-        </Card> */}
             </Grid>
           </ThemeProvider>
         </div>
+        <Footer />
       </div>
     );
   }

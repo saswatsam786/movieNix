@@ -37,3 +37,7 @@
 .white-override{
   color: white !important;
 }
+
+.custom-search::focus{
+  background-color: rgb(40, 44, 52) !important;
+}

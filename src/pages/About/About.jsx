@@ -8,13 +8,19 @@ import {
     Box,
     Typography,
     Divider,
-    Grid
+    Grid,
+    Button,
 } from '@mui/material'
+import MovieCreationIcon from '@mui/icons-material/MovieCreation';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import EmailIcon from '@mui/icons-material/Email'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import { createTheme } from "@mui/material/styles"
 import { ThemeProvider } from "@emotion/react"
+import Footer from "../../component/Footer/Footer";
+import {Link} from 'react-router-dom';
+import "./about.css"
 
 const darkTheme = createTheme({
     palette:{
@@ -61,7 +67,26 @@ export default function About() {
       },
     ];
 
+    const features = [
+      {
+        name: 'Movie Streaming Platform',
+        description: 'MovieNix is a movie streaming platform built on the Hedera network using the Hashgraph SDK',
+        icon: <MovieCreationIcon />
+      },
+      {
+        name: 'One-Time Buy',
+        description: 'Buy a movie through a one-click buy option and watch before it expires in 14 days!',
+        icon: <ShoppingCartIcon />
+      },
+      {
+        name: 'Pay Per Second (PPS)',
+        description: "Or if you don't want to buy the whole movie, you can watch the movie at 0.01 hbar per second!",
+        icon: <img className="hbar" alt="hbar" src="https://hbarprice.com/wp-content/uploads/2019/03/hbarprice-300.png" />
+      },
+    ]
+
     return (
+      <>
       <div
         style={{
             minHeight: '90vh',
@@ -69,7 +94,38 @@ export default function About() {
         }}
       >
         <ThemeProvider theme={darkTheme}>
-          <Typography variant="h3" sx={{color: 'white', textAlign: 'center', paddingBottom: '30px'}}>TEAM  ATREUS</Typography>
+        <Typography variant="h4" sx={{color: 'white', textAlign: 'center', padding: '30px'}}>More about MovieNix</Typography>
+          <Grid container spacing={2} sx={{display: 'flex',  justifyContent: 'center', alignItems: 'center',}}>
+            {features.map((feature) =>(
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <Card 
+                    elevation={2} 
+                    sx={{ 
+                      // display: 'flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      maxWidth: '400px', 
+                      minHeight: '250px'
+                    }} 
+                    key={feature}
+                  >
+                    <Box sx={{ display: 'flex', flexDirection: 'column', padding: '10px' }}>
+                      <CardContent >
+                      <div style={{padding: '10px'}}>{feature.icon}</div>
+                        <Typography variant="h5" component="div" sx={{mb: 1.5}}>
+                          {feature.name}
+                        </Typography>
+                        <Divider sx={{mb: 1}}/>
+                        <Typography variant="subtitle1" >
+                          {feature.description}
+                        </Typography>
+                      </CardContent>
+                      </Box>
+                  </Card>
+              </Grid>
+            ))};
+          </Grid>
+          <Typography variant="h4" sx={{color: 'white', textAlign: 'center', padding: '30px 10px'}}>TEAM ATREUS</Typography>
           <Grid container spacing={2} sx={{display: 'flex',  justifyContent: 'center', alignItems: 'center',}}>
           {team.map((member) =>(
             <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -111,13 +167,13 @@ export default function About() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <IconButton sx={{color:"white"}} href={`mailto:${member.email}`}>
+                  <IconButton sx={{color:"white"}} target="_blank" href={`mailto:${member.email}`}>
                     <EmailIcon />
                   </IconButton>
-                  <IconButton sx={{color:"white"}} href={member.github}>
+                  <IconButton sx={{color:"white"}} target="_blank" href={member.github}>
                     <GitHubIcon />
                   </IconButton>
-                  <IconButton sx={{color:"white"}} href={member.linkedin}>
+                  <IconButton sx={{color:"white"}} target="_blank" href={member.linkedin}>
                     <LinkedInIcon />
                   </IconButton>
                 </CardActions>
@@ -126,7 +182,20 @@ export default function About() {
             </Grid>
           ))};
           </Grid>
-        </ThemeProvider>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingTop: '30px'
+            }}
+          >
+              <Link className="navbar-link" to="/"><Button sx={{marginRight: '10px'}} variant="outlined">Home</Button></Link>
+              <Link className="navbar-link" to="/profile"><Button variant="outlined">Profile</Button></Link>
+          </div>
+          </ThemeProvider>
       </div>
+      <Footer />
+      </>
     );
 };

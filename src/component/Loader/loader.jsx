@@ -4,7 +4,7 @@ import './loader.css'
 export default function loader() {
   return (
     <div className="load">
-      <div class="loader loader--style6" title="5">
+      <div className="loader loader--style6" title="5">
         <svg
           version="1.1"
           id="Layer_1"
@@ -19,7 +19,7 @@ export default function loader() {
           xmlSpace="preserve"
         >
           <rect
-            class="blue"
+            className="blue"
             x="0"
             y="13"
             rx="3"
@@ -47,7 +47,7 @@ export default function loader() {
           </rect>
 
           <rect
-            class="green"
+            className="green"
             x="10"
             y="13"
             rx="3"
@@ -75,7 +75,7 @@ export default function loader() {
           </rect>
 
           <rect
-            class="yellow"
+            className="yellow"
             x="20"
             y="13"
             rx="3"
@@ -103,7 +103,7 @@ export default function loader() {
           </rect>
 
           <rect
-            class="orange"
+            className="orange"
             x="30"
             y="13"
             rx="3"
@@ -131,7 +131,7 @@ export default function loader() {
           </rect>
 
           <rect
-            class="pink"
+            className="pink"
             x="40"
             y="13"
             rx="3"

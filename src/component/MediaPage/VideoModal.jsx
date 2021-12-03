@@ -1,6 +1,5 @@
 import { Modal, Button } from "react-bootstrap";
 import { useState, useRef, useEffect } from "react";
-// import YouTube from "react-youtube";
 import ReactPlayer from "react-player";
 import { auth } from "../../firebase";
 import { Link } from "react-router-dom";
@@ -9,14 +8,16 @@ import axios from "axios";
 
 export default function VideoModal(props) {
   const [show, setShow] = useState(false);
+  // eslint-disable-next-line
   const [user, loading] = useAuthState(auth);
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const [accbal, setAccbal] = useState("");
   const [display, setDisplay] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const bodyRef = useRef(null);
-  const handleClose = () => setShow(false);
+  // const handleClose = () => setShow(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -33,12 +34,13 @@ export default function VideoModal(props) {
       );
     }
     fetchData();
+    //eslint-disable-next-line
   }, [display === true]);
 
   const getWatchTime = () => {
     if (duration.getCurrentTime() > time) {
       setTime(
-        Math.round((duration.getCurrentTime() + Number.EPSILON) * 100) / 100
+        (duration.getCurrentTime()-0).toFixed(4)
       );
     }
   };
@@ -47,12 +49,13 @@ export default function VideoModal(props) {
     setDisplay(true);
     setShow(false);
     if (!props.check) {
+      //eslint-disable-next-line
       let data = await axios.post(
         `https://movienix-backend.herokuapp.com/transferMoney`,
         {
           id: props.accid,
           key: props.privatekey,
-          amount: Math.round((time * 0.01 + Number.EPSILON) * 100) / 100,
+          amount: (time*0.01).toFixed(8)
         }
       );
     }
@@ -68,7 +71,7 @@ export default function VideoModal(props) {
     <>
       {user ? (
         !props.check ? (
-          <Button variant="light" onClick={() => setShow(true)}>
+          <Button variant="light" onClick={() => setOpen(true)}>
             <i className="fas fa-play"></i> Trailer
           </Button>
         ) : (
@@ -82,12 +85,12 @@ export default function VideoModal(props) {
         </Link>
       )}
 
-      {/* <Modal show={display} onHide={() => setDisplay(false)} centered>
+      <Modal show={open} onHide={() => setOpen(false)} centered>
         <Modal.Body>
           <p>
             <strong>
-              You haven't bought this movie. If you want continue for 0.01
-              hbar/sec. Then press OK .
+              {(accbal - 0) >= 5 ? "You haven't bought this movie. If you still want continue for 0.01 hbar/sec. Then press OK ."
+                : "Insufficient balance to continue watching..."}
             </strong>
           </p>
           <ul
@@ -100,11 +103,11 @@ export default function VideoModal(props) {
           ></ul>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-dark" onClick={finalPayment}>
+          <Button variant="dark" onClick={() => {setShow(true); setOpen(false)}} disabled={(accbal-0) >= 5 ? false : true}>
             OK
           </Button>
         </Modal.Footer>
-      </Modal> */}
+      </Modal>
       <Modal show={display} onHide={() => setDisplay(false)} centered>
         <Modal.Body>
           <p>
@@ -137,7 +140,7 @@ export default function VideoModal(props) {
               <span style={{ position: "absolute", right: "0" }}>
                 {props.check
                   ? 0
-                  : Math.round((time * 0.01 + Number.EPSILON) * 100) / 100}{" "}
+                  : (time*0.01).toFixed(4)}{" "}
                 hbar
               </span>
               <hr style={{ margin: "5px 0" }} />
@@ -146,7 +149,7 @@ export default function VideoModal(props) {
               Balance after purchase:{" "}
               <span style={{ position: "absolute", right: "0" }}>
                 {props.check
-                  ? accbal.toFixed(4)
+                  ? (accbal - 0).toFixed(4)
                   : (accbal - time * 0.01).toFixed(4)}{" "}
                 hbar
               </span>

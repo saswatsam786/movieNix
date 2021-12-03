@@ -53,7 +53,7 @@ export default function Login() {
 
         setTimeout(() => {
           history.push({
-            pathname: "/profile",
+            pathname: "/about",
           });
         }, 4000);
       });

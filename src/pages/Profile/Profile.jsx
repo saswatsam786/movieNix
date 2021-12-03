@@ -219,7 +219,7 @@ export default function Profile() {
                         <ListItemText
                           className="listtext"
                           primary="Account Balance"
-                          secondary={accbal}
+                          secondary={`${accbal} ℏ`}
                         />
                       </ListItem>
                       <Divider />
@@ -278,51 +278,6 @@ export default function Profile() {
                   </CardActions>
                 </Card>
               </Grid>
-              {/* <Card
-          style={{
-            maxWidth: "300px",
-            background: "rgb(54, 57, 64)",
-            color: "white",
-          }}
-        >
-          <Card.Img variant="top" src={auth.currentUser.photoURL} />
-          <Card.Body>
-            <Card.Title>{auth.currentUser.displayName}</Card.Title>
-            <Card.Text>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti
-              dolor aperiam ullam fuga, natus quis iusto architecto a itaque
-              facere.
-            </Card.Text>
-          </Card.Body>
-          <ListGroup className="list-group-flush">
-            <ListGroupItem className="random">{user.email}</ListGroupItem>
-            <ListGroupItem className="random">some information</ListGroupItem>
-            <ListGroupItem className="random">
-              Account Id : {accid}
-            </ListGroupItem>
-            <ListGroupItem className="random">
-              Account Balance : {accbal}
-            </ListGroupItem>
-          </ListGroup>
-          <Card.Body>
-            <Card.Link href="/">Home</Card.Link> 
-            <Link to="/">Home</Link>
-            <Link
-              to="/"
-              style={{
-                paddingLeft: "20px",
-              }}
-              onClick={logout}
-            >
-              Logout
-            </Link>
-            <button onClick={()=>delacc()} >delete</button>
-            {/* <Card.Link href="/" onClick={logout}>
-              Logout
-            </Card.Link> */}
-              {/* <Button onClick={logout}>Logout</Button>
-          </Card.Body>
-        </Card> */}
             </Grid>
           </ThemeProvider>
         </div>

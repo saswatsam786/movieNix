@@ -103,7 +103,7 @@ export default function Footer() {
         </Container>
       </Box>
       <Typography style={{ textAlign: "center" }} variant="body2">
-        <span style={{color: 'rgb(170, 170, 170)'}}>©{year} Copyright :</span>MovieNix
+        <span style={{color: 'rgb(170, 170, 170)'}}>©{year} Copyright : </span>MovieNix
       </Typography>
     </Box>
   );

@@ -5,7 +5,8 @@ import styled from "styled-components";
 import axios from "axios";
 import loaderpage from "../Loader/loader";
 import firebase from "firebase";
-import LoginNew from "../../pages/Login/LoginNew";
+import Login from "../../pages/Login/Login";
+import Footer from "../Footer/Footer";
 
 export default function LibraryPage() {
   const [user, loading] = useAuthState(auth);
@@ -24,10 +25,13 @@ export default function LibraryPage() {
             // console.log(doc.data().lib);
             doc.data().lib.map(async (movie) => {
               const request = await axios.get(
-                `https://api.themoviedb.org/3/movie/${movie.id.toString()}?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b`
+                `https://api.themoviedb.org/3/movie/${movie.id.toString()}?api_key=${
+                  process.env.REACT_APP_FIREBASE_TMDB_API_KEY
+                }`
               );
               // console.log(request.data);
-              if (movie.expiryDate <= currentTime) {
+              console.log(movie.expiryDate, "  ", JSON.stringify(currentTime));
+              if (movie.expiryDate <= JSON.stringify(currentTime)) {
                 console.log("Movie deleted!");
                 const variable = db.collection("accounts").doc(doc.id);
                 await variable
@@ -38,7 +42,10 @@ export default function LibraryPage() {
                     console.log(err);
                   });
               }
-              setMovies((prevValue) => [...prevValue, request.data]);
+              setTimeout(
+                setMovies((prevValue) => [...prevValue, request.data]),
+                1500
+              );
             });
           });
         });
@@ -54,49 +61,57 @@ export default function LibraryPage() {
 
   function loadLib() {
     return (
-      <Wrapper>
-        <Heading>Library</Heading>
-        {/* eslint-disable-next-line */}
-        {movies.length === 0 ? (
-          <h1
-            style={{ color: "#ccc", display: "flex", justifyContent: "center" }}
-          >
-            No movies
-          </h1>
-        ) : (
-          <Row_Movies>
-            {movies.map(
-              (movie) =>
-                movie.media_type !== "tv" && (
-                  <Movie
-                    key={movie.id}
-                    onClick={async () => {
-                      // console.log(movie)
-                      window.location = `/movie/${movie.id}`;
-                    }}
-                  >
-                    <Image
+      <>
+        <Wrapper>
+          <Heading>Library</Heading>
+          {/* eslint-disable-next-line */}
+          {movies.length === 0 ? (
+            <h1
+              style={{
+                color: "#ccc",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              No movies
+            </h1>
+          ) : (
+            //eslint-disable-next-line
+            <Row_Movies>
+              {movies.map(
+                (movie) =>
+                  movie.media_type !== "tv" && (
+                    <Movie
                       key={movie.id}
-                      src={
-                        "https://image.tmdb.org/t/p/original" +
-                        movie.poster_path
-                      }
-                      alt={movie.id}
-                    ></Image>
-                    <Info>
-                      <Title>{movie.title || movie.name}</Title>
-                      <Desc>{truncate(movie.overview, 12)}</Desc>
-                    </Info>
-                  </Movie>
-                )
-            )}
-          </Row_Movies>
-        )}
-      </Wrapper>
+                      onClick={async () => {
+                        // console.log(movie)
+                        window.location = `/movie/${movie.id}`;
+                      }}
+                    >
+                      <Image
+                        key={movie.id}
+                        src={
+                          "https://image.tmdb.org/t/p/original" +
+                          movie.poster_path
+                        }
+                        alt={movie.id}
+                      ></Image>
+                      <Info>
+                        <Title>{movie.title || movie.name}</Title>
+                        <Desc>{truncate(movie.overview, 12)}</Desc>
+                      </Info>
+                    </Movie>
+                  )
+              )}
+            </Row_Movies>
+          )}
+        </Wrapper>
+        <Footer />
+      </>
     );
   }
 
-  return loading ? loaderpage() : user ? loadLib() : <LoginNew />;
+  return loading ? loaderpage() : user ? loadLib() : <Login />;
 }
 
 const Wrapper = styled.div`
@@ -104,6 +119,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 10vh;
+  min-height: 90vh;
   width: 100%;
   height: 90vh;
   overflow: hidden;

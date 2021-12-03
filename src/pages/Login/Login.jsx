@@ -1,10 +1,26 @@
-// import ReactDom from "react-dom";
 import React from "react";
-import { Card, Button } from "react-bootstrap";
-import "./login.css";
-import { db, auth, provider } from "../../firebase";
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Typography,
+  Divider,
+} from "@mui/material";
+// import LockIcon from '@mui/icons-material/Lock';
+import GoogleIcon from '@mui/icons-material/Google';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import { db, auth, provider } from "../../firebase";
 import { useHistory } from "react-router-dom";
+import './login.css';
+import Footer from "../../component/Footer/Footer";
+
+const darkTheme = createTheme({
+  palette:{
+    mode: "dark",
+  },
+});
 
 export default function Login() {
   const history = useHistory();
@@ -28,62 +44,101 @@ export default function Login() {
               }
             });
             if (acc === false) {
-              const createAcc = new Date();
-              axios
-                .get("https://movienix-backend.herokuapp.com/createAccount")
-                .then((props) => {
-                  db.collection("accounts")
-                    .add({
-                      email: user.email,
-                      accid: props.data.id,
-                      privatekey: props.data.privatekey,
-                      publickey: props.data.publickey,
-                      lib: [],
-                      accountCreationDate: createAcc.toLocaleDateString(),
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                    });
-                });
+              createacc();
             }
           })
           .catch((error) => {
             console.log("Error getting documents: ", error);
           });
 
-        history.push({
-          pathname: "/profile",
-        });
+        setTimeout(() => {
+          history.push({
+            pathname: "/profile",
+          });
+        }, 4000);
       });
   };
 
-  return (
-    <div
-      className="bg"
-      style={{
-        // backgroundColor: "rgb(220, 220, 220)",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div className="holder radnom">
-        <Card className="text-center random">
-          <Card.Header>MovieNix Login</Card.Header>
-          <Card.Body>
-            <Card.Title>Login/Sign Up</Card.Title>
-            <Card.Text>Login or create your account through Google</Card.Text>
+  async function createacc() {
+    const user = auth.currentUser;
+    const createAcc = new Date();
+    await axios
+      .get("https://movienix-backend.herokuapp.com/createAccount")
+      .then((props) => {
+        db.collection("accounts")
+          .add({
+            email: user.email,
+            accid: props.data.id,
+            privatekey: props.data.privatekey,
+            publickey: props.data.publickey,
+            lib: [],
+            accountCreationDate: createAcc.toLocaleDateString(),
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+  }
 
-            {/* <Link to="profile"> */}
-            <Button variant="outline-light" onClick={signin}>
+  return (
+    <ThemeProvider theme={darkTheme}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 'auto',
+          minHeight: '90vh',
+          padding: '20vh 50px'
+        }}
+      >
+        <Card sx={{ minWidth: 270, maxWidth: 700,textAlign: 'center', padding: '20px 70px' }}>
+          <CardContent>
+            <img 
+              alt="MovieNix"
+              src="./MovieNix-2.svg"
+              style={{
+                margin:'auto', 
+                padding:'20px', 
+                mb: 2
+              }} 
+            />
+            <Typography variant="h5" color="text.secondary" gutterBottom>
+              MovieNix
+            </Typography>
+            <Divider className="divider" sx={{ mb: 2 }} />
+            <Typography variant="body2" >
+              Login or create your account through Google
+            </Typography>
+          </CardContent>
+          <CardActions
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Button 
+              onClick={signin} 
+              size="large" 
+              sx={{
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center'
+              }} 
+              startIcon={<GoogleIcon />}
+            >
               Login
             </Button>
-            {/* </Link> */}
-          </Card.Body>
-          <Card.Footer className="text-muted">Powered By Google</Card.Footer>
+          </CardActions>
+          <div sx={{padding: '0px'}}>
+            <Typography variant='button' sx={{fontSize: '10px'}}>
+              Powered by Google
+            </Typography>
+          </div>
         </Card>
       </div>
-    </div>
+      <Footer />
+    </ThemeProvider>
   );
 }

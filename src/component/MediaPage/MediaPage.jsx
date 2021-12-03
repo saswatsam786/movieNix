@@ -23,7 +23,6 @@ export default function MediaPage() {
   // FOR PRICING MODAL
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   // eslint-disable-next-line
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -49,14 +48,16 @@ export default function MediaPage() {
               }
 
               doc.data().lib.map(async (movie) => {
-                if (movie.expiryDate <= currentTime) {
-                  // console.log('Movie deleted!');
-                  // const variable = db.collection("accounts").doc(doc.id);
-                  // await variable
-                  //   .update({ lib: firebase.firestore.FieldValue.arrayRemove(movie) })
-                  //   .then((err) => {
-                  //     console.log(err);
-                  //   })
+                if (movie.expiryDate <= JSON.stringify(currentTime)) {
+                  console.log("Movie deleted!");
+                  const variable = db.collection("accounts").doc(doc.id);
+                  await variable
+                    .update({
+                      lib: firebase.firestore.FieldValue.arrayRemove(movie),
+                    })
+                    .then((err) => {
+                      console.log(err);
+                    });
                 }
               });
 
@@ -83,7 +84,8 @@ export default function MediaPage() {
       getGenres(movieDetails.data.genres);
     }
     rendreDetails();
-  }, [media, id, user]);
+    // eslint-disable-next-line
+  }, [media, id, user, check]);
 
   async function fetchData() {
     let data = await axios.post(
@@ -110,7 +112,7 @@ export default function MediaPage() {
       {
         id: accid,
         key: privatekey,
-        amount: 1,
+        amount: 3,
       }
     );
     // console.log(data.data.status);
@@ -132,14 +134,12 @@ export default function MediaPage() {
               // expTimeStamp.setDate(purchaseTimeStamp.getDate() + 0);
 
               // const expTime = new Date()
-              expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 2);
+              expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 1);
 
               let a = {
                 id: details.id,
-                purchaseDate: purchaseTimeStamp.toDateString(),
-                expiryDate: expTimeStamp,
-                // expiryTime: expTime.toLocaleTimeString(),
-                time: purchaseTimeStamp,
+                purchaseDate: JSON.stringify(purchaseTimeStamp),
+                expiryDate: JSON.stringify(expTimeStamp),
               };
 
               buyFunc()
@@ -151,7 +151,8 @@ export default function MediaPage() {
                   console.log(err);
                 })
                 .then(() => {
-                  window.location.reload();
+                  // window.location.reload();
+                  setCheck(true);
                 });
             });
           })
@@ -217,7 +218,8 @@ export default function MediaPage() {
               <Button
                 onClick={() => {
                   setShow(true);
-                  fetchData();
+                  let data = setInterval(fetchData(), 1000)
+                  setTimeout(clearInterval(data), 4000)
                 }}
                 style={{ marginLeft: "10px" }}
                 variant="outline-light"
@@ -229,7 +231,7 @@ export default function MediaPage() {
               <Modal.Body>
                 <p>
                   <strong>
-                    Do you want to add this movie to your library?
+                    {(accbal-0) >= 5 ? "Do you want to add this movie to your library?" : "Insufficient Balance!"}
                   </strong>
                 </p>
                 <ul
@@ -267,9 +269,11 @@ export default function MediaPage() {
                 <Button variant="outline-dark" onClick={handleClose}>
                   Cancel
                 </Button>
-                <Button variant="dark" onClick={addToLibrary}>
+                { (accbal-0) >= 5 ? <Button variant="dark" onClick={addToLibrary}>
                   Add
-                </Button>
+                </Button> : <Button variant="dark" disabled={true}>
+                  Add
+                </Button> }
               </Modal.Footer>
             </Modal>
           </span>

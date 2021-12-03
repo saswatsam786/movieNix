@@ -71,7 +71,7 @@ async function main() {
     //Create a new account with 1,000 tinybar starting balance
     const newAccountTransactionResponse = await new AccountCreateTransaction()
       .setKey(newAccountPublicKey)
-      .setInitialBalance(new Hbar(10))
+      .setInitialBalance(new Hbar(100))
       .execute(client);
 
     // Get the new account ID
@@ -159,7 +159,7 @@ async function main() {
     next();
   });
 
-  app.post("/delacc", async (req, res, next) => {
+  app.post("/deleteAccount", async (req, res, next) => {
     try {
       const id = req.body.id;
       const key = req.body.key;

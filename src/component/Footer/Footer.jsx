@@ -15,10 +15,6 @@ export default function Footer() {
   const date = new Date();
   const year = date.getFullYear();
 
-  const redirect = () => {
-    window.location.href = "https://hedera.com/";
-  };
-
   return (
     <Box
       sx={{
@@ -63,12 +59,10 @@ export default function Footer() {
               className="footer-text second"
             >
               <Link to="/about" className="navbar-link">
-                <Typography variant="caption">ABOUT US</Typography> <br />{" "}
-                <br />
+                <Typography variant="caption">ABOUT</Typography> <br />
               </Link>
-              <Link onClick={redirect} className="navbar-link">
-                <Typography variant="caption">ABOUT HEDERA</Typography>
-              </Link>
+              {/* eslint-disable-next-line */}
+              <a target="_blank" className="navbar-link" href="https://hedera.com/"><Typography variant="caption">ABOUT HEDERA</Typography></a>
             </Grid>
             <Grid
               item
@@ -97,7 +91,7 @@ export default function Footer() {
             >
               <Typography variant="caption">POWERED BY HEDERA</Typography>{" "}
               <br />
-              <IconButton href="https://hedera.com/">
+              <IconButton target="_blank" href="https://hedera.com/">
                 <Avatar
                   className="hedera-icon"
                   alt="Hedera"
@@ -109,7 +103,7 @@ export default function Footer() {
         </Container>
       </Box>
       <Typography style={{ textAlign: "center" }} variant="body2">
-        ©{year}
+        <span style={{color: 'rgb(170, 170, 170)'}}>©{year} Copyright :</span>MovieNix
       </Typography>
     </Box>
   );

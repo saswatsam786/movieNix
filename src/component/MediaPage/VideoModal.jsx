@@ -1,6 +1,5 @@
 import { Modal, Button } from "react-bootstrap";
 import { useState, useRef, useEffect } from "react";
-// import YouTube from "react-youtube";
 import ReactPlayer from "react-player";
 import { auth } from "../../firebase";
 import { Link } from "react-router-dom";
@@ -18,7 +17,7 @@ export default function VideoModal(props) {
   const [open, setOpen] = useState(false)
 
   const bodyRef = useRef(null);
-  const handleClose = () => setShow(false);
+  // const handleClose = () => setShow(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -35,6 +34,7 @@ export default function VideoModal(props) {
       );
     }
     fetchData();
+    //eslint-disable-next-line
   }, [display === true]);
 
   const getWatchTime = () => {
@@ -49,6 +49,7 @@ export default function VideoModal(props) {
     setDisplay(true);
     setShow(false);
     if (!props.check) {
+      //eslint-disable-next-line
       let data = await axios.post(
         `https://movienix-backend.herokuapp.com/transferMoney`,
         {
@@ -88,8 +89,8 @@ export default function VideoModal(props) {
         <Modal.Body>
           <p>
             <strong>
-              You haven't bought this movie. If you want continue for 0.01
-              hbar/sec. Then press OK .
+              {(accbal - 0) >= 5 ? "You haven't bought this movie. If you still want continue for 0.01 hbar/sec. Then press OK ."
+                : "Insufficient balance to continue watching..."}
             </strong>
           </p>
           <ul
@@ -102,7 +103,7 @@ export default function VideoModal(props) {
           ></ul>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-dark" onClick={() => {setShow(true); setOpen(false)}}>
+          <Button variant="dark" onClick={() => {setShow(true); setOpen(false)}} disabled={(accbal-0) >= 5 ? false : true}>
             OK
           </Button>
         </Modal.Footer>

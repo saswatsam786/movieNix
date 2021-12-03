@@ -15,6 +15,7 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import { createTheme } from "@mui/material/styles"
 import { ThemeProvider } from "@emotion/react"
+import Footer from "../../component/Footer/Footer";
 
 const darkTheme = createTheme({
     palette:{
@@ -61,7 +62,23 @@ export default function About() {
       },
     ];
 
+    const features = [
+      {
+        name: 'Movie streaming platform',
+        description: 'MovieNix is a movie streaming platform built on the Hedera network using the Hashgraph SDK'
+      },
+      {
+        name: 'Secure Authentication',
+        description: 'Users are securely authenticated and logged in through Google and Firebase and an account ID for making transactions on the Hedera network is created for them in the process'
+      },
+      {
+        name: 'Buy Options',
+        description: 'Users are presented with two ways for purchasing a movie: A one time buy option and another option to pay for the amount of time watched'
+      },
+    ]
+
     return (
+      <>
       <div
         style={{
             minHeight: '90vh',
@@ -111,13 +128,13 @@ export default function About() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <IconButton sx={{color:"white"}} href={`mailto:${member.email}`}>
+                  <IconButton sx={{color:"white"}} target="_blank" href={`mailto:${member.email}`}>
                     <EmailIcon />
                   </IconButton>
-                  <IconButton sx={{color:"white"}} href={member.github}>
+                  <IconButton sx={{color:"white"}} target="_blank" href={member.github}>
                     <GitHubIcon />
                   </IconButton>
-                  <IconButton sx={{color:"white"}} href={member.linkedin}>
+                  <IconButton sx={{color:"white"}} target="_blank" href={member.linkedin}>
                     <LinkedInIcon />
                   </IconButton>
                 </CardActions>
@@ -126,7 +143,39 @@ export default function About() {
             </Grid>
           ))};
           </Grid>
+          <Typography variant="h4" sx={{color: 'white', textAlign: 'center', padding: '30px'}}>More about MovieNix</Typography>
+          <Grid container spacing={2} sx={{display: 'flex',  justifyContent: 'center', alignItems: 'center',}}>
+            {features.map((feature) =>(
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <Card 
+                    elevation={2} 
+                    sx={{ 
+                      // display: 'flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      maxWidth: '400px', 
+                      minHeight: '200px'
+                    }} 
+                    key={feature}
+                  >
+                    <Box sx={{ display: 'flex', flexDirection: 'column', }}>
+                      <CardContent >
+                        <Typography variant="h5" component="div" sx={{mb: 1.5}}>
+                          {feature.name}
+                        </Typography>
+                        <Divider sx={{mb: 1}}/>
+                        <Typography variant="caption" sx={{color: 'rgb(170, 170, 170)'}}>
+                          {feature.description}
+                        </Typography>
+                      </CardContent>
+                      </Box>
+                  </Card>
+              </Grid>
+            ))};
+          </Grid>
         </ThemeProvider>
       </div>
+      <Footer />
+      </>
     );
 };

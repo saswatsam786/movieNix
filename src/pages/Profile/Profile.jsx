@@ -38,7 +38,7 @@ export default function Profile() {
   const [createDate, setCreateDate] = useState("");
   const [lib, setLib] = useState(0);
   const [open, setOpen] = useState(false);
-  const [disableBtn, setDisableBtn] = useState(false)
+  const [disableBtn, setDisableBtn] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -91,16 +91,13 @@ export default function Profile() {
   }, [user, accid, privatekey, accbal]);
 
   async function deleteAccount() {
-    await axios.post(
-      `https://movienix-backend.herokuapp.com/deleteAccount`,
-      {
-        id: accid,
-        key: privatekey,
-      }
-    );
+    await axios.post(`https://movienix-backend.herokuapp.com/deleteAccount`, {
+      id: accid,
+      key: privatekey,
+    });
     console.log("server deleted");
     // console.log(data.data.success);
-    setDisableBtn(true)
+    setDisableBtn(true);
 
     user &&
       db
@@ -272,7 +269,13 @@ export default function Profile() {
                           Cancel
                         </Button>
                         <div className="navbar-link">
-                          <Button color="error" onClick={() => {setOpen(false); deleteAccount();}}>
+                          <Button
+                            color="error"
+                            onClick={() => {
+                              setOpen(false);
+                              deleteAccount();
+                            }}
+                          >
                             Delete
                           </Button>
                         </div>

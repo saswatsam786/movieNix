@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const moviePath = [
   {
     heading: "Trending Now",
@@ -31,6 +31,3 @@ const moviePath = [
 ];
 
 export default moviePath;
-
-// https://api.themoviedb.org/3/movie/438631/videos?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b
-// Movie search

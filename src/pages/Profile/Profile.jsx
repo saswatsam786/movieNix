@@ -25,7 +25,7 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
 import Home from "../Home/Home";
-import Footer from "../../component/Footer/Footer"
+import Footer from "../../component/Footer/Footer";
 import axios from "axios";
 import "./profile.css";
 import loader from "../../component/Loader/loader";
@@ -38,6 +38,7 @@ export default function Profile() {
   const [createDate, setCreateDate] = useState("");
   const [lib, setLib] = useState(0);
   const [open, setOpen] = useState(false);
+  const [disableBtn, setDisableBtn] = useState(false)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -90,15 +91,16 @@ export default function Profile() {
   }, [user, accid, privatekey, accbal]);
 
   async function deleteAccount() {
-    // let data = await axios.post(
-    //   `https://movienix-backend.herokuapp.com/delacc`,
-    //   {
-    //     id: accid,
-    //     key: privatekey,
-    //   }
-    // );
+    await axios.post(
+      `https://movienix-backend.herokuapp.com/deleteAccount`,
+      {
+        id: accid,
+        key: privatekey,
+      }
+    );
     console.log("server deleted");
     // console.log(data.data.success);
+    setDisableBtn(true)
 
     user &&
       db
@@ -112,9 +114,9 @@ export default function Profile() {
           })
         );
     setTimeout(() => {
-      user.delete();
+      auth.signOut();
       window.location = "/";
-    }, 4000);
+    }, 1000);
   }
 
   function loadProfile() {
@@ -249,6 +251,7 @@ export default function Profile() {
                     }}
                   >
                     <Button
+                      disabled={disableBtn}
                       onClick={handleClickOpen}
                       color="error"
                       startIcon={<DeleteIcon />}
@@ -269,7 +272,7 @@ export default function Profile() {
                           Cancel
                         </Button>
                         <div className="navbar-link">
-                          <Button color="error" onClick={deleteAccount}>
+                          <Button color="error" onClick={() => {setOpen(false); deleteAccount();}}>
                             Delete
                           </Button>
                         </div>

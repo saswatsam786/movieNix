@@ -23,10 +23,10 @@ export default function MediaPage() {
   // FOR PRICING MODAL
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   // eslint-disable-next-line
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [accbal, setAccbal] = useState("");
 
   useEffect(() => {
     //eslint-disable-next-line
@@ -48,14 +48,16 @@ export default function MediaPage() {
               }
 
               doc.data().lib.map(async (movie) => {
-                if (movie.expiryDate <= currentTime) {
-                  // console.log('Movie deleted!');
-                  // const variable = db.collection("accounts").doc(doc.id);
-                  // await variable
-                  //   .update({ lib: firebase.firestore.FieldValue.arrayRemove(movie) })
-                  //   .then((err) => {
-                  //     console.log(err);
-                  //   })
+                if (movie.expiryDate <= JSON.stringify(currentTime)) {
+                  console.log("Movie deleted!");
+                  const variable = db.collection("accounts").doc(doc.id);
+                  await variable
+                    .update({
+                      lib: firebase.firestore.FieldValue.arrayRemove(movie),
+                    })
+                    .then((err) => {
+                      console.log(err);
+                    });
                 }
               });
 
@@ -85,8 +87,23 @@ export default function MediaPage() {
     // eslint-disable-next-line
   }, [media, id, user, check]);
 
-  // BUY FUNCTION FOR EACH MOVIE
+  async function fetchData() {
+    let data = await axios.post(
+      `https://movienix-backend.herokuapp.com/balance`,
+      {
+        id: accid,
+        key: privatekey,
+      }
+    );
+    // console.log(data.data.data.balance._valueInTinybar);
+    setAccbal(
+      (data.data.data.balance._valueInTinybar / 100000000 - 0).toFixed(4)
+    );
+  }
+  // fetchData()
+
   // eslint-disable-next-line
+  // BUY FUNCTION FOR EACH MOVIE
   const buyFunc = async (price) => {
     // console.log(accid);
     // eslint-disable-next-line
@@ -95,7 +112,7 @@ export default function MediaPage() {
       {
         id: accid,
         key: privatekey,
-        amount: 5,
+        amount: 3,
       }
     );
     // console.log(data.data.status);
@@ -117,15 +134,15 @@ export default function MediaPage() {
               // expTimeStamp.setDate(purchaseTimeStamp.getDate() + 0);
 
               // const expTime = new Date()
-              expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 2);
+              expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 1);
 
               let a = {
                 id: details.id,
-                purchaseDate: purchaseTimeStamp.toDateString(),
-                expiryDate: expTimeStamp,
-                // expiryTime: expTime.toLocaleTimeString(),
-                time: purchaseTimeStamp,
+                purchaseDate: JSON.stringify(purchaseTimeStamp),
+                expiryDate: JSON.stringify(expTimeStamp),
               };
+
+              buyFunc()
 
               const variable = db.collection("accounts").doc(doc.id);
               await variable
@@ -199,7 +216,11 @@ export default function MediaPage() {
             {/* BUTTON FOR PURCHASE */}
             {user && !check && (
               <Button
-                onClick={handleShow}
+                onClick={() => {
+                  setShow(true);
+                  let data = setInterval(fetchData(), 1000)
+                  setTimeout(clearInterval(data), 4000)
+                }}
                 style={{ marginLeft: "10px" }}
                 variant="outline-light"
               >
@@ -210,7 +231,7 @@ export default function MediaPage() {
               <Modal.Body>
                 <p>
                   <strong>
-                    Do you want to add this movie to your library?
+                    {(accbal-0) >= 5 ? "Do you want to add this movie to your library?" : "Insufficient Balance!"}
                   </strong>
                 </p>
                 <ul
@@ -224,21 +245,21 @@ export default function MediaPage() {
                   <li>
                     Current balance:{" "}
                     <span style={{ position: "absolute", right: "0" }}>
-                      10 hbar
+                      {accbal-0} hbars
                     </span>
                     <hr style={{ margin: "5px 0" }} />
                   </li>
                   <li>
                     Cost:{" "}
                     <span style={{ position: "absolute", right: "0" }}>
-                      1 hbar
+                      3 hbar
                     </span>
                     <hr style={{ margin: "5px 0" }} />
                   </li>
                   <li>
                     Balance after purchase:{" "}
                     <span style={{ position: "absolute", right: "0" }}>
-                      9 hbar
+                      {(accbal-3).toFixed(4)} hbar
                     </span>
                     <hr style={{ margin: "5px 0" }} />
                   </li>
@@ -248,9 +269,11 @@ export default function MediaPage() {
                 <Button variant="outline-dark" onClick={handleClose}>
                   Cancel
                 </Button>
-                <Button variant="dark" onClick={addToLibrary}>
+                { (accbal-0) >= 5 ? <Button variant="dark" onClick={addToLibrary}>
                   Add
-                </Button>
+                </Button> : <Button variant="dark" disabled={true}>
+                  Add
+                </Button> }
               </Modal.Footer>
             </Modal>
           </span>

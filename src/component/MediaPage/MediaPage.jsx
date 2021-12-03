@@ -48,14 +48,16 @@ export default function MediaPage() {
               }
 
               doc.data().lib.map(async (movie) => {
-                if (movie.expiryDate <= currentTime) {
-                  // console.log('Movie deleted!');
-                  // const variable = db.collection("accounts").doc(doc.id);
-                  // await variable
-                  //   .update({ lib: firebase.firestore.FieldValue.arrayRemove(movie) })
-                  //   .then((err) => {
-                  //     console.log(err);
-                  //   })
+                if (movie.expiryDate <= JSON.stringify(currentTime)) {
+                  console.log("Movie deleted!");
+                  const variable = db.collection("accounts").doc(doc.id);
+                  await variable
+                    .update({
+                      lib: firebase.firestore.FieldValue.arrayRemove(movie),
+                    })
+                    .then((err) => {
+                      console.log(err);
+                    });
                 }
               });
 
@@ -117,14 +119,12 @@ export default function MediaPage() {
               // expTimeStamp.setDate(purchaseTimeStamp.getDate() + 0);
 
               // const expTime = new Date()
-              expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 2);
+              expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 1);
 
               let a = {
                 id: details.id,
-                purchaseDate: purchaseTimeStamp.toDateString(),
-                expiryDate: expTimeStamp,
-                // expiryTime: expTime.toLocaleTimeString(),
-                time: purchaseTimeStamp,
+                purchaseDate: JSON.stringify(purchaseTimeStamp),
+                expiryDate: JSON.stringify(expTimeStamp),
               };
 
               const variable = db.collection("accounts").doc(doc.id);

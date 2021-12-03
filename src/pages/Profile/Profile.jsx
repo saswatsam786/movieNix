@@ -25,7 +25,7 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
 import Home from "../Home/Home";
-import Footer from "../../component/Footer/Footer"
+import Footer from "../../component/Footer/Footer";
 import axios from "axios";
 import "./profile.css";
 import loader from "../../component/Loader/loader";
@@ -90,13 +90,13 @@ export default function Profile() {
   }, [user, accid, privatekey, accbal]);
 
   async function deleteAccount() {
-    // let data = await axios.post(
-    //   `https://movienix-backend.herokuapp.com/delacc`,
-    //   {
-    //     id: accid,
-    //     key: privatekey,
-    //   }
-    // );
+    let data = await axios.post(
+      `https://movienix-backend.herokuapp.com/deleteAccount`,
+      {
+        id: accid,
+        key: privatekey,
+      }
+    );
     console.log("server deleted");
     // console.log(data.data.success);
 

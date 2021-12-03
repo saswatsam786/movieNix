@@ -159,7 +159,7 @@ async function main() {
     next();
   });
 
-  app.post("/delacc", async (req, res, next) => {
+  app.post("/deleteAccount", async (req, res, next) => {
     try {
       const id = req.body.id;
       const key = req.body.key;

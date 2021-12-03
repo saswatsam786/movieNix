@@ -27,6 +27,7 @@ export default function MediaPage() {
 
   // eslint-disable-next-line
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [accbal, setAccbal] = useState("");
 
   useEffect(() => {
     //eslint-disable-next-line
@@ -84,8 +85,23 @@ export default function MediaPage() {
     rendreDetails();
   }, [media, id, user]);
 
-  // BUY FUNCTION FOR EACH MOVIE
+  async function fetchData() {
+    let data = await axios.post(
+      `https://movienix-backend.herokuapp.com/balance`,
+      {
+        id: accid,
+        key: privatekey,
+      }
+    );
+    // console.log(data.data.data.balance._valueInTinybar);
+    setAccbal(
+      (data.data.data.balance._valueInTinybar / 100000000 - 0).toFixed(4)
+    );
+  }
+  // fetchData()
+
   // eslint-disable-next-line
+  // BUY FUNCTION FOR EACH MOVIE
   const buyFunc = async (price) => {
     // console.log(accid);
     // eslint-disable-next-line
@@ -94,7 +110,7 @@ export default function MediaPage() {
       {
         id: accid,
         key: privatekey,
-        amount: 5,
+        amount: 1,
       }
     );
     // console.log(data.data.status);
@@ -125,6 +141,8 @@ export default function MediaPage() {
                 // expiryTime: expTime.toLocaleTimeString(),
                 time: purchaseTimeStamp,
               };
+
+              buyFunc()
 
               const variable = db.collection("accounts").doc(doc.id);
               await variable
@@ -197,7 +215,10 @@ export default function MediaPage() {
             {/* BUTTON FOR PURCHASE */}
             {user && !check && (
               <Button
-                onClick={handleShow}
+                onClick={() => {
+                  setShow(true);
+                  fetchData();
+                }}
                 style={{ marginLeft: "10px" }}
                 variant="outline-light"
               >
@@ -222,21 +243,21 @@ export default function MediaPage() {
                   <li>
                     Current balance:{" "}
                     <span style={{ position: "absolute", right: "0" }}>
-                      10 hbar
+                      {accbal-0} hbars
                     </span>
                     <hr style={{ margin: "5px 0" }} />
                   </li>
                   <li>
                     Cost:{" "}
                     <span style={{ position: "absolute", right: "0" }}>
-                      1 hbar
+                      3 hbar
                     </span>
                     <hr style={{ margin: "5px 0" }} />
                   </li>
                   <li>
                     Balance after purchase:{" "}
                     <span style={{ position: "absolute", right: "0" }}>
-                      9 hbar
+                      {(accbal-3).toFixed(4)} hbar
                     </span>
                     <hr style={{ margin: "5px 0" }} />
                   </li>

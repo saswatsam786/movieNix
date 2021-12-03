@@ -89,13 +89,13 @@ export default function Profile() {
   }, [user, accid, privatekey, accbal]);
 
   async function deleteAccount() {
-    // let data = await axios.post(
-    //   `https://movienix-backend.herokuapp.com/delacc`,
-    //   {
-    //     id: accid,
-    //     key: privatekey,
-    //   }
-    // );
+    let data = await axios.post(
+      `https://movienix-backend.herokuapp.com/delacc`,
+      {
+        id: accid,
+        key: privatekey,
+      }
+    );
     console.log("server deleted");
     // console.log(data.data.success);
 

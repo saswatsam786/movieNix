@@ -71,7 +71,7 @@ async function main() {
     //Create a new account with 1,000 tinybar starting balance
     const newAccountTransactionResponse = await new AccountCreateTransaction()
       .setKey(newAccountPublicKey)
-      .setInitialBalance(new Hbar(10))
+      .setInitialBalance(new Hbar(100))
       .execute(client);
 
     // Get the new account ID

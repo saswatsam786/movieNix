@@ -112,7 +112,7 @@ export default function Profile() {
           })
         );
     setTimeout(() => {
-      user.delete();
+      auth.signOut();
       window.location = "/";
     }, 4000);
   }

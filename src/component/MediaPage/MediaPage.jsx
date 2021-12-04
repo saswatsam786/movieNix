@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {
+  Typography,
+  IconButton,
+  Snackbar
+} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { useParams } from "react-router";
 import "./MediaPage.css";
 import { Button, Modal } from "react-bootstrap";
@@ -19,6 +25,7 @@ export default function MediaPage() {
   const [accid, setAccid] = useState("");
   const [privatekey, setPrivatekey] = useState("");
   const [check, setCheck] = useState(false);
+  const [open, setOpen] = useState(true);
 
   // FOR PRICING MODAL
   const [show, setShow] = useState(false);
@@ -27,6 +34,10 @@ export default function MediaPage() {
   // eslint-disable-next-line
   const [currentTime, setCurrentTime] = useState(new Date());
   const [accbal, setAccbal] = useState("");
+
+  function onClose(){
+    setOpen(false);
+  }
 
   useEffect(() => {
     //eslint-disable-next-line
@@ -173,6 +184,26 @@ export default function MediaPage() {
     return rhours + " hr " + rminutes + " min";
   };
 
+  const Disclaimer = (
+    <>
+      <Typography sx={{textAlign: 'center'}} variant="h6">DISCLAIMER</Typography>
+      <Typography sx={{textAlign: 'center'}} variant="body1">Due to copyright issues, we can't actually show movies <br /> but only the trailers can be watched as of now.</Typography>
+    </>
+  );
+
+  const action=(
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={onClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
+
   return loading ? (
     loader()
   ) : (
@@ -180,6 +211,17 @@ export default function MediaPage() {
       style={{ backgroundImage: `url(${bgURL})` }}
       className="container-media-page"
     >
+      <Snackbar
+        anchorOrigin={{ 
+          vertical: 'top', 
+          horizontal: 'center' 
+        }}
+        open={open}
+        onClose={onClose}
+        autoHideDuration={6000}
+        message={Disclaimer}
+        action={action}
+      />
       <div className="container-details">
         <div id="container-header">
           <span>

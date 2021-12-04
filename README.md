@@ -1,70 +1,194 @@
-# Getting Started with Create React App
+<!-- PROJECT LOGO -->
+<br>
+<div align="center">
+  <a href="#">
+    <img src="src/pages/Login/MovieNix-2.svg" alt="MovieNix Logo" width="80" height="80">
+  </a>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <h3 align="center">MovieNix</h3>
 
-## Available Scripts
+  <p align="center">
+    A movie streaming platform built on the Hedera network
+    <br />
+    <a href="https://docs.hedera.com/guides/docs/sdks"><strong>Hashgraph-SDK docs »</strong></a>
+    <br />
+    <br />
+    <a href="#">View Deployment</a>
+  </p>
+</div>
 
-In the project directory, you can run:
 
-### `yarn start`
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project
+      </a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#planned-features-for-the-project">Planned Features</a></li>
+      </ul>
+    </li>
+    <li>
+       <a href="#server-routes">Server routes</a>
+    </li>
+    <li>
+       <a href="#database-schema">Database Schema</a>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+    </li>
+    <li><a href="#tools-and-technologies-used">Tools and technologies used</a></li>
+    <li><a href="#project-members">Our Team</a></li>
+  </ol>
+</details>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<br/>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<!-- ABOUT THE PROJECT -->
+## About The Project
+MovieNix is a decentralised application built on top of Hedera's Hashgraph-SDK where the idea is that the users can pay for movies in hbars directly to production companies without any intermediaries using Hedera's transaction system.
+<br/><br/>
+### Built with
 
-### `yarn test`
+* **ReactJS** for front-end
+* **Hedera Hashgraph SDK** for creating decentralised accounts and payment system 
+* **Express** middleware on the backened to handle api routes and requests
+* **Firebase** database and also used for authentication
+* **TMDB** api to fetch information and requied data for the movies
+* **Heroku** used for deploying and hosting the project
+* **Github** for CI/CD and git
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<br/>
 
-### `yarn build`
+### Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Built on the Hedera network** - It creates a decentralisd user account using Hedera Hashgraph SDK.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **One Tap Buy** - User can purchase any desired movie using the decentralised payment gateway by paying in hbars which requires just one tap and no further cards or UPI. The payment system is built using Hedera; the required amount for the movie is directly transferred from the user hedera account to the movie company hedera account. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Pay Per Second (PPS)** - We have provided an additional feature, if the user hasn't bought the movie and still wants to watch the movie the user can watch the respective movie by paying 0.01 hbar per second watched.
 
-### `yarn eject`
+4. **Library** - The user can view all his purchased movie in his library page. The purchased movie remains in the library or remain subscribed for 14 days. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+5. **Check balance** - Profile page has been made for the user, where one can see his Hedera account id, account balance, account creation date, and the number of movies added to his library.
+ 
+<br/>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Planned features for the project
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+* Return to the last watched movie.
+* Verified 'Movie production accounts' for production companies to upload their movies directly to the network
+* The hbars of purchasing or watching the movie in PPS should be transferred directly to the movie producing company's hedera account .
+* Comment and rating feature for each movie
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+<p align="right">(<a href="#">Back to top</a>)</p>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<!-- ## Currently working on
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. xyz
+2. abc -->
 
-### Code Splitting
+## Server Routes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+| Type | Route | Description |
+|:--:|:--:| ------------- |
+| GET | /createAccount | Creates an account for the user on the Hedera Network and creates and acount ID for them |
+| POST | /balance | Checks the balance of the user |
+| POST | /transferMoney | Used for making a transaction (buying/paying for a movie) |
+| POST | /deleteAccount | Called when the user deletes his/her account essentially deleting their account from the Hedera network and Firestore database |
 
-### Analyzing the Bundle Size
+## Database Schema:
+```
+accounts
+	├── user (string generated by Firebase)
+		  ├── accid (Acocunt Id procvided by Hedera)
+		  ├── accountCreationDate
+		  ├── email 
+		  ├── lib (library array for the purchased movies)
+	    		├── libraryItem
+					   ├── expiryDate
+					   ├── id (movie ID from TMDB)
+					   ├── purchaseDate
+					   ├── time
+		  ├── privatekey (generated on account creation)
+		  ├── publickey (provided by Hedera)
+```
+<p align="right">(<a href="#">Back to top</a>)</p>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Getting started
 
-### Making a Progressive Web App
+```bash
+git clone https://github.com/saswatsam786/movieNix.git
+git checkout dev_branch
+```
+Create a .env file in the root directory:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+REACT_APP_FIREBASE_API_KEY=<your_api_key>
+REACT_APP_FIREBASE_AUTH_DOMAIN=<your_project_id>.firebaseapp.com
+REACT_APP_FIREBASE_PROJECT_ID=<your_project_id>
+REACT_APP_FIREBASE_STORAGE_BUCKET=<your_project_id>.appspot.com
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=<your_project_messaging_id>
+REACT_APP_FIREBASE_APP_ID=<your_project_app_id>
+REACT_APP_FIREBASE_TMDB_API_KEY=<tmdb_api_key>
+```
+Now create a .env file in the server directory:
 
-### Advanced Configuration
+```
+MY_ACCOUNT_ID=<your_hedera_testnet_id>
+MY_PRIVATE_KEY=<your_private_key>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Run the command in the **root directory and the server directory to install all the dependencies**:
 
-### Deployment
+```bash
+# (for npm)
+npm install
+npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+# (for yarn) 
+yarn add
+yarn start
+```
 
-### `yarn build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+To run the server on the local machine:
+
+```bash
+cd server
+
+# (for npm)
+npm i
+npm start
+
+# (for yarn)
+npm i
+yarn start
+```
+
+<p align="right">(<a href="#">Back to top</a>)</p>
+
+## Tools and technologies used
+
+1. [Hashgraph-SDK](https://docs.hedera.com/guides/)
+2. [ReactJS](https://reactjs.org/docs/getting-started.html)
+3. [Firebase](https://firebase.google.com/)
+4. [Express](https://expressjs.com/)
+5. [NodeJS](https://nodejs.org/en/docs/)
+6. [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+7. [TMDB](https://developers.themoviedb.org/3)
+
+## Project Members
+
+<div align="center">
+
+## Team Atreus
+<a href = "https://github.com/saswatsam786/movienix/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=saswatsam786/movienix">
+</a>
+</div>

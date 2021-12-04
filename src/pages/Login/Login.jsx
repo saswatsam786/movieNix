@@ -116,7 +116,7 @@ export default function Login() {
       }}
       open={open}
       onClose={onClose}
-      autoHideDuration={6000}
+      autoHideDuration={4000}
       message={Disclaimer}
       action={action}
     />

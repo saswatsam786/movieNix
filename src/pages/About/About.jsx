@@ -29,6 +29,10 @@ const darkTheme = createTheme({
 });
 
 export default function About() {
+    function redirectProfile(){
+      window.location = "/profile";
+    }
+
     const team = [
       {
         name: 'Piyush Mishra',
@@ -93,6 +97,18 @@ export default function About() {
             padding: '70px 50px'
         }}
       >
+        <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingTop: '30px'
+            }}
+          >
+              <Link className="navbar-link" to="/"><Button sx={{marginRight: '10px'}} variant="outlined">Home</Button></Link>
+              {/* <Link className="navbar-link" to="/profile"><Button variant="outlined">Profile</Button></Link> */}
+              <Button variant="outlined" onClick={redirectProfile}>Profile</Button>
+          </div>
         <ThemeProvider theme={darkTheme}>
         <Typography variant="h4" sx={{color: 'white', textAlign: 'center', padding: '30px'}}>More about MovieNix</Typography>
           <Grid container spacing={2} sx={{display: 'flex',  justifyContent: 'center', alignItems: 'center',}}>
@@ -181,18 +197,7 @@ export default function About() {
               </Card>
             </Grid>
           ))};
-          </Grid>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingTop: '30px'
-            }}
-          >
-              <Link className="navbar-link" to="/"><Button sx={{marginRight: '10px'}} variant="outlined">Home</Button></Link>
-              <Link className="navbar-link" to="/profile"><Button variant="outlined">Profile</Button></Link>
-          </div>
+          </Grid>    
           </ThemeProvider>
       </div>
       <Footer />

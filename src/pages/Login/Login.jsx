@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -6,8 +6,10 @@ import {
   Button,
   Typography,
   Divider,
+  IconButton,
+  Snackbar
 } from "@mui/material";
-// import LockIcon from '@mui/icons-material/Lock';
+import CloseIcon from '@mui/icons-material/Close';
 import GoogleIcon from '@mui/icons-material/Google';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
@@ -23,7 +25,12 @@ const darkTheme = createTheme({
 });
 
 export default function Login() {
+  const [open, setOpen] = useState(true);
   const history = useHistory();
+
+  function onClose(){
+    setOpen(false);
+  }
 
   const signin = async (e) => {
     e.preventDefault();
@@ -80,7 +87,39 @@ export default function Login() {
       });
   }
 
+  const Disclaimer = (
+    <>
+      <Typography sx={{textAlign: 'center'}} variant="h6">DISCLAIMER</Typography>
+      <Typography sx={{textAlign: 'center'}} variant="body1">Due to copyright issues, we can't actually show movies <br /> but only the trailers can be watched as of now.</Typography>
+    </>
+  );
+
+  const action=(
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={onClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
+  
   return (
+    <>
+    <Snackbar
+      anchorOrigin={{ 
+        vertical: 'top', 
+        horizontal: 'center' 
+      }}
+      open={open}
+      onClose={onClose}
+      autoHideDuration={4000}
+      message={Disclaimer}
+      action={action}
+    />
     <ThemeProvider theme={darkTheme}>
       <div
         style={{
@@ -140,5 +179,6 @@ export default function Login() {
       </div>
       <Footer />
     </ThemeProvider>
+    </>
   );
 }

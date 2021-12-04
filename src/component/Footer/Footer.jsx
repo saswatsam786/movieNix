@@ -59,7 +59,7 @@ export default function Footer() {
               className="footer-text second"
             >
               <Link to="/about" className="navbar-link">
-                <Typography variant="caption">ABOUT</Typography> <br />
+                <Typography variant="caption">ABOUT MOVIENIX</Typography> <br /><br />
               </Link>
               {/* eslint-disable-next-line */}
               <a target="_blank" className="navbar-link" href="https://hedera.com/"><Typography variant="caption">ABOUT HEDERA</Typography></a>

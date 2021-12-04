@@ -70,7 +70,7 @@ export default function VideoModal(props) {
       {user ? (
         !props.check ? (
           <Button variant="light" onClick={() => setOpen(true)}>
-            <i className="fas fa-play"></i> Trailer
+            <i className="fas fa-play"></i> Watch Now
           </Button>
         ) : (
           <Button variant="light" onClick={() => setShow(true)}>

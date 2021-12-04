@@ -4,15 +4,28 @@
   color: #5897e6;
   text-align: center;
   font-family: "Sofia Pro", sans-serif;
-  width: 80%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   position: fixed;
-  top: 12rem;
+  top: 50%;
   left: 50%;
   right: 50%;
   transform: translate(-50%, -50%);
 }
+
+@media only screen and (max-width: 412px) {
+  .load {
+    transform: translate(-60%, -50%);
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .load {
+    transform: translate(-55%, -50%);
+  }
+}
+
 /* h1{
     margin: 1em 0;
     border-bottom: 1px solid ;

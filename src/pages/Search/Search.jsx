@@ -11,10 +11,10 @@ function Search() {
 
   const fetchSearch = async () => {
     const req = await axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=cbf737bde1c9e7ccdf0c6e059d3adb7b&language=en-US&query=${searchText}&page=1&sort_by=popularity.desc`
+      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}&language=en-US&query=${searchText}&page=1&sort_by=popularity.desc`
     )
     setMovies(req.data.results)
-    console.log(movies)
+    // console.log(movies)
   }
 
   const truncate = (str, max = 10) => {

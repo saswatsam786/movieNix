@@ -6,11 +6,11 @@ const moviePath = [
   },
   {
     heading: "MovieNix Originals",
-    url: `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}&page=1`,
+    url: `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}&page=2`,
   },
   {
     heading: "Action Movies",
-    url: `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}&with_genres=28`,
+    url: `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}&with_genres=28&page=3`,
   },
   {
     heading: "Animated Movies",
@@ -22,11 +22,11 @@ const moviePath = [
   },
   {
     heading: "Comedy Movies",
-    url: `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}&with_genres=35`,
+    url: `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}&with_genres=35&page=4`,
   },
   {
     heading: "Crime Movies",
-    url: `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}&with_genres=80`,
+    url: `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_FIREBASE_TMDB_API_KEY}&with_genres=80&page=3`,
   },
 ];
 

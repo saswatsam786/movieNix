@@ -14,7 +14,7 @@ export default function VideoModal(props) {
   const [time, setTime] = useState(0);
   const [accbal, setAccbal] = useState("");
   const [display, setDisplay] = useState(false);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const bodyRef = useRef(null);
   // const handleClose = () => setShow(false);
@@ -35,13 +35,11 @@ export default function VideoModal(props) {
     }
     fetchData();
     //eslint-disable-next-line
-  }, [display === true]);
+  }, [show, display, duration, open, user, time, accbal]);
 
   const getWatchTime = () => {
     if (duration.getCurrentTime() > time) {
-      setTime(
-        (duration.getCurrentTime()-0).toFixed(4)
-      );
+      setTime((duration.getCurrentTime() - 0).toFixed(4));
     }
   };
 
@@ -55,7 +53,7 @@ export default function VideoModal(props) {
         {
           id: props.accid,
           key: props.privatekey,
-          amount: (time*0.01).toFixed(8)
+          amount: time * 0.01,
         }
       );
     }
@@ -89,7 +87,8 @@ export default function VideoModal(props) {
         <Modal.Body>
           <p>
             <strong>
-              {(accbal - 0) >= 5 ? "You haven't bought this movie. If you still want continue for 0.01 hbar/sec. Then press OK ."
+              {accbal - 0 >= 5
+                ? "You haven't bought this movie. If you still want continue for 0.01 hbar/sec. Then press OK ."
                 : "Insufficient balance to continue watching..."}
             </strong>
           </p>
@@ -103,7 +102,14 @@ export default function VideoModal(props) {
           ></ul>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="dark" onClick={() => {setShow(true); setOpen(false)}} disabled={(accbal-0) >= 5 ? false : true}>
+          <Button
+            variant="dark"
+            onClick={() => {
+              setShow(true);
+              setOpen(false);
+            }}
+            disabled={accbal - 0 >= 5 ? false : true}
+          >
             OK
           </Button>
         </Modal.Footer>
@@ -138,10 +144,7 @@ export default function VideoModal(props) {
             <li>
               Cost:{" "}
               <span style={{ position: "absolute", right: "0" }}>
-                {props.check
-                  ? 0
-                  : (time*0.01).toFixed(4)}{" "}
-                hbar
+                {props.check ? 0 : (time * 0.01).toFixed(4)} hbar
               </span>
               <hr style={{ margin: "5px 0" }} />
             </li>

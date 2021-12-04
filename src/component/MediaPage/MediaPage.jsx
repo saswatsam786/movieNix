@@ -134,7 +134,7 @@ export default function MediaPage() {
               // expTimeStamp.setDate(purchaseTimeStamp.getDate() + 0);
 
               // const expTime = new Date()
-              expTimeStamp.setMinutes(expTimeStamp.getMinutes() + 1);
+              expTimeStamp.setHours(expTimeStamp.getHours() + 24)
 
               let a = {
                 id: details.id,

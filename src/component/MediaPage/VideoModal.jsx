@@ -35,7 +35,7 @@ export default function VideoModal(props) {
     }
     fetchData();
     //eslint-disable-next-line
-  }, [open === true || display === true]);
+  }, [show, display, duration, open, user, time, accbal]);
 
   const getWatchTime = () => {
     if (duration.getCurrentTime() > time) {
@@ -53,7 +53,7 @@ export default function VideoModal(props) {
         {
           id: props.accid,
           key: props.privatekey,
-          amount: (time * 0.01).toFixed(8),
+          amount: time * 0.01,
         }
       );
     }

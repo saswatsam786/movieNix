@@ -13,7 +13,7 @@
     <a href="https://docs.hedera.com/guides/docs/sdks"><strong>Hashgraph-SDK docs »</strong></a>
     <br />
     <br />
-    <a href="#">View Deployment</a>
+    <a target="_blank" href="https://movienix-5e794.web.app/">View Deployment</a>
   </p>
 </div>
 
@@ -40,7 +40,6 @@
     <li>
       <a href="#getting-started">Getting Started</a>
     </li>
-    <li><a href="#tools-and-technologies-used">Tools and technologies used</a></li>
     <li><a href="#project-members">Our Team</a></li>
   </ol>
 </details>
@@ -53,19 +52,19 @@ MovieNix is a decentralised application built on top of Hedera's Hashgraph-SDK w
 <br/><br/>
 ### Built with
 
-* **ReactJS** for front-end
-* **Hedera Hashgraph SDK** for creating decentralised accounts and payment system 
-* **Express** middleware on the backened to handle api routes and requests
-* **Firebase** database and also used for authentication
-* **TMDB** api to fetch information and requied data for the movies
-* **Heroku** used for deploying and hosting the project
-* **Github** for CI/CD and git
+* **[ReactJS](https://reactjs.org/docs/getting-started.html)** for front-end
+* **[Hedera Hashgraph-SDK](https://docs.hedera.com/guides/)** for creating decentralised accounts and payment system 
+* **[Express](https://expressjs.com/)** middleware on the backened to handle api routes and requests
+* **[Firebase](https://firebase.google.com/)** database and also used for authentication
+* **[TMDB](https://developers.themoviedb.org/3)** api to fetch information and requied data for the movies
+* **[Heroku](https://www.heroku.com/)** used for deploying and hosting the project
+* **[Github](https://github.com/)** for CI/CD and git
 
 <br/>
 
 ### Features
 
-1. **Built on the Hedera network** - It creates a decentralisd user account using Hedera Hashgraph SDK.
+1. **Built on the Hedera network** - A movie streaming platform built on the decentralised Hedera network using the Hashgraph SDK with decentralised payment system.
 
 2. **One Tap Buy** - User can purchase any desired movie using the decentralised payment gateway by paying in hbars which requires just one tap and no further cards or UPI. The payment system is built using Hedera; the required amount for the movie is directly transferred from the user hedera account to the movie company hedera account. 
 
@@ -79,7 +78,7 @@ MovieNix is a decentralised application built on top of Hedera's Hashgraph-SDK w
 
 ### Planned features for the project
 
-* Return to the last watched movie.
+* Return to the last watched position of a movie.
 * Verified 'Movie production accounts' for production companies to upload their movies directly to the network
 * The hbars of purchasing or watching the movie in PPS should be transferred directly to the movie producing company's hedera account .
 * Comment and rating feature for each movie
@@ -173,15 +172,6 @@ yarn start
 
 <p align="right">(<a href="#">Back to top</a>)</p>
 
-## Tools and technologies used
-
-1. [Hashgraph-SDK](https://docs.hedera.com/guides/)
-2. [ReactJS](https://reactjs.org/docs/getting-started.html)
-3. [Firebase](https://firebase.google.com/)
-4. [Express](https://expressjs.com/)
-5. [NodeJS](https://nodejs.org/en/docs/)
-6. [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-7. [TMDB](https://developers.themoviedb.org/3)
 
 ## Project Members
 

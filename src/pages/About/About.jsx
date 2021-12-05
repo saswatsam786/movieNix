@@ -46,7 +46,7 @@ export default function About() {
         email: 'pranavpatel.pranshu@gmail.com',
         github: 'https://github.com/Pranav0210',
         linkedin: 'https://www.linkedin.com/in/pranav-patel-2821b7208/',
-        image: 'https://media-exp1.licdn.com/dms/image/D5635AQGymMEwwHI9Zg/profile-framedphoto-shrink_800_800/0/1633704601184?e=1638442800&v=beta&t=RJjf-_yxL5qygGThABDip09lvlPuTaZYyDyypUIHvSs',
+        image: 'https://avatars.githubusercontent.com/u/77163006?v=4',
       },
       {
         name: 'Raj Aryan',

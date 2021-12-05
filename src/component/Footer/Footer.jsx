@@ -62,7 +62,7 @@ export default function Footer() {
                 <Typography variant="caption">ABOUT MOVIENIX</Typography> <br /><br />
               </Link>
               {/* eslint-disable-next-line */}
-              <a target="_blank" className="navbar-link" href="https://hedera.com/"><Typography variant="caption">ABOUT HEDERA</Typography></a>
+              <a rel="noopener noreferrer" target="_blank" className="navbar-link" href="https://hedera.com/"><Typography variant="caption">ABOUT HEDERA</Typography></a>
             </Grid>
             <Grid
               item
@@ -77,6 +77,8 @@ export default function Footer() {
               <br />
               <IconButton
                 sx={{ color: "white" }}
+                target="_blank"
+                rel="noopener noreferrer"
                 href="https://github.com/saswatsam786/movieNix"
               >
                 <GitHubIcon fontSize="large" />
@@ -91,7 +93,7 @@ export default function Footer() {
             >
               <Typography variant="caption">POWERED BY HEDERA</Typography>{" "}
               <br />
-              <IconButton target="_blank" href="https://hedera.com/">
+              <IconButton rel="noopener noreferrer" target="_blank" href="https://hedera.com/">
                 <Avatar
                   className="hedera-icon"
                   alt="Hedera"

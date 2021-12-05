@@ -18,9 +18,11 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
+  IconButton
 } from "@mui/material";
 import { Logout, VideoLibraryRounded } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
@@ -219,6 +221,25 @@ export default function Profile() {
                           className="listtext"
                           primary="Account Balance"
                           secondary={`${accbal} ℏ`}
+                        />
+                      </ListItem>
+                      <Divider />
+                      <ListItem>
+                        <ListItemText
+                          className="listtext"
+                          primary="Transaction History"
+                          secondary={
+                          <>
+                            Click here to view 
+                            <IconButton
+                              sx={{color: 'white'}}
+                              target="_blank"
+                              href={`https://v2.explorer.kabuto.sh/id/${accid}?network=testnet`}
+                            >
+                              <OpenInNewIcon fontSize="small" />
+                            </IconButton>
+                          </>
+                          }
                         />
                       </ListItem>
                       <Divider />

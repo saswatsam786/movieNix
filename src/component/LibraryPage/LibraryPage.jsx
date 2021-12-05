@@ -176,6 +176,7 @@ const Movie = styled.div`
   align-items: flex-end;
   transition: all 0.5s;
   margin: 8px 1px;
+  cursor: pointer;
 
   &::before {
     content: "";

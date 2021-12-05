@@ -77,6 +77,7 @@ export default function Footer() {
               <br />
               <IconButton
                 sx={{ color: "white" }}
+                target="_blank"
                 href="https://github.com/saswatsam786/movieNix"
               >
                 <GitHubIcon fontSize="large" />

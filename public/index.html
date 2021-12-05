@@ -9,7 +9,12 @@
       name="description"
       content="A movie streaming platform built on the Hedera network"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/MovieNix-2.svg" />
+    <meta property="og:image" content="/MovieNix_meta.png"/>
+    <meta property="og:description" content="A movie streaming platform built on the Hedera network."/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="MovieNix"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <!-- <link rel="apple-touch-icon" href="%PUBLIC_URL%/MovieNix-2.svg" /> -->
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -107,7 +112,6 @@
     <title>MovieNix</title>
   </head>
   <body style="background-color: rgb(40, 44, 52)">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
       <div class="loadingindex">
         <h2 id="h2">MovieNix</h2>
@@ -131,5 +135,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   </body>
 </html>

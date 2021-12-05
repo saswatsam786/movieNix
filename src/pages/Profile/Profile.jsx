@@ -18,9 +18,11 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
+  IconButton
 } from "@mui/material";
 import { Logout, VideoLibraryRounded } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
@@ -69,7 +71,7 @@ export default function Profile() {
             setCreateDate(doc.data().accountCreationDate);
             // console.log(accid, privatekey);
           });
-          fetchData();
+          accid !== "" && fetchData();
         })
         .catch((error) => {
           console.log("Error getting documents: ", error);
@@ -215,10 +217,41 @@ export default function Profile() {
                       <Divider />
                       <Divider />
                       <ListItem>
+                        {accbal === "" ? 
+                          <ListItemText
+                            className="listtext"
+                            primary="Account Balance"
+                            secondary={
+                              <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_9dhoatg8.json"  background="transparent"  speed="1"  style={{padding: "0", width: "50px", height: "50px", color: "#fff"}}  loop  autoplay></lottie-player>
+                            }
+                          />
+                          :
+                          <ListItemText
+                            className="listtext"
+                            primary="Account Balance"
+                            secondary={`${accbal} ℏ`}
+                          />
+                        }
+                        
+                      </ListItem>
+                      <Divider />
+                      <ListItem>
                         <ListItemText
                           className="listtext"
-                          primary="Account Balance"
-                          secondary={`${accbal} ℏ`}
+                          primary="Transaction History"
+                          secondary={
+                          <>
+                            Click here to view 
+                            <IconButton
+                              sx={{color: 'white'}}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={`https://v2.explorer.kabuto.sh/id/${accid}?network=testnet`}
+                            >
+                              <OpenInNewIcon fontSize="small" />
+                            </IconButton>
+                          </>
+                          }
                         />
                       </ListItem>
                       <Divider />

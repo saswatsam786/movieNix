@@ -33,7 +33,8 @@ export default function VideoModal(props) {
         (data.data.data.balance._valueInTinybar / 100000000 - 0).toFixed(4)
       );
     }
-    fetchData();
+    props.accid !== "" && fetchData()
+    // fetchData();
     //eslint-disable-next-line
   }, [show, display, duration, open, user, time, accbal]);
 
@@ -46,7 +47,7 @@ export default function VideoModal(props) {
   const totalMoney = async () => {
     setDisplay(true);
     setShow(false);
-    if (!props.check) {
+    if (!props.check && props.accid !== "") {
       //eslint-disable-next-line
       let data = await axios.post(
         `https://movienix-backend.herokuapp.com/transferMoney`,
@@ -88,7 +89,8 @@ export default function VideoModal(props) {
           <p>
             <strong>
               {accbal === "" ?
-               <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_zcvb8udb.json"  background="transparent"  speed="1"  style={{margin: '0 auto', width: "150px", height: "150px"}}  loop  autoplay></lottie-player> : 
+               <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_zcvb8udb.json"  background="transparent"  speed="1"  style={{margin: '0 auto', width: "150px", height: "150px"}}  loop  autoplay></lottie-player>
+                : 
                ((accbal - 0 >= 5)
                 ? "You haven't bought this movie. If you still want continue for 0.01 hbar/sec. Then press OK ."
                 : "Insufficient balance to continue watching...")
@@ -176,7 +178,8 @@ export default function VideoModal(props) {
         show={show}
         onHide={() => {
           getWatchTime();
-          totalMoney();
+          totalMoney()
+          // props.accid !== "" && totalMoney()
         }}
         dialogClassName="modal-90w"
         aria-labelledby="example-custom-modal-styling-title"

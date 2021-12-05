@@ -104,7 +104,7 @@ export default function MediaPage() {
 
   // eslint-disable-next-line
   // BUY FUNCTION FOR EACH MOVIE
-  const buyFunc = async (price) => {
+  const buyFunc = async () => {
     // console.log(accid);
     // eslint-disable-next-line
     let data = await axios.post(
@@ -134,7 +134,7 @@ export default function MediaPage() {
               // expTimeStamp.setDate(purchaseTimeStamp.getDate() + 0);
 
               // const expTime = new Date()
-              expTimeStamp.setHours(expTimeStamp.getHours() + 24)
+              expTimeStamp.setHours(expTimeStamp.getHours() + (24*14));
 
               let a = {
                 id: details.id,
@@ -142,7 +142,7 @@ export default function MediaPage() {
                 expiryDate: JSON.stringify(expTimeStamp),
               };
 
-              buyFunc()
+              accid !== "" && buyFunc();
 
               const variable = db.collection("accounts").doc(doc.id);
               await variable
@@ -218,8 +218,8 @@ export default function MediaPage() {
               <Button
                 onClick={() => {
                   setShow(true);
-                  let data = setInterval(fetchData(), 1000)
-                  setTimeout(clearInterval(data), 4000)
+                  let data = setInterval(fetchData(), 1000);
+                  setTimeout(clearInterval(data), 4000);
                 }}
                 style={{ marginLeft: "10px" }}
                 variant="outline-light"
@@ -233,7 +233,9 @@ export default function MediaPage() {
               <><Modal.Body>
                 <p>
                   <strong>
-                    {(accbal-0) >= 5 ? "Do you want to add this movie to your library?" : "Insufficient Balance!"}
+                    {accbal - 0 >= 5
+                      ? "Do you want to add this movie to your library?"
+                      : "Insufficient Balance!"}
                   </strong>
                 </p>
                 <ul
@@ -247,7 +249,7 @@ export default function MediaPage() {
                   <li>
                     Current balance:{" "}
                     <span style={{ position: "absolute", right: "0" }}>
-                      {accbal-0} hbars
+                      {accbal - 0} hbars
                     </span>
                     <hr style={{ margin: "5px 0" }} />
                   </li>
@@ -261,7 +263,7 @@ export default function MediaPage() {
                   <li>
                     Balance after purchase:{" "}
                     <span style={{ position: "absolute", right: "0" }}>
-                      {(accbal-3).toFixed(4)} hbar
+                      {(accbal - 3).toFixed(4)} hbar
                     </span>
                     <hr style={{ margin: "5px 0" }} />
                   </li>

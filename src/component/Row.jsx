@@ -109,6 +109,7 @@ const Image = styled.img`
   &:hover {
     transform: scale(1.2);
     border-radius: 15px;
+    cursor: pointer;
   }
 `;
 
@@ -133,6 +134,7 @@ const Movie = styled.div`
   align-items: flex-end;
   transition: all 0.5s;
   margin: 5px;
+  cursor: pointer;
 
   &::before {
     content: "";
@@ -159,6 +161,7 @@ const Movie = styled.div`
   &:hover {
     transform: scale(1.2);
     z-index: 3;
+    cursor: pointer;
   }
 
   &:hover ${Info} {

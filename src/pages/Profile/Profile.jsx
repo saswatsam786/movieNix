@@ -18,9 +18,11 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
+  IconButton
 } from "@mui/material";
 import { Logout, VideoLibraryRounded } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@emotion/react";
 import { Link } from "react-router-dom";
@@ -69,7 +71,7 @@ export default function Profile() {
             setCreateDate(doc.data().accountCreationDate);
             // console.log(accid, privatekey);
           });
-          fetchData();
+          accid !== "" && fetchData();
         })
         .catch((error) => {
           console.log("Error getting documents: ", error);
@@ -231,6 +233,26 @@ export default function Profile() {
                           />
                         }
                         
+                      </ListItem>
+                      <Divider />
+                      <ListItem>
+                        <ListItemText
+                          className="listtext"
+                          primary="Transaction History"
+                          secondary={
+                          <>
+                            Click here to view 
+                            <IconButton
+                              sx={{color: 'white'}}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={`https://v2.explorer.kabuto.sh/id/${accid}?network=testnet`}
+                            >
+                              <OpenInNewIcon fontSize="small" />
+                            </IconButton>
+                          </>
+                          }
+                        />
                       </ListItem>
                       <Divider />
                       <ListItem>

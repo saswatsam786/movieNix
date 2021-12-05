@@ -77,7 +77,7 @@ export default function Profile() {
 
     async function fetchData() {
       let data = await axios.post(
-        `https://movienix-backend.herokuapp.com/balance`,
+        'https://movienix-backend.herokuapp.com/balance',
         {
           id: accid,
           key: privatekey,

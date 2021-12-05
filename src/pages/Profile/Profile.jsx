@@ -215,11 +215,22 @@ export default function Profile() {
                       <Divider />
                       <Divider />
                       <ListItem>
-                        <ListItemText
-                          className="listtext"
-                          primary="Account Balance"
-                          secondary={`${accbal} ℏ`}
-                        />
+                        {accbal === "" ? 
+                          <ListItemText
+                            className="listtext"
+                            primary="Account Balance"
+                            secondary={
+                              <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_9dhoatg8.json"  background="transparent"  speed="1"  style={{padding: "0", width: "50px", height: "50px", color: "#fff"}}  loop  autoplay></lottie-player>
+                            }
+                          />
+                          :
+                          <ListItemText
+                            className="listtext"
+                            primary="Account Balance"
+                            secondary={`${accbal} ℏ`}
+                          />
+                        }
+                        
                       </ListItem>
                       <Divider />
                       <ListItem>

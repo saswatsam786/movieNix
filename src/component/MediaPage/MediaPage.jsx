@@ -228,7 +228,9 @@ export default function MediaPage() {
               </Button>
             )}
             <Modal show={show} onHide={handleClose} centered>
-              <Modal.Body>
+              {accbal === "" ?
+              <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_zcvb8udb.json"  background="transparent"  speed="1"  style={{margin: '0 auto', width: "150px", height: "150px"}}  loop  autoplay></lottie-player> :
+              <><Modal.Body>
                 <p>
                   <strong>
                     {(accbal-0) >= 5 ? "Do you want to add this movie to your library?" : "Insufficient Balance!"}
@@ -274,7 +276,8 @@ export default function MediaPage() {
                 </Button> : <Button variant="dark" disabled={true}>
                   Add
                 </Button> }
-              </Modal.Footer>
+              </Modal.Footer></>
+              }
             </Modal>
           </span>
         </div>

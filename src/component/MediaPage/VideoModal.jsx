@@ -87,9 +87,12 @@ export default function VideoModal(props) {
         <Modal.Body>
           <p>
             <strong>
-              {accbal - 0 >= 5
+              {accbal === "" ?
+               <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_zcvb8udb.json"  background="transparent"  speed="1"  style={{margin: '0 auto', width: "150px", height: "150px"}}  loop  autoplay></lottie-player> : 
+               ((accbal - 0 >= 5)
                 ? "You haven't bought this movie. If you still want continue for 0.01 hbar/sec. Then press OK ."
-                : "Insufficient balance to continue watching..."}
+                : "Insufficient balance to continue watching...")
+              }
             </strong>
           </p>
           <ul

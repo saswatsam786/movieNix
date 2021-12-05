@@ -32,49 +32,52 @@ const darkTheme = createTheme({
 
 export default function About() {
   const user = useAuthState(auth);
-  console.log(user);
 
   function redirectProfile() {
     window.location = "/profile";
   }
 
-    const team = [
-      {
-        name: 'Piyush Mishra',
-        email: 'piyushmishra965@gmail.com',
-        github: 'https://github.com/DarthSalad',
-        linkedin: 'https://www.linkedin.com/in/piyushmishra965/',
-        image: 'https://media-exp1.licdn.com/dms/image/C5603AQGU9zDg2Amwvg/profile-displayphoto-shrink_800_800/0/1619102527407?e=1643846400&v=beta&t=SAlROksnqFLSGY1SzZ7ZTFQrMHn_tmSSprztedT6PfU',
-      },
-      {
-        name: 'Pranav Patel',
-        email: 'pranavpatel.pranshu@gmail.com',
-        github: 'https://github.com/Pranav0210',
-        linkedin: 'https://www.linkedin.com/in/pranav-patel-2821b7208/',
-        image: 'https://avatars.githubusercontent.com/u/77163006?v=4',
-      },
-      {
-        name: 'Raj Aryan',
-        email: 'rj.rajeryan0071@gmail.com',
-        github: 'https://github.com/SilverGraph/',
-        linkedin: 'https://www.linkedin.com/in/raj-aryan-33aa861b9/',
-        image: 'https://media-exp1.licdn.com/dms/image/C4E03AQH8-4kTia5FUA/profile-displayphoto-shrink_800_800/0/1615209011406?e=1643846400&v=beta&t=GzOSFwuahcFIabzrao5Pi7j3GUEP4-ceidXnEz04jKI'
-      },
-      {
-        name: 'Saswat Samal',
-        email: 'saswat.sam786@gmail.com',
-        github: 'https://github.com/saswatsam786/',
-        linkedin: 'https://www.linkedin.com/in/saswatsam/',
-        image: 'https://media-exp1.licdn.com/dms/image/C5603AQGVDpql82-UPw/profile-displayphoto-shrink_800_800/0/1615072375647?e=1643846400&v=beta&t=x9M9vo2-jNMCqYMJyL0XgHct6xYpST7YXI9WBRv4jgk'
-      },
-      {
-        name: 'Saurav Pati',
-        email: 'sauravpati0407@gmail.com',
-        github: 'https://github.com/oyesaurav',
-        linkedin: 'https://www.linkedin.com/in/oyesaurav/',
-        image: 'https://media-exp1.licdn.com/dms/image/C5603AQFrGoOX8wXzGw/profile-displayphoto-shrink_800_800/0/1612674610419?e=1643846400&v=beta&t=QO3OUuknacTFvlC8geLTjBlad9ncEAUsj_9LqlzSRxg'
-      },
-    ];
+  const team = [
+    {
+      name: "Piyush Mishra",
+      email: "piyushmishra965@gmail.com",
+      github: "https://github.com/DarthSalad",
+      linkedin: "https://www.linkedin.com/in/piyushmishra965/",
+      image:
+        "https://media-exp1.licdn.com/dms/image/C5603AQGU9zDg2Amwvg/profile-displayphoto-shrink_800_800/0/1619102527407?e=1643846400&v=beta&t=SAlROksnqFLSGY1SzZ7ZTFQrMHn_tmSSprztedT6PfU",
+    },
+    {
+      name: "Pranav Patel",
+      email: "pranavpatel.pranshu@gmail.com",
+      github: "https://github.com/Pranav0210",
+      linkedin: "https://www.linkedin.com/in/pranav-patel-2821b7208/",
+      image: "https://avatars.githubusercontent.com/u/77163006?v=4",
+    },
+    {
+      name: "Raj Aryan",
+      email: "rj.rajeryan0071@gmail.com",
+      github: "https://github.com/SilverGraph/",
+      linkedin: "https://www.linkedin.com/in/raj-aryan-33aa861b9/",
+      image:
+        "https://media-exp1.licdn.com/dms/image/C4E03AQH8-4kTia5FUA/profile-displayphoto-shrink_800_800/0/1615209011406?e=1643846400&v=beta&t=GzOSFwuahcFIabzrao5Pi7j3GUEP4-ceidXnEz04jKI",
+    },
+    {
+      name: "Saswat Samal",
+      email: "saswat.sam786@gmail.com",
+      github: "https://github.com/saswatsam786/",
+      linkedin: "https://www.linkedin.com/in/saswatsam/",
+      image:
+        "https://media-exp1.licdn.com/dms/image/C5603AQGVDpql82-UPw/profile-displayphoto-shrink_800_800/0/1615072375647?e=1643846400&v=beta&t=x9M9vo2-jNMCqYMJyL0XgHct6xYpST7YXI9WBRv4jgk",
+    },
+    {
+      name: "Saurav Pati",
+      email: "sauravpati0407@gmail.com",
+      github: "https://github.com/oyesaurav",
+      linkedin: "https://www.linkedin.com/in/oyesaurav/",
+      image:
+        "https://media-exp1.licdn.com/dms/image/C5603AQFrGoOX8wXzGw/profile-displayphoto-shrink_800_800/0/1612674610419?e=1643846400&v=beta&t=QO3OUuknacTFvlC8geLTjBlad9ncEAUsj_9LqlzSRxg",
+    },
+  ];
 
   const features = [
     {

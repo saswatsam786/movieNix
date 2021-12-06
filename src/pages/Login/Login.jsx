@@ -17,6 +17,7 @@ import { db, auth, provider } from "../../firebase";
 import { useHistory } from "react-router-dom";
 import './login.css';
 import Footer from "../../component/Footer/Footer";
+import loader from "../../component/Loader/loader"
 
 const darkTheme = createTheme({
   palette:{
@@ -26,6 +27,8 @@ const darkTheme = createTheme({
 
 export default function Login() {
   const [open, setOpen] = useState(true);
+  const [spin, setSpin] = useState(false)
+  const [accid, setAccid] = useState("")
   const history = useHistory();
 
   function onClose(){
@@ -40,14 +43,15 @@ export default function Login() {
       .catch(alert)
       .then(() => {
         const user = auth.currentUser;
+        setSpin(true)
         let acc = false;
         db.collection("accounts")
           .get()
           .then((querySnapshot) => {
             querySnapshot.forEach(async (doc) => {
               if (doc.data().email === user.email) {
-                alert("You already have an account ID.");
                 acc = true;
+                setAccid(doc.data().accid)
               }
             });
             if (acc === false) {
@@ -59,9 +63,15 @@ export default function Login() {
           });
 
         setTimeout(() => {
-          history.push({
-            pathname: "/about",
-          });
+          setSpin(false)
+          if (accid == "") {
+            alert("GrpcServiceError: gRPC service failed with status: UNAVAILABLE")
+            auth.signOut()
+          } else {
+            history.push({
+              pathname: "/about",
+            });
+          }
         }, 4000);
       });
   };
@@ -84,6 +94,7 @@ export default function Login() {
           .catch((err) => {
             console.log(err);
           });
+        setAccid(props.data.id)
       });
   }
 
@@ -107,7 +118,7 @@ export default function Login() {
     </>
   );
   
-  return (
+  return ( spin ? loader() :
     <>
     <Snackbar
       anchorOrigin={{ 

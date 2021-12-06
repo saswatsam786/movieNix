@@ -97,7 +97,7 @@ export default function About() {
         <img
           className="hbar"
           alt="hbar"
-          src="https://hbarprice.com/wp-content/uploads/2019/03/hbarprice-300.png"
+          src="https://pbs.twimg.com/media/E-udD6QUYAQmJo5.jpg"
         />
       ),
     },

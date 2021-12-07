@@ -17,6 +17,7 @@ import { db, auth, provider } from "../../firebase";
 import { useHistory } from "react-router-dom";
 import "./login.css";
 import Footer from "../../component/Footer/Footer";
+import loader from "../../component/Loader/loader";
 
 const darkTheme = createTheme({
   palette: {
@@ -26,6 +27,7 @@ const darkTheme = createTheme({
 
 export default function Login() {
   const [open, setOpen] = useState(true);
+  const [spin, setSpin] = useState(false);
   const history = useHistory();
 
   function onClose() {
@@ -40,6 +42,7 @@ export default function Login() {
       .catch(alert)
       .then(() => {
         const user = auth.currentUser;
+        setSpin(true);
         let acc = false;
         db.collection("accounts")
           .get()
@@ -58,10 +61,11 @@ export default function Login() {
           });
 
         setTimeout(() => {
+          setSpin(false);
           history.push({
             pathname: "/about",
           });
-        }, 4000);
+        }, 2000);
       });
   };
 
@@ -111,7 +115,10 @@ export default function Login() {
     </>
   );
 
-  return (
+
+  return spin ? (
+    loader()
+  ) : (
     <>
       <Snackbar
         anchorOrigin={{

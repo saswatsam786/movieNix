@@ -222,7 +222,7 @@ export default function Profile() {
                             className="listtext"
                             primary="Account Balance"
                             secondary={
-                              <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_9dhoatg8.json"  background="transparent"  speed="1"  style={{padding: "0", width: "50px", height: "50px", color: "#fff"}}  loop  autoplay></lottie-player>
+                              <lottie-player id="loader" src="https://assets4.lottiefiles.com/packages/lf20_9dhoatg8.json"  background="transparent"  speed="1"  style={{padding: "0", width: "50px", height: "50px", color: "#fff"}}  loop  autoplay></lottie-player>
                             }
                           />
                           :

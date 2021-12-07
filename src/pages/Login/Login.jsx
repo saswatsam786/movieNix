@@ -64,15 +64,11 @@ export default function Login() {
 
         setTimeout(() => {
           setSpin(false)
-          if (accid == "") {
-            alert("GrpcServiceError: gRPC service failed with status: UNAVAILABLE")
-            auth.signOut()
-          } else {
-            history.push({
-              pathname: "/about",
-            });
-          }
-        }, 4000);
+          history.push({
+            pathname: "/about",
+          });
+        }, 2000);
+        
       });
   };
 

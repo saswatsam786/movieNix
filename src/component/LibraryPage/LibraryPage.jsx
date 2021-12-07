@@ -29,8 +29,7 @@ export default function LibraryPage() {
                   process.env.REACT_APP_FIREBASE_TMDB_API_KEY
                 }`
               );
-              // console.log(request.data);
-              console.log(movie.expiryDate, "  ", JSON.stringify(currentTime));
+
               if (movie.expiryDate <= JSON.stringify(currentTime)) {
                 console.log("Movie deleted!");
                 const variable = db.collection("accounts").doc(doc.id);

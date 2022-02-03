@@ -109,10 +109,10 @@ MovieNix is a decentralised application built on top of Hedera's Hashgraph-SDK w
       		  ├── email 
       		  ├── lib (library array for the purchased movies)
       	    		├── libraryItem
-      				        ├── expiryDate
-      				        ├── id (movie ID from TMDB)
-      				        ├── purchaseDate
-      				        ├── time
+      				       ├── expiryDate
+      				       ├── id (movie ID from TMDB)
+      				       ├── purchaseDate
+      				       ├── time
       		  ├── privatekey (generated on account creation)
       		  ├── publickey (provided by Hedera)
 ```

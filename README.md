@@ -50,7 +50,7 @@
 ## About The Project
 MovieNix is a decentralised application built on top of Hedera's Hashgraph-SDK where the idea is that the users can pay for movies in hbars directly to production companies without any intermediaries using Hedera's transaction system.
 <br/><br/>
-### Built with
+### Built With
 
 * **[ReactJS](https://reactjs.org/docs/getting-started.html)** for front-end
 * **[Hedera Hashgraph-SDK](https://docs.hedera.com/guides/)** for creating decentralised accounts and payment system 

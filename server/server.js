@@ -65,7 +65,6 @@ async function main() {
   app.get("/createAccount", async (req, res, next) => {
     //Create new keys
     const newAccountPrivateKey = await PrivateKey.generate();
-    console.log(newAccountPrivateKey);
     const newAccountPublicKey = newAccountPrivateKey.publicKey;
 
     //Create a new account with 1,000 tinybar starting balance

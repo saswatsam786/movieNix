@@ -1,0 +1,4 @@
+[build]
+base = "movienix/"
+publish = "movienix/build/"
+command = "npm run build"

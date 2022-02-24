@@ -59,7 +59,7 @@ MovieNix is a decentralised application built on top of Hedera's Hashgraph-SDK w
 * **[TMDB](https://developers.themoviedb.org/3)** api to fetch information and requied data for the movies
 * **[Heroku](https://www.heroku.com/)** used for deploying and hosting the project
 * **[Github](https://github.com/)** for CI/CD and git
-
+* **[Netlify](https://www.netlify.com/)** for hosting and CI/CD
 <br/>
 
 ### Features
